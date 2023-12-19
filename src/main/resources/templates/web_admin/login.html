@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" th:href="@{/admin/css/login.css}">
+    <title>Login</title>
+</head>
+
+<body>
+<div class="container">
+    <div class="borderLine"></div>
+    <div class="borderLine"></div>
+    <div class="borderLine"></div>
+    <div class="borderLine"></div>
+    <form action="/admin/login" method="post">
+        <h2>Sign in</h2>
+        <div class="inputBox">
+            <input type="text" name="username" required>
+            <span>Username</span>
+            <i></i>
+        </div>
+        <div class="inputBox">
+            <input type="password" name="password" required>
+            <span>Password</span>
+            <i></i>
+        </div>
+        <input style="margin-top: 35px;" type="submit" value="Login">
+    </form>
+</div>
+<script>
+    if (window.history && window.history.pushState) {
+        history.pushState(null, null, window.location.href);
+        window.onpopstate = function () {
+            history.go(1);
+        };
+    }
+</script>
+</body>
+
+</html>
+

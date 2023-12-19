@@ -1,0 +1,80 @@
+.checkbtn {
+    font-size: 30px;
+    float: left;
+    line-height: 80px;
+    margin-right: 40px;
+    cursor: pointer;
+    display: none;
+}
+
+@media screen and (max-width: 740px) {
+    .checkbtn {
+        display: block;
+    }
+    header {
+        background: rgba(225, 225, 225, 0.3)
+    }
+    .myHeader .logo {
+        height: 53px !important;
+        width: 170px !important;
+        right: 10%;
+        position: absolute;
+        top: 15px;
+    }
+    .myHeader .menu {
+        position: absolute;
+        left: 0;
+        display: none;
+        background: white;
+        width: 100%;
+        top: 70px;
+        padding-top: 20px;
+        padding-bottom: 30px;
+        text-align: left;
+    }
+    .sub-menu {
+        border: none;
+        visibility: visible;
+        display: none;
+        top: 20px !important;
+        width: 100%;
+        left: 0;
+    }
+    .menu i {
+        display: block !important;
+    }
+    .menu a:hover {
+        color: #070707;
+        opacity: 0.6;
+    }
+    .register-container {
+        height: 400px !important;
+        padding-top: 55px !important;
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+    .register-container .social-icons {
+        margin-top: 10px !important;
+        padding-left: 15px !important;
+    }
+    .register-container form button {
+        width: 50%;
+    }
+    .register-container form input {
+        width: 80%;
+        margin-bottom: 20px;
+    }
+    .orthers {
+        display: none;
+    }
+    .footer-top li:last-child {
+        display: flex;
+    }
+    footer .footer-top li {
+        padding: 0px 10px;
+    }
+    .footer-top .icon-group-1 {
+        display: block !important;
+        padding-top: 2px;
+    }
+}

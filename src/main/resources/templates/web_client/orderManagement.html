@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>PTIT Shop</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>PTIT-Shop</title>
+
+    <!-- Bootstrap CSS -->
+    <!-- <?php require_once './mvc/views/shopping/libcss.php'; ?> -->
+    <link rel="stylesheet" th:href="@{/client/css/orderManagement.css}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<header th:replace="web_client/header"></header>
+
+<!--****** INFORMATION ****** -->
+
+<main id="main" class="site-main">
+    <div class="container">
+        <div class="order-wrapper mt-40 my-account">
+            <div class="row">
+                <div class="col-lg-4 col-xl-auto">
+                    <div class="order-sidemenu block-border">
+                        <div class="order-sidemenu__user">
+                            <div class="order-sidemenu__user-avatar">
+                                <img src="https://pubcdn.ivymoda.com/ivy2//images/v2/assets/user-avatar-placeholder.png" alt="">
+                            </div>
+                            <div class="order-sidemenu__user-name">
+                                <p>Lê Bình</p>
+                            </div>
+                        </div>
+                        <div class="order-sidemenu__menu">
+                            <ul class="menu_side">
+                                <li class="">
+                                    <a href=""><span class="fa fa-user"></span>Thông tin tài khoản</a>
+                                </li>
+                                <li class="">
+                                    <a href=""><span class="fa fa-file"></span>Quản lý đơn hàng</a>
+                                </li>
+                                <li class="active">
+                                    <a href=""><span class="fa fa-key"></span>Đổi mật khẩu</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3xl-1"></div>
+                <div class="col-lg-8 col-xl col-account-content">
+                    <div class="order-block__title">
+                        <h2 style="font-family: initial; font-size: 28px; font-weight:bold;">QUẢN LÝ ĐƠN HÀNG</h2>
+                        <div class="form-group">
+                            <label> Trạng thái đơn hàng:</label>
+                            <select class="form-control rounded ng-pristine ng-untouched ng-valid ng-empty" ng-model="status" ng-change="list()">
+                                <option value="" selected="selected">
+                                    Tất cả
+                                </option>
+                                <option value="tao_don_hang">Đặt hàng thành công</option>
+                                <option value="dang_xu_ly">Đang xử lý</option>
+                                <option value="cho_giao_van">Chờ giao vận</option>
+                                <option value="dang_van_chuyen">Đã gửi</option>
+                                <option value="da_nhan_hang">Đã nhận hàng</option>
+                                <option value="da_huy">Đã hủy</option>
+                                <option value="da_tra_hang">Trả hàng</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="order-block">
+                        <table class="order-block__table">
+                            <thead>
+                            <tr>
+                                <th>MÃ ĐƠN HÀNG</th>
+                                <th>NGÀY</th>
+                                <th style="width: 210px">TRẠNG THÁI</th>
+                                <th>SẢN PHẨM</th>
+                                <th>TỔNG TIỀN</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="item in list_order track by $index" class="ng-scope">
+                                <td>
+                                    <a href="" class="ng-binding" style="color: #6c6d70; text-decoration: underline;"> IVM7353885</a>
+                                </td>
+                                <td class="ng-binding">13/12/2023 21:35:38</td>
+                                <td>
+                                    <div class="order__status">
+                                        <span class="icon-ic_reload"></span>
+                                        <span class="ng-binding">Đã hủy đơn hàng</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <p ng-repeat="item_product in list_order_product | filter: { order_id: item.order_id }" class="ng-binding ng-scope">
+                                        1x Áo thun trơn Slim fit, Đen
+                                    </p>
+                                </td>
+                                <td><span class="price ng-binding">232,000 ₫</span></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+</body>
+
+</html>

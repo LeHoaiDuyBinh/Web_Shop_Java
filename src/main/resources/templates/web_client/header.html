@@ -1,0 +1,86 @@
+<link rel="stylesheet" th:href="@{/client/css/header.css}">
+<header class="myHeader">
+    <label id="check" class="checkbtn"><i class="fa fa-bars" style="position: absolute; left: 12px;"></i></label>
+    <div class="logo">
+        <img th:src="@{/client/img/logo_shop.png}" alt="">
+    </div>
+    <nav class="menu">
+        <ul>
+        <li class="main-menu-item"><a href="">NỮ</a>
+            <i class="fa fa-plus plus" style="font-size: 12px; float: right; margin-top: 2%; display: none;"></i>
+            <ul class="sub-menu sub-menu-1">
+                <li><a href="">ÁO</a>
+                    <ul class="empty-item-1">
+                        <li><a href="/auth/category">Áo Sơ Mi</a></li>
+                        <li><a href="/auth/category">Áo Croptop</a></li>
+                        <li><a href="/auth/category">Áo Thun</a></li>
+                        <li><a href="/auth/category">Áo Khoác</a></li>
+                        <li><a href="/auth/category">Áo Len</a></li>
+                    </ul>
+                </li>
+                <li><a href="">QUẦN</a>
+                    <ul>
+                        <li><a href="/auth/category">Quần jean</a></li>
+                        <li><a href="/auth/category">Quần lửng</a></li>
+                        <li><a href="/auth/category">Quầy dài</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li class="main-menu-item"><a href="">NAM</a>
+            <i class="fa fa-plus plus" style="font-size: 12px; float: right; margin-top: 2%; display: none;"></i>
+            <ul class="sub-menu sub-menu-2">
+                <li><a href="">ÁO</a>
+                    <ul class="empty-item-2">
+                        <li><a href="/auth/category">Áo Sơ Mi</a></li>
+                        <li><a href="/auth/category">Áo Vest</a></li>
+                        <li><a href="/auth/category">Áo Thun</a></li>
+                        <li><a href="/auth/category">Áo Khoác</a></li>
+                        <li><a href="/auth/category">Áo Len</a></li>
+                    </ul>
+                </li>
+                <li><a href="">QUẦN</a>
+                    <ul>
+                        <li><a href="/auth/category">Quần jean</a></li>
+                        <li><a href="/auth/category">Quần Khaki</a></li>
+                        <li><a href="/auth/category">Quầy Tây</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li class="main-menu-item"><a href="">SALE</a>
+            <i class="fa fa-plus plus" style="font-size: 12px; float: right; margin-top: 2%; display: none;"></i>
+            <ul class="sub-menu sub-menu-4 empty-item-4">
+                <li><a href="/auth/category" style="color: red;">Đồng giá chỉ từ 99K</a>
+                </li>
+                <li><a href="/auth/category" class="lowercase">199k</a></li>
+                <li><a href="/auth/category" class="lowercase">299k</a></li>
+                <li><a href="/auth/category" class="lowercase">399k</a></li>
+            </ul>
+        </li>
+        </ul>
+    </nav>
+
+    <div class="orthers">
+        <li>
+            <input placeholder="Search..." type="text">
+            <i class="fa fa-search"></i>
+        </li>
+        <li><i class="fa fa-paw"></i></li>
+        <div class="item" style="padding-left: 12px; cursor: pointer;">
+            <li><i class="fa fa-user" id="userIcon" style="margin-left: 2px; margin-right: 4px; border-right: 1px solid; padding-right: 12px;"></i></li>
+            <div class="sub-action" style="display: none; margin-top: 15px; margin-right: 78px">
+                <div class="top-action" style="cursor: context-menu;">
+                    <a class="icon" style="text-decoration: none; cursor: context-menu;"><h3>Tài khoản của tôi</h3></a>
+                </div>
+                <ul>
+                    <li><a href="/Customer/Info"><i class="fa fa-user"></i>Thông tin tài khoản</a></li>
+                    <li><a href="/Customer/Order"><i class="fa fa-file"></i>Quản lý đơn hàng</a></li>
+                    <li><a href="/Customer/ResetPassword"><i class="fa fa-key"></i>Đổi mật khẩu</a></li>
+                    <li><a href="/Auth/Logout"><i class="fa fa-sign-out"></i>Đăng xuất</a></li>
+                </ul>
+            </div>
+        </div>
+        <li><i class="fa fa-shopping-bag"></i></li>
+    </div>
+</header>
