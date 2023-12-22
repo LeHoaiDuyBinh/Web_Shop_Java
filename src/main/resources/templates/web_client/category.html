@@ -11,6 +11,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
     <link rel="stylesheet" th:href="@{/client/css/home.css}">
     <link rel="stylesheet" th:href="@{/client/css/responsive.css}">
     <link rel="stylesheet" th:href="@{/client/css/category.css}">
@@ -28,42 +29,40 @@
 <section class="category">
     <div class="container-category" style="margin-left: 4% !important;">
         <div class="category-top row">
-            <p>Trang chủ</p><span>&#10230; </span>
-            <p>Nữ</p> <span>&#10230; </span>
-            <p>Hàng nữ mới về</p>
+            <p>Danh mục sản phẩm</p><span></span>
         </div>
     </div>
     <div class="container-category" style="margin-left: 5% !important;">
         <div class="category-fix row">
             <div class="category-left">
                 <ul>
-                    <li class="category-left-li"><a href="#">NỮ</a>
-                        <ul>
-                            <li>
-                                <a href=""></a>HÀNG NỮ MỚI VỀ</li>
-                            <li>
-                                <a href=""></a>ÁO +</li>
-                            <li>
-                                <a href=""></a>QUẦN +</li>
-                        </ul>
-                    </li>
-                    <li class="category-left-li"><a href="#">NAM</a>
-                        <ul>
-                            <li>
-                                <a href=""></a>HÀNG NAM MỚI VỀ</li>
-                            <li>
-                                <a href=""></a>ÁO +</li>
-                            <li>
-                                <a href=""></a>QUẦN +</li>
-                        </ul>
-                    </li>
-                    <li class="category-left-li"><a href="#">TRẺ EM</a></li>
-                    <li class="category-left-li"><a href="#">SALE</a></li>
+<!--                    <li class="category-left-li"><a href="#">NỮ</a>-->
+<!--                        <ul>-->
+<!--                            <li>-->
+<!--                                <a href=""></a>HÀNG NỮ MỚI VỀ</li>-->
+<!--                            <li>-->
+<!--                                <a href=""></a>ÁO +</li>-->
+<!--                            <li>-->
+<!--                                <a href=""></a>QUẦN +</li>-->
+<!--                        </ul>-->
+<!--                    </li>-->
+<!--                    <li class="category-left-li"><a href="#">NAM</a>-->
+<!--                        <ul>-->
+<!--                            <li>-->
+<!--                                <a href=""></a>HÀNG NAM MỚI VỀ</li>-->
+<!--                            <li>-->
+<!--                                <a href=""></a>ÁO +</li>-->
+<!--                            <li>-->
+<!--                                <a href=""></a>QUẦN +</li>-->
+<!--                        </ul>-->
+<!--                    </li>-->
+<!--                    <li class="category-left-li"><a href="#">TRẺ EM</a></li>-->
+<!--                    <li class="category-left-li"><a href="#">SALE</a></li>-->
                 </ul>
             </div>
             <div class="category-right row">
-                <div class="category-right-top-item">
-                    <p>HÀNG NỮ MỚI VỀ</p>
+                <div class="category-right-top-item" th:each="product : ${productCategorys}">
+                    <h1 style="text-transform: uppercase; font-weight: 600;font-size: 24px;line-height: 32px;color: #221F20; font-family: initial;" th:text="${product.name}"></h1>
                 </div>
                 <div class="category-right-top-item">
                     <button id="filterButton"><span>Bộ lọc</span> <i class="fa fa-sort-down"></i></button>
@@ -76,7 +75,7 @@
                     </select>
                 </div>
 
-                <div class="category-right-content row">
+                <div class="category-right-content row" th:each="productCaterogy : ${productCategorys}">
                     <div class="category-right-filter" id="filterDiv" style="display: none;">
                         <div class="filter-row">
                             <div class="filter-row-title">
@@ -124,60 +123,13 @@
                         </div>
                     </div>
 
-                    <div class="category-right-content-item">
+                    <div class="category-right-content-item" th:each="product : ${productCaterogy.products}">
                         <a href="/auth/product">
-                            <img th:src="@{/client/img/aothun_babytee.jpg}" alt="">
-                            <p style="font-size:14px;">Lace skirt - Áo thun baby tee</p>
-                            <p>590.000<sup>đ</sup></p>
-                        </a>
-                    </div>
-                    <div class="category-right-content-item">
-                        <a href="/auth/product">
-                            <img th:src="@{/client/img/aothun_babytee.jpg}" alt="">
-                            <p style="font-size:14px;">Lace skirt - Áo thun baby tee</p>
-                            <p>590.000<sup>đ</sup></p>
-                        </a>
-                    </div>
-                    <div class="category-right-content-item">
-                        <a href="/auth/product">
-                            <img th:src="@{/client/img/aothun_babytee.jpg}" alt="">
-                            <p style="font-size:14px;">Lace skirt - Áo thun baby tee</p>
-                            <p>590.000<sup>đ</sup></p>
-                        </a>
-                    </div>
-                    <div class="category-right-content-item">
-                        <a href="/auth/product">
-                            <img th:src="@{/client/img/aothun_babytee.jpg}" alt="">
-                            <p style="font-size:14px;">Lace skirt - Áo thun baby tee</p>
-                            <p>590.000<sup>đ</sup></p>
-                        </a>
-                    </div>
-                    <div class="category-right-content-item">
-                        <a href="/auth/product">
-                            <img th:src="@{/client/img/aothun_babytee.jpg}" alt="">
-                            <p style="font-size:14px;">Lace skirt - Áo thun baby tee</p>
-                            <p>590.000<sup>đ</sup></p>
-                        </a>
-                    </div>
-                    <div class="category-right-content-item">
-                        <a href="/auth/product">
-                            <img th:src="@{/client/img/aothun_babytee.jpg}" alt="">
-                            <p style="font-size:14px;">Lace skirt - Áo thun baby tee</p>
-                            <p>590.000<sup>đ</sup></p>
-                        </a>
-                    </div>
-                    <div class="category-right-content-item">
-                        <a href="/auth/product">
-                            <img th:src="@{/client/img/aothun_babytee.jpg}" alt="">
-                            <p style="font-size:14px;">Lace skirt - Áo thun baby tee</p>
-                            <p>590.000<sup>đ</sup></p>
-                        </a>
-                    </div>
-                    <div class="category-right-content-item">
-                        <a href="/auth/product">
-                            <img th:src="@{/client/img/aothun_babytee.jpg}" alt="">
-                            <p style="font-size:14px;">Lace skirt - Áo thun baby tee</p>
-                            <p>590.000<sup>đ</sup></p>
+                            <th th:each="productImg : ${listProductImgs}" th:if="${product.productCode == productImg.productCode}">
+                                <img th:src="@{${productImg.image.substring(1)}}" alt="">
+                            </th>
+                            <p style="font-size:14px;" th:text="${product.name}"></p>
+                            <p class="price" th:text="${product.price * 1000}"><sup>đ</sup></p>
                         </a>
                     </div>
                 </div>
@@ -210,3 +162,18 @@
 <script th:src="@{/client/js/scroll.js}"></script>
 <script th:src="@{/client/js/responsiveMenu.js}"></script>
 <script th:src="@{/client/js/category.js}"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var priceElements = document.getElementsByClassName("price");
+
+        for (var i = 0; i < priceElements.length; i++) {
+            var priceElement = priceElements[i];
+            var price = parseFloat(priceElement.innerText);
+
+            if (!isNaN(price)) {
+                var formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+                priceElement.innerText = formattedPrice;
+            }
+        }
+    });
+</script>

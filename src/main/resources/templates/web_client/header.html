@@ -9,20 +9,14 @@
         <li class="main-menu-item"><a href="">NỮ</a>
             <i class="fa fa-plus plus" style="font-size: 12px; float: right; margin-top: 2%; display: none;"></i>
             <ul class="sub-menu sub-menu-1">
-                <li><a href="">ÁO</a>
-                    <ul class="empty-item-1">
-                        <li><a href="/auth/category">Áo Sơ Mi</a></li>
-                        <li><a href="/auth/category">Áo Croptop</a></li>
-                        <li><a href="/auth/category">Áo Thun</a></li>
-                        <li><a href="/auth/category">Áo Khoác</a></li>
-                        <li><a href="/auth/category">Áo Len</a></li>
+                <li><a href="/auth/category/ao-nu">ÁO</a>
+                    <ul class="empty-item-1" th:each="category : ${listCategorys}" th:if="${category.parentCategoryId == 3}">
+                        <li><a th:href="@{'/auth/category/' + ${category.slug}}" th:text="${category.name}"></a></li>
                     </ul>
                 </li>
-                <li><a href="">QUẦN</a>
-                    <ul>
-                        <li><a href="/auth/category">Quần jean</a></li>
-                        <li><a href="/auth/category">Quần lửng</a></li>
-                        <li><a href="/auth/category">Quầy dài</a></li>
+                <li><a href="/auth/category/quan-nu">QUẦN</a>
+                    <ul class="empty-item-1" th:each="category : ${listCategorys}" th:if="${category.parentCategoryId == 4}">
+                        <li><a th:href="@{'/auth/category/' + ${category.slug}}" th:text="${category.name}"></a></li>
                     </ul>
                 </li>
             </ul>
@@ -30,32 +24,16 @@
         <li class="main-menu-item"><a href="">NAM</a>
             <i class="fa fa-plus plus" style="font-size: 12px; float: right; margin-top: 2%; display: none;"></i>
             <ul class="sub-menu sub-menu-2">
-                <li><a href="">ÁO</a>
-                    <ul class="empty-item-2">
-                        <li><a href="/auth/category">Áo Sơ Mi</a></li>
-                        <li><a href="/auth/category">Áo Vest</a></li>
-                        <li><a href="/auth/category">Áo Thun</a></li>
-                        <li><a href="/auth/category">Áo Khoác</a></li>
-                        <li><a href="/auth/category">Áo Len</a></li>
+                <li><a href="/auth/category/ao-nam">ÁO</a>
+                    <ul class="empty-item-2" th:each="category : ${listCategorys}" th:if="${category.parentCategoryId == 1}">
+                        <li><a th:href="@{'/auth/category/' + ${category.slug}}" th:text="${category.name}"></a></li>
                     </ul>
                 </li>
                 <li><a href="">QUẦN</a>
-                    <ul>
-                        <li><a href="/auth/category">Quần jean</a></li>
-                        <li><a href="/auth/category">Quần Khaki</a></li>
-                        <li><a href="/auth/category">Quầy Tây</a></li>
+                    <ul class="empty-item-2" th:each="category : ${listCategorys}" th:if="${category.parentCategoryId == 2}">
+                        <li><a th:href="@{'/auth/category/' + ${category.slug}}" th:text="${category.name}"></a></li>
                     </ul>
                 </li>
-            </ul>
-        </li>
-        <li class="main-menu-item"><a href="">SALE</a>
-            <i class="fa fa-plus plus" style="font-size: 12px; float: right; margin-top: 2%; display: none;"></i>
-            <ul class="sub-menu sub-menu-4 empty-item-4">
-                <li><a href="/auth/category" style="color: red;">Đồng giá chỉ từ 99K</a>
-                </li>
-                <li><a href="/auth/category" class="lowercase">199k</a></li>
-                <li><a href="/auth/category" class="lowercase">299k</a></li>
-                <li><a href="/auth/category" class="lowercase">399k</a></li>
             </ul>
         </li>
         </ul>

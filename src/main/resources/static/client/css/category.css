@@ -98,13 +98,15 @@
 
 .category-right-content {
     margin-top: 20px;
-    justify-content: space-between;
+    justify-content: flex-start;
+    width: 100%;
 }
 
 .category-right-content-item {
     width: calc(25% - 12px);
     text-align: center;
     padding: 12px 0;
+    margin-left: 7px;
 }
 
 .category-right-content-item a img:hover {
