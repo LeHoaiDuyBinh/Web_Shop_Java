@@ -153,12 +153,14 @@
     </div>
     <div class="product-content row" th:if="${similarProducts != null and #lists.size(similarProducts) > 0}">
         <div class="product-related-item" th:each="product1, loopInfo : ${similarProducts}" th:if="${loopInfo.index < 4}">
-            <th th:each="productImg : ${ImgSimilarProducts}" th:if="${product1.productCode == productImg.id.productCode}">
-                <img th:src="@{${productImg.image.substring(1)}}" alt="">
-            </th>
-            <img style="border: 1px solid black;" th:src="@{'/client/img/' + ${product1.color} + '.jpg'}" alt="">
-            <a th:text="${product1.name}"></a>
-            <p class="price" th:text="${product.price * 1000}"><sup>đ</sup></p>
+            <a th:href="@{'/auth/product/' + ${product1.productCode}}">
+                <th th:each="productImg : ${ImgSimilarProducts}" th:if="${product1.productCode == productImg.id.productCode}">
+                    <img th:src="@{${productImg.image.substring(1)}}" alt="">
+                </th>
+                <img style="border: 1px solid black;" th:src="@{'/client/img/' + ${product1.color} + '.jpg'}" alt="">
+                <a th:text="${product1.name}"></a>
+                <p class="price" th:text="${product.price * 1000}"><sup>đ</sup></p>
+            </a>
         </div>
     </div>
     <div   th:unless="${similarProducts != null and #lists.size(similarProducts) > 0}">
