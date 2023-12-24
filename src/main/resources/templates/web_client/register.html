@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Responsive Login and Signup Form </title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/client/css/login_user.css}">
+
+    <!-- Boxicons CSS -->
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://unpkg.com/sweetalert2@11.0.0/dist/sweetalert2.min.css">
+    <script src="https://unpkg.com/sweetalert2@11.0.0/dist/sweetalert2.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+</head>
+
+<body>
+<section class="container forms">
+    <div class="form signup" style="display: block !important;">
+        <div class="form-content">
+            <header>Đăng ký tài khoản</header>
+            <form id="RegisterForm" action="/auth/register" method="POST">
+                <div class="field input-field">
+                    <label for="full-name">Nhập họ Tên</label>
+                    <input type="text" id="full-name" name="fullname" placeholder="Enter Full Name" class="input">
+                </div>
+                <div class="field input-field">
+                    <label id="username">Nhập email</label>
+                    <input type="text" id="email" name="email" placeholder="Enter Email" class="input">
+                </div>
+                <div class="field input-field">
+                    <label for="password">Nhập password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter Password" class="password">
+                </div>
+                <div class="field input-field">
+                    <label for="confirm-password">Xác thực password</label>
+                    <input type="password" id="confirm-password" name="retype_password" placeholder="Confirm Password" class="password">
+                    <i style="margin-top: 24px;" class='bx bx-hide eye-icon'></i>
+                </div>
+                <div class="field input-field">
+                    <label for="phone-number">Nhập số điện thoại</label>
+                    <input type="text" id="phone-number" name="phone" placeholder="Enter Mobile Number" class="input">
+                </div>
+                <div class="field button-field">
+                    <button type="submit" name="action" value="register">Đăng ký</button>
+                </div>
+            </form>
+            <div class="form-link">
+                <span>Bạn đã có tài khoản? <a href="/auth/login" class="link login-link">Đăng nhập</a></span>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
+
+<script>
+    const forms = document.querySelector(".forms"),
+        pwShowHide = document.querySelectorAll(".eye-icon"),
+        links = document.querySelectorAll(".link");
+
+    pwShowHide.forEach(eyeIcon => {
+        eyeIcon.addEventListener("click", () => {
+            let pwFields = eyeIcon.parentElement.parentElement.querySelectorAll(".password");
+
+            pwFields.forEach(password => {
+                if (password.type === "password") {
+                    password.type = "text";
+                    eyeIcon.classList.replace("bx-hide", "bx-show");
+                    return;
+                }
+                password.type = "password";
+                eyeIcon.classList.replace("bx-show", "bx-hide");
+            })
+        })
+    })
+
+
+
+</script>

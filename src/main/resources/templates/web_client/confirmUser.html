@@ -27,13 +27,21 @@
                             <p class="auth__description">
                                 (Mã xác thực đã được gửi tới số email của bạn)
                             </p>
-                            <form class="auth__form" role="login" enctype="application/x-www-form-urlencoded" name="frm_register" method="post" action="<?php echo isset($_SESSION['token']) ? "/Auth/Verify/" .  $_SESSION['token'] : "/Auth/";  ?>">
-                            <div class="form-group">
-                                <input class="form-control" type="text" value="" name="confirmCode" placeholder="Nhập mã xác thực">
-                            </div>
-                            <div class="auth__form__buttons">
-                                <button type="submit" class="btn btn--large">Gửi đi</button>
-                            </div>
+                            <form class="auth__form" role="login" action="/auth/confirmUser" method="POST">
+                                <div class="form-group">
+                                    <input class="form-control" type="text" value="" name="code" placeholder="Nhập mã xác thực">
+                                </div>
+                                <div th:if="${success}" class="custom-alert custom-alert-success" role="alert" style="display: block !important">
+                                    <i class="fa fa-check"></i>
+                                    <span th:text="${error == '1' ? 'Quá trình đăng ký thành công !' : ''}"></span>
+                                </div>
+                                <div th:if="${error}" class="custom-alert custom-alert-error" role="alert" style="display: block !important">
+                                    <i class="fa fa-times-circle"></i>
+                                    <span th:text="${error == '2' ? 'Nhập mã OTP không đúng. Vui lòng nhập lại !' : ''}"></span>
+                                </div>
+                                <div class="auth__form__buttons">
+                                    <button type="submit" class="btn btn--large">Gửi đi</button>
+                                </div>
                             </form>
                         </div>
                     </div>

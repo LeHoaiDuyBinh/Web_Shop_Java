@@ -27,11 +27,6 @@
     background: #FFF;
 }
 
-.form.signup {
-    opacity: 0;
-    pointer-events: none;
-}
-
 .forms.show-signup .form.signup {
     opacity: 1;
     pointer-events: auto;
