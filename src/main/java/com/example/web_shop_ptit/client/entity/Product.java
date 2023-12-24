@@ -90,4 +90,12 @@ public class Product {
     public void setCategory(Category category) {
         this.category = category;
     }
+
+    public Collection<ProductImage> getProductImages() {
+        return productImages;
+    }
+
+    public void setProductImages(Collection<ProductImage> productImages) {
+        this.productImages = productImages;
+    }
 }

@@ -124,8 +124,8 @@
                     </div>
 
                     <div class="category-right-content-item" th:each="product : ${productCaterogy.products}">
-                        <a href="/auth/product">
-                            <th th:each="productImg : ${listProductImgs}" th:if="${product.productCode == productImg.productCode}">
+                        <a th:href="@{'/auth/product/' + ${product.productCode}}">
+                            <th th:each="productImg : ${listProductImgs}" th:if="${product.productCode == productImg.id.productCode}">
                                 <img th:src="@{${productImg.image.substring(1)}}" alt="">
                             </th>
                             <p style="font-size:14px;" th:text="${product.name}"></p>

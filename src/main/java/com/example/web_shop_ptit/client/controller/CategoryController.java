@@ -26,6 +26,7 @@ public class CategoryController {
     @Autowired
     private ProductImgService productImgService;
 
+
     @GetMapping("/category/{slug}")
     public String showCategoryPage(@PathVariable String slug, Model model) {
         List<Category> listCategory = categoryService.listAll();
@@ -38,13 +39,17 @@ public class CategoryController {
         List<ProductImage> listImg = new ArrayList<>();
         int flag = 0;
         for ( ProductImage productImage : listProductImg) {
+            if (flag == 0){
+                listImg.add(productImage);
+            }
             flag++;
             if(flag == 4){
-                listImg.add(productImage);
                 flag = 0;
             }
         }
-        System.out.println(listImg.size());
+
+
+//        System.out.println(listImg.size());
         model.addAttribute("listProductImgs", listImg);
         model.addAttribute("listCategorys", listCategory);
         return "web_client/category";

@@ -1,25 +1,24 @@
 package com.example.web_shop_ptit.client.service;
 
-import com.example.web_shop_ptit.client.entity.Product;
 import com.example.web_shop_ptit.client.entity.ProductImage;
+import com.example.web_shop_ptit.client.entity.ProductSizes;
 import com.example.web_shop_ptit.client.repository.ProductImgRepository;
-import com.example.web_shop_ptit.client.repository.ProductRepository;
+import com.example.web_shop_ptit.client.repository.ProductSizeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class ProductImgService {
+public class ProductSizeService {
     @Autowired
-    private ProductImgRepository repo;
+    private ProductSizeRepository repo;
 
-    public List<ProductImage> listAll(){
+    public List<ProductSizes> listAll(){
         return repo.findAll();
     }
 
-//    public List<ProductImage> getProductImagesByCode(String productCode) {
-//        return repo.findByProductCode(productCode);
-//    }
-
+    public List<ProductSizes> getProductSizesByCode(String productCode) {
+        return repo.findByProductCode(productCode);
+    }
 }

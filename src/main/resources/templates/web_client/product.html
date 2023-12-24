@@ -28,39 +28,39 @@
 
 <!--************* Product  ****************  -->
 <section class="product">
-    <div class="container-product">
-        <div class="product-top row">
+    <div class="container-product" >
+        <div class="product-top row" th:each="category : ${category}">
             <p>Trang chủ</p><span>&#10230; </span>
-            <p>Nữ</p> <span>&#10230; </span>
-            <p>Hàng nữ mới về</p>
+            <p th:text ="${nameParentCategory}"></p> <span>&#10230; </span>
+            <p th:text ="${category.name}"></p>
             <span>&#10230;</span>
-            <p>Áo thun Baby Tee</p>
+            <p th:text="${product.name}"></p>
         </div>
         <div class="product-content row">
-            <div class="product-content-left row">
-                <div class="product-content-left-big-img">
-                    <img th:src="@{/client/img/aothun_babytee.jpg}" alt="">
+        <div class="product-content-left row" th:if="${listImg != null and not #lists.isEmpty(listImg)}">
+                <div class="product-content-left-big-img" >
+                    <img th:src="@{${listImg.get(0).image.substring(1)}}" alt="">
                 </div>
                 <div class="product-content-left-small-img">
-                    <img th:src="@{/client/img/aothun_babytee.jpg}" alt="">
-                    <img th:src="@{/client/img/aothun_babytee_2.jpg}" alt="">
-                    <img th:src="@{/client/img/aothun_babytee_3.jpg}" alt="">
-                    <img th:src="@{/client/img/aothun_babytee_4.jpg}" alt="">
+                    <img th:src="@{${listImg[0].image.substring(1)}}" alt="">
+                    <img th:src="@{${listImg[1].image.substring(1)}}" alt="">
+                    <img th:src="@{${listImg[2].image.substring(1)}}" alt="">
+                    <img th:src="@{${listImg[3].image.substring(1)}}" alt="">
 
                 </div>
             </div>
             <div class="product-content-right">
                 <div class="product-content-right-product-name">
-                    <h1>ÁO THUN BABY TEE</h1>
+                    <h1 th:text="${product.name}"></h1>
                     <p>SKU: 57B9489</p>
                 </div>
                 <div class="product-content-right-product-price">
-                    <p style="font-weight: bold; font-size: 24px;">590.000<sup>đ</sup></p>
+                    <p class="price" th:text="${product.price * 1000}"style="font-weight: bold; font-size: 24px;"><sup>đ</sup></p>
                 </div>
                 <div class="product-content-right-product-color">
-                    <p style="font-weight: bold; font-size: 24px;"><span>Màu sắc</span>: Trắng ngà</p>
+<!--                    <p th:text="${product.color}"style="font-weight: bold; font-size: 24px;"><span>Màu sắc</span></p>-->
                     <div class="product-content-right-product-color-img">
-                        <img th:src="@{/client/img/color_trang_nga.png}" alt="">
+                        <img th:src="@{'/client/img/' + ${product.color} + '.jpg'}" alt="">
                     </div>
                 </div>
                 <div class="product-content-right-product-size" style="margin-top: 10px;">
@@ -146,29 +146,26 @@
     </div>
 </section>
 
-<!-- Product related -->
+<!-- Product related-->
 <section class="product-related">
     <div class="product-related-title">
         <p>Sản phẩm tương tự</p>
     </div>
-    <div class="product-content row">
-        <div class="product-related-item">
-            <img th:src="@{/client/img/aothun_co_vien_den.jpg}" alt="">
-            <img th:src="@{/client/img/color_black.png}" alt="">
-            <a href="">Áo thun cổ viền đen</a>
-            <p>690.000đ</p>
+    <div class="product-content row" th:if="${similarProducts != null and #lists.size(similarProducts) > 0}">
+        <div class="product-related-item" th:each="product1, loopInfo : ${similarProducts}" th:if="${loopInfo.index < 4}">
+            <th th:each="productImg : ${ImgSimilarProducts}" th:if="${product1.productCode == productImg.id.productCode}">
+                <img th:src="@{${productImg.image.substring(1)}}" alt="">
+            </th>
+            <img style="border: 1px solid black;" th:src="@{'/client/img/' + ${product1.color} + '.jpg'}" alt="">
+            <a th:text="${product1.name}"></a>
+            <p class="price" th:text="${product.price * 1000}"><sup>đ</sup></p>
         </div>
-        <div class="product-related-item">
-            <img th:src="@{/client/img/aothun_co_vien_den.jpg}" alt="">
-            <img th:src="@{/client/img/color_black.png}" alt="">
-            <a href="">Áo thun cổ viền đen</a>
-            <p>690.000đ</p>
-        </div>
-        <div class="product-related-item">
-            <img th:src="@{/client/img/aothun_co_vien_den.jpg}" alt="">
-            <img th:src="@{/client/img/color_black.png}" alt="">
-            <a href="">Áo thun cổ viền đen</a>
-            <p>690.000đ</p>
+    </div>
+    <div   th:unless="${similarProducts != null and #lists.size(similarProducts) > 0}">
+        <div style="text-align: center;">
+            <!-- Nội dung hiển thị khi similarProducts là null hoặc rỗng -->
+            <img style= "width: 20%" th:src="@{'/client/img/searchfail.png'}" alt="">
+            <p>Hkhông tìm thấycó sản phẩm tương tự.</p>
         </div>
     </div>
 </section>
@@ -266,4 +263,19 @@
         addToCartButton.style.display = 'none';
         buyButton.style.display = 'none';
     }
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var priceElements = document.getElementsByClassName("price");
+
+        for (var i = 0; i < priceElements.length; i++) {
+            var priceElement = priceElements[i];
+            var price = parseFloat(priceElement.innerText);
+
+            if (!isNaN(price)) {
+                var formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+                priceElement.innerText = formattedPrice;
+            }
+        }
+    });
 </script>
