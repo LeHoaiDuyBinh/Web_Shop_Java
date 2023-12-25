@@ -41,8 +41,11 @@
 
     <div class="orthers">
         <li>
-            <input placeholder="Search..." type="text">
-            <i class="fa fa-search"></i>
+            <form th:action="@{/auth/category}" method="GET">
+                <input placeholder="Search..." name="keyword"  th:value="${keyword}" type="text">
+                <button type="submit" id="submitBtn" style="display: none;"></button>
+                <i class="fa fa-search" id="searchIcon" style="cursor: pointer;"></i>
+            </form>
         </li>
         <li><i class="fa fa-paw"></i></li>
         <a th:href="${checkSession == '1' ? '/auth/informationUser' : '/auth/login'}">
@@ -64,3 +67,26 @@
         <li><i class="fa fa-shopping-bag"></i></li>
     </div>
 </header>
+<script>
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     // Lấy element của icon
+    //     var userIcon = document.getElementById('userIcon');
+    //
+    //     // Lấy element của sub-action
+    //     var subAction = document.querySelector('.sub-action');
+    //
+    //     // Bắt sự kiện click vào icon
+    //     userIcon.addEventListener('click', function() {
+    //
+    //         if(!subAction){
+    //             window.location.href = '/Auth';
+    //         }
+    //         // Kiểm tra trạng thái hiện tại của sub-action và thay đổi nó
+    //         if (subAction.style.display === 'none' || subAction.style.display === '') {
+    //             subAction.style.display = 'block';
+    //         } else {
+    //             subAction.style.display = 'none';
+    //         }
+    //     });
+    // });
+</script>

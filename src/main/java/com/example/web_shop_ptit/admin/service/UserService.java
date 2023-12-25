@@ -1,6 +1,5 @@
 package com.example.web_shop_ptit.admin.service;
 
-import com.example.web_shop_ptit.admin.model.User;
 import org.springframework.stereotype.Service;
 
 @Service
