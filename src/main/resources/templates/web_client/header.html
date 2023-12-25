@@ -9,14 +9,14 @@
         <li class="main-menu-item"><a href="">NỮ</a>
             <i class="fa fa-plus plus" style="font-size: 12px; float: right; margin-top: 2%; display: none;"></i>
             <ul class="sub-menu sub-menu-1">
-                <li><a href="/auth/categoryManagement/ao-nu">ÁO</a>
-                    <ul class="empty-item-1" th:each="categoryManagement : ${listCategorys}" th:if="${categoryManagement.parentCategoryId == 3}">
-                        <li><a th:href="@{'/auth/categoryManagement/' + ${categoryManagement.slug}}" th:text="${categoryManagement.name}"></a></li>
+                <li><a href="/auth/category/ao-nu">ÁO</a>
+                    <ul class="empty-item-1" th:each="category : ${listCategorys}" th:if="${category.parentCategoryId == 3}">
+                        <li><a th:href="@{'/auth/category/' + ${category.slug}}" th:text="${category.name}"></a></li>
                     </ul>
                 </li>
-                <li><a href="/auth/categoryManagement/quan-nu">QUẦN</a>
-                    <ul class="empty-item-1" th:each="categoryManagement : ${listCategorys}" th:if="${categoryManagement.parentCategoryId == 4}">
-                        <li><a th:href="@{'/auth/categoryManagement/' + ${categoryManagement.slug}}" th:text="${categoryManagement.name}"></a></li>
+                <li><a href="/auth/category/quan-nu">QUẦN</a>
+                    <ul class="empty-item-1" th:each="category : ${listCategorys}" th:if="${category.parentCategoryId == 4}">
+                        <li><a th:href="@{'/auth/category/' + ${category.slug}}" th:text="${category.name}"></a></li>
                     </ul>
                 </li>
             </ul>
@@ -24,14 +24,14 @@
         <li class="main-menu-item"><a href="">NAM</a>
             <i class="fa fa-plus plus" style="font-size: 12px; float: right; margin-top: 2%; display: none;"></i>
             <ul class="sub-menu sub-menu-2">
-                <li><a href="/auth/categoryManagement/ao-nam">ÁO</a>
-                    <ul class="empty-item-2" th:each="categoryManagement : ${listCategorys}" th:if="${categoryManagement.parentCategoryId == 1}">
-                        <li><a th:href="@{'/auth/categoryManagement/' + ${categoryManagement.slug}}" th:text="${categoryManagement.name}"></a></li>
+                <li><a href="/auth/category/ao-nam">ÁO</a>
+                    <ul class="empty-item-2" th:each="category : ${listCategorys}" th:if="${category.parentCategoryId == 1}">
+                        <li><a th:href="@{'/auth/category/' + ${category.slug}}" th:text="${category.name}"></a></li>
                     </ul>
                 </li>
                 <li><a href="">QUẦN</a>
-                    <ul class="empty-item-2" th:each="categoryManagement : ${listCategorys}" th:if="${categoryManagement.parentCategoryId == 2}">
-                        <li><a th:href="@{'/auth/categoryManagement/' + ${categoryManagement.slug}}" th:text="${categoryManagement.name}"></a></li>
+                    <ul class="empty-item-2" th:each="category : ${listCategorys}" th:if="${category.parentCategoryId == 2}">
+                        <li><a th:href="@{'/auth/category/' + ${category.slug}}" th:text="${category.name}"></a></li>
                     </ul>
                 </li>
             </ul>
@@ -41,8 +41,11 @@
 
     <div class="orthers">
         <li>
-            <input placeholder="Search..." type="text">
-            <i class="fa fa-search"></i>
+            <form th:action="@{/auth/category}" method="GET">
+                <input placeholder="Search..." name="keyword"  th:value="${keyword}" type="text">
+                <button type="submit" id="submitBtn" style="display: none;"></button>
+                <i class="fa fa-search" id="searchIcon" style="cursor: pointer;"></i>
+            </form>
         </li>
         <li><i class="fa fa-paw"></i></li>
         <a th:href="@{'/auth/login'}">
@@ -86,4 +89,13 @@
     //         }
     //     });
     // });
+</script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Trigger form submission when the search icon is clicked
+        $("#searchIcon").click(function() {
+            $("#submitBtn").click();
+        });
+    });
 </script>

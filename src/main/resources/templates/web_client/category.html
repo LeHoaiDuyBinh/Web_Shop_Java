@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
     <link rel="stylesheet" th:href="@{/client/css/home.css}">
     <link rel="stylesheet" th:href="@{/client/css/responsive.css}">
-    <link rel="stylesheet" th:href="@{/client/css/categoryManagement.css}">
+    <link rel="stylesheet" th:href="@{/client/css/category.css}">
 </head>
 
 <body>
@@ -26,48 +26,48 @@
 
 <header th:replace="web_client/header"></header>
 <!--************* Category ***************-->
-<section class="categoryManagement">
-    <div class="container-categoryManagement" style="margin-left: 4% !important;">
-        <div class="categoryManagement-top row">
+<section class="category">
+    <div class="container-category" style="margin-left: 4% !important;">
+        <div class="category-top row">
             <p>Danh mục sản phẩm</p><span></span>
         </div>
     </div>
-    <div class="container-categoryManagement" style="margin-left: 5% !important;">
-        <div class="categoryManagement-fix row">
-            <div class="categoryManagement-left">
+    <div class="container-category" style="margin-left: 5% !important;">
+        <div class="category-fix row">
+            <div class="category-left">
                 <ul>
-<!--                    <li class="categoryManagement-left-li"><a href="#">NỮ</a>-->
-<!--                        <ul>-->
-<!--                            <li>-->
-<!--                                <a href=""></a>HÀNG NỮ MỚI VỀ</li>-->
-<!--                            <li>-->
-<!--                                <a href=""></a>ÁO +</li>-->
-<!--                            <li>-->
-<!--                                <a href=""></a>QUẦN +</li>-->
-<!--                        </ul>-->
-<!--                    </li>-->
-<!--                    <li class="categoryManagement-left-li"><a href="#">NAM</a>-->
-<!--                        <ul>-->
-<!--                            <li>-->
-<!--                                <a href=""></a>HÀNG NAM MỚI VỀ</li>-->
-<!--                            <li>-->
-<!--                                <a href=""></a>ÁO +</li>-->
-<!--                            <li>-->
-<!--                                <a href=""></a>QUẦN +</li>-->
-<!--                        </ul>-->
-<!--                    </li>-->
-<!--                    <li class="categoryManagement-left-li"><a href="#">TRẺ EM</a></li>-->
-<!--                    <li class="categoryManagement-left-li"><a href="#">SALE</a></li>-->
+                    <!--                    <li class="category-left-li"><a href="#">NỮ</a>-->
+                    <!--                        <ul>-->
+                    <!--                            <li>-->
+                    <!--                                <a href=""></a>HÀNG NỮ MỚI VỀ</li>-->
+                    <!--                            <li>-->
+                    <!--                                <a href=""></a>ÁO +</li>-->
+                    <!--                            <li>-->
+                    <!--                                <a href=""></a>QUẦN +</li>-->
+                    <!--                        </ul>-->
+                    <!--                    </li>-->
+                    <!--                    <li class="category-left-li"><a href="#">NAM</a>-->
+                    <!--                        <ul>-->
+                    <!--                            <li>-->
+                    <!--                                <a href=""></a>HÀNG NAM MỚI VỀ</li>-->
+                    <!--                            <li>-->
+                    <!--                                <a href=""></a>ÁO +</li>-->
+                    <!--                            <li>-->
+                    <!--                                <a href=""></a>QUẦN +</li>-->
+                    <!--                        </ul>-->
+                    <!--                    </li>-->
+                    <!--                    <li class="category-left-li"><a href="#">TRẺ EM</a></li>-->
+                    <!--                    <li class="category-left-li"><a href="#">SALE</a></li>-->
                 </ul>
             </div>
-            <div class="categoryManagement-right row">
-                <div class="categoryManagement-right-top-item" th:each="product : ${productCategorys}">
+            <div class="category-right row">
+                <div class="category-right-top-item" th:each="product : ${productCategorys}">
                     <h1 style="text-transform: uppercase; font-weight: 600;font-size: 24px;line-height: 32px;color: #221F20; font-family: initial;" th:text="${product.name}"></h1>
                 </div>
-                <div class="categoryManagement-right-top-item">
+                <div class="category-right-top-item">
                     <button id="filterButton"><span>Bộ lọc</span> <i class="fa fa-sort-down"></i></button>
                 </div>
-                <div class="categoryManagement-right-top-item">
+                <div class="category-right-top-item">
                     <select name="" id="">
                         <option value="">Sắp xếp</option>
                         <option value="">Giá cao đến thấp</option>
@@ -75,8 +75,8 @@
                     </select>
                 </div>
 
-                <div class="categoryManagement-right-content row" th:each="productCaterogy : ${productCategorys}">
-                    <div class="categoryManagement-right-filter" id="filterDiv" style="display: none;">
+                <div class="category-right-content row">
+                    <div class="category-right-filter" id="filterDiv" style="display: none;">
                         <div class="filter-row">
                             <div class="filter-row-title">
                                 <h4>Size</h4>
@@ -123,19 +123,45 @@
                         </div>
                     </div>
 
-                    <div class="categoryManagement-right-content-item" th:each="product : ${productCaterogy.products}">
-                        <a th:href="@{'/auth/product/' + ${product.productCode}}">
-                            <th th:each="productImg : ${listProductImgs}" th:if="${product.productCode == productImg.id.productCode}">
+                    <div class="category-right-content row" th:each="productCaterogy : ${productCategorys}">
+                        <div class="category-right-content-item" th:each="product : ${productCaterogy.products}">
+                            <a th:href="@{'/auth/product/' + ${product.productCode}}">
+                                <th th:each="productImg : ${listProductImgs}" th:if="${product.productCode == productImg.id.productCode}">
+                                    <img th:src="@{${productImg.image.substring(1)}}" alt="">
+                                </th>
+                                <p style="font-size:14px;" th:text="${product.name}"></p>
+                                <p class="price" th:text="${product.price * 1000}"><sup>đ</sup></p>
+                            </a>
+                        </div>
+                    </div>
+
+
+                    <div class="category-right-content-item" th:if="${#lists.isEmpty(productCategorys)}" th:each="product1 : ${productSearch}" th:field="product1">
+                        <a th:href="@{'/auth/product/' + ${product1.productCode}}">
+                            <th th:each="productImg : ${listProductImgs}" th:if="${product1.productCode == productImg.id.productCode}">
                                 <img th:src="@{${productImg.image.substring(1)}}" alt="">
                             </th>
-                            <p style="font-size:14px;" th:text="${product.name}"></p>
-                            <p class="price" th:text="${product.price * 1000}"><sup>đ</sup></p>
+                            <p style="font-size:14px;" th:text="${product1.name}"></p>
+                            <p class="price" th:text="${product1.price * 1000}"><sup>đ</sup></p>
                         </a>
                     </div>
+
+                    <div th:if="${#lists.isEmpty(productSearch)}" >
+                        <div  style=" display: flex;
+                                    justify-content: center;
+                                    flex-wrap: wrap;
+                                    flex-direction: column;
+                                    align-items: center;">
+                            <!-- Nội dung hiển thị khi similarProducts là null hoặc rỗng -->
+                            <img style= "width: 50%" th:src="@{'/client/img/searchfail.png'}" alt="">
+                            <h3 style="fone-size:20px; ">Không tìm thấy sản phẩm <span th:text="${keyword}"></span>.</h3>
+                        </div>
+                    </div>
+
                 </div>
 
-                <div class="categoryManagement-right-bottom row">
-                    <div class="categoryManagement-center-bottom-items">
+                <div class="category-right-bottom row">
+                    <div class="category-center-bottom-items">
                         <ul class="pagination">
                             <li><a href="#">&laquo;</a></li>
                             <li><a href="#">1</a></li>
@@ -161,7 +187,7 @@
 </html>
 <script th:src="@{/client/js/scroll.js}"></script>
 <script th:src="@{/client/js/responsiveMenu.js}"></script>
-<script th:src="@{/client/js/categoryManagement.js}"></script>
+<script th:src="@{/client/js/category.js}"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         var priceElements = document.getElementsByClassName("price");
@@ -176,4 +202,12 @@
             }
         }
     });
+
+
+</script>
+
+<script type="text/javascript">
+    function clearSearch() {
+        window.location = "[[@{/}]]";
+    }
 </script>
