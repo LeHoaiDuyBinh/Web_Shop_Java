@@ -164,6 +164,7 @@ header:hover {
 .orthers>li:first-child i {
     position: absolute;
     right: 10px;
+    top: 4px;
 }
 
 

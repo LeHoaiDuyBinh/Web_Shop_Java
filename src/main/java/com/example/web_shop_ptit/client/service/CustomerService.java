@@ -25,6 +25,10 @@ public class CustomerService {
         return (List<Customer>) repo.findAll();
     }
 
+    public Customer findByEmail(String email) {
+        return repo.findByEmail(email);
+    }
+
     @Autowired
     public CustomerService(CustomerRepository customerRepository, BCryptPasswordEncoder passwordEncoder) {
         this.repo = customerRepository;
