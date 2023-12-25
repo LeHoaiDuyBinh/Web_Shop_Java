@@ -1,37 +1,37 @@
 <link rel="stylesheet" th:href="@{/client/css/header.css}">
-<header class="myHeader">
+<header class="myHeader" style="display: flex !important;">
     <label id="check" class="checkbtn"><i class="fa fa-bars" style="position: absolute; left: 12px;"></i></label>
     <div class="logo">
         <img th:src="@{/client/img/logo_shop.png}" alt="">
     </div>
     <nav class="menu">
         <ul>
-        <li class="main-menu-item"><a href="">NỮ</a>
+        <li class="main-menu-item"><a href="" style="color: #3e3e3f">NỮ</a>
             <i class="fa fa-plus plus" style="font-size: 12px; float: right; margin-top: 2%; display: none;"></i>
             <ul class="sub-menu sub-menu-1">
-                <li><a href="/auth/category/ao-nu">ÁO</a>
+                <li><a href="/auth/category/ao-nu" style="color: #3e3e3f">ÁO</a>
                     <ul class="empty-item-1" th:each="category : ${listCategorys}" th:if="${category.parentCategoryId == 3}">
-                        <li><a th:href="@{'/auth/category/' + ${category.slug}}" th:text="${category.name}"></a></li>
+                        <li><a style="color: #3e3e3f" th:href="@{'/auth/category/' + ${category.slug}}" th:text="${category.name}"></a></li>
                     </ul>
                 </li>
-                <li><a href="/auth/category/quan-nu">QUẦN</a>
+                <li><a href="/auth/category/quan-nu" style="color: #3e3e3f">QUẦN</a>
                     <ul class="empty-item-1" th:each="category : ${listCategorys}" th:if="${category.parentCategoryId == 4}">
-                        <li><a th:href="@{'/auth/category/' + ${category.slug}}" th:text="${category.name}"></a></li>
+                        <li><a style="color: #3e3e3f" th:href="@{'/auth/category/' + ${category.slug}}" th:text="${category.name}"></a></li>
                     </ul>
                 </li>
             </ul>
         </li>
-        <li class="main-menu-item"><a href="">NAM</a>
+        <li class="main-menu-item"><a href="" style="color: #3e3e3f">NAM</a>
             <i class="fa fa-plus plus" style="font-size: 12px; float: right; margin-top: 2%; display: none;"></i>
             <ul class="sub-menu sub-menu-2">
-                <li><a href="/auth/category/ao-nam">ÁO</a>
+                <li><a href="/auth/category/ao-nam" style="color: #3e3e3f">ÁO</a>
                     <ul class="empty-item-2" th:each="category : ${listCategorys}" th:if="${category.parentCategoryId == 1}">
-                        <li><a th:href="@{'/auth/category/' + ${category.slug}}" th:text="${category.name}"></a></li>
+                        <li><a style="color: #3e3e3f" th:href="@{'/auth/category/' + ${category.slug}}" th:text="${category.name}"></a></li>
                     </ul>
                 </li>
-                <li><a href="">QUẦN</a>
+                <li><a href="/auth/category/quan-nam" style="color: #3e3e3f">QUẦN</a>
                     <ul class="empty-item-2" th:each="category : ${listCategorys}" th:if="${category.parentCategoryId == 2}">
-                        <li><a th:href="@{'/auth/category/' + ${category.slug}}" th:text="${category.name}"></a></li>
+                        <li><a style="color: #3e3e3f" th:href="@{'/auth/category/' + ${category.slug}}" th:text="${category.name}"></a></li>
                     </ul>
                 </li>
             </ul>
@@ -48,10 +48,10 @@
             </form>
         </li>
         <li><i class="fa fa-paw"></i></li>
-        <a th:href="@{'/auth/login'}">
+        <a th:href="${checkSession == '1' ? '/auth/informationUser' : '/auth/login'}">
             <div class="item" style="padding-left: 12px; cursor: pointer;" title="Đăng nhập">
-            <li><i class="fa fa-user" id="userIcon" style="margin-left: 2px; margin-right: 4px; border-right: 1px solid; padding-right: 12px;"></i></li>
-            <div class="sub-action" style="display: none; margin-top: 15px; margin-right: 78px">
+            <li><i class="fa fa-user" id="userIcon" style="margin-left: 2px; margin-right: 4px; border-right: 1px solid; padding-right: 12px; color: #3e3e3f"></i></li>
+            <div class="sub-action" style="margin-top: 15px; margin-right: 78px">
                 <div class="top-action" style="cursor: context-menu;">
                     <a class="icon" style="text-decoration: none; cursor: context-menu;"><h3>Tài khoản của tôi</h3></a>
                 </div>
@@ -89,13 +89,4 @@
     //         }
     //     });
     // });
-</script>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script>
-    $(document).ready(function() {
-        // Trigger form submission when the search icon is clicked
-        $("#searchIcon").click(function() {
-            $("#submitBtn").click();
-        });
-    });
 </script>

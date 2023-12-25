@@ -61,8 +61,22 @@
                 </ul>
             </div>
             <div class="category-right row">
-                <div class="category-right-top-item" th:each="product : ${productCategorys}">
-                    <h1 style="text-transform: uppercase; font-weight: 600;font-size: 24px;line-height: 32px;color: #221F20; font-family: initial;" th:text="${product.name}"></h1>
+                <div class="category-right-top-item" th:if="${not #lists.isEmpty(productCategorys)}">
+                    <div th:each="product : ${productCategorys}">
+                        <h1 style="text-transform: uppercase; font-weight: 600; font-size: 24px; line-height: 32px; color: #221F20; font-family: initial;" th:text="${product.name}"></h1>
+                    </div>
+                </div>
+                <div class="category-right-top-item" th:if="${#strings.isEmpty(keyword) and #lists.isEmpty(productCategorys)}">
+                    <h1 style="text-transform: uppercase; font-weight: 600;font-size: 24px;line-height: 32px;color: #221F20; font-family: initial;">Toàn bộ sản phẩm</h1>
+                </div>
+                    <div class="category-right-top-item" th:if="${not #strings.isEmpty(keyword) and #lists.isEmpty(productCategorys) and not #lists.isEmpty(productSearch)}">
+                        <h1 style="text-transform: uppercase; font-weight: 600; font-size: 24px; line-height: 32px; color: #221F20; font-family: initial;">Sản phẩm cần tìm</h1>
+                    </div>
+                <div class="category-right-top-item" th:if="${#lists.isEmpty(productSearch) and #lists.isEmpty(productCategorys)}" >
+                            <h1 style="text-transform: uppercase; font-weight: 600; font-size: 24px; line-height: 32px; color: #221F20; font-family: initial;">Không tìm thấy sản phẩm</h1>
+                    <div class="category-right-content-item">
+<!--                            <img style= "width: 300%; margin-left: 260px; margin-bottom: 50px; margin-top: 50px" th:src="@{'/client/img/searchfail.png'}" alt="">-->
+                    </div>
                 </div>
                 <div class="category-right-top-item">
                     <button id="filterButton"><span>Bộ lọc</span> <i class="fa fa-sort-down"></i></button>
@@ -144,18 +158,6 @@
                             <p style="font-size:14px;" th:text="${product1.name}"></p>
                             <p class="price" th:text="${product1.price * 1000}"><sup>đ</sup></p>
                         </a>
-                    </div>
-
-                    <div th:if="${#lists.isEmpty(productSearch)}" >
-                        <div  style=" display: flex;
-                                    justify-content: center;
-                                    flex-wrap: wrap;
-                                    flex-direction: column;
-                                    align-items: center;">
-                            <!-- Nội dung hiển thị khi similarProducts là null hoặc rỗng -->
-                            <img style= "width: 50%" th:src="@{'/client/img/searchfail.png'}" alt="">
-                            <h3 style="fone-size:20px; ">Không tìm thấy sản phẩm <span th:text="${keyword}"></span>.</h3>
-                        </div>
                     </div>
 
                 </div>

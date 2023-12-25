@@ -1,13 +1,12 @@
 package com.example.web_shop_ptit.client.controller;
 
-import com.example.web_shop_ptit.client.entity.Category;
-import com.example.web_shop_ptit.client.entity.Product;
-import com.example.web_shop_ptit.client.entity.ProductImage;
-import com.example.web_shop_ptit.client.entity.ProductSizes;
+import com.example.web_shop_ptit.client.entity.*;
 import com.example.web_shop_ptit.client.service.CategoryService;
 import com.example.web_shop_ptit.client.service.ProductImgService;
 import com.example.web_shop_ptit.client.service.ProductService;
 import com.example.web_shop_ptit.client.service.ProductSizeService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,7 +35,18 @@ public class ProductController {
 
 
     @GetMapping("product/{productCode}")
-    public String showProductDetails(@PathVariable String productCode, Model model) {
+    public String showProductDetails(@PathVariable String productCode, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        RegistrationInfo customerInfo = (RegistrationInfo) session.getAttribute("customerInfor");
+        if (customerInfo != null){
+            System.out.println("success");
+            model.addAttribute("checkSession", "1");
+        }else{
+            System.out.println("error");
+            model.addAttribute("checkSession", "");
+
+        }
+
         Product product = service.getProductByCode(productCode);
         List<Category> listCategory = categoryService.listAll();
         for (Category category : listCategory) {

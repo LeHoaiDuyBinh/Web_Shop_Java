@@ -34,6 +34,9 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private Collection<ProductImage> productImages;
 
+    @OneToMany(mappedBy = "product")
+    private Collection<OrderItem> orderItems;
+
 
     public String getProductCode() {
         return productCode;
@@ -97,5 +100,13 @@ public class Product {
 
     public void setProductImages(Collection<ProductImage> productImages) {
         this.productImages = productImages;
+    }
+
+    public Collection<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(Collection<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 }
