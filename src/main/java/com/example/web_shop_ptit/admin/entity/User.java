@@ -1,4 +1,4 @@
-package com.example.web_shop_ptit.admin.model;
+package com.example.web_shop_ptit.admin.entity;
 
 public class User {
     private String username;

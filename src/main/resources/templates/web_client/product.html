@@ -29,10 +29,10 @@
 <!--************* Product  ****************  -->
 <section class="product">
     <div class="container-product" >
-        <div class="product-top row" th:each="category : ${category}">
+        <div class="product-top row" th:each="categoryManagement : ${categoryManagement}">
             <p>Trang chủ</p><span>&#10230; </span>
             <p th:text ="${nameParentCategory}"></p> <span>&#10230; </span>
-            <p th:text ="${category.name}"></p>
+            <p th:text ="${categoryManagement.name}"></p>
             <span>&#10230;</span>
             <p th:text="${product.name}"></p>
         </div>
