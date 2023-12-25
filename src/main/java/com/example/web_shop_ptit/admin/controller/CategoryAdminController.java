@@ -60,7 +60,7 @@ public class CategoryAdminController {
             List<CategoryManagement> categories = categoryManagementService.listAll();
 
             model.addAttribute("categories", categories);
-            model.addAttribute("operation", "add"); // hoặc "edit" tùy thuộc vào hoạt động
+            model.addAttribute("operation", "add");
 
             return "/web_admin/categoryForm";
     }
@@ -77,7 +77,7 @@ public class CategoryAdminController {
                 List<CategoryManagement> categories = categoryManagementService.listAll();
 
                 model.addAttribute("categories", categories);
-                model.addAttribute("operation", "edit"); // hoặc "edit" tùy thuộc vào hoạt động
+                model.addAttribute("operation", "edit");
 
                 return "web_admin/categoryForm";
             } catch (Exception e) {

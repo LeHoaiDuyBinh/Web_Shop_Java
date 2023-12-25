@@ -2,6 +2,7 @@ package com.example.web_shop_ptit.admin.entity;
 
 import jakarta.persistence.*;
 
+
 @Entity
 @Table(name = "Customers")
 public class CustomerManagement {
@@ -17,7 +18,6 @@ public class CustomerManagement {
 
     @Column(name = "phone")
     private String phone;
-
     public String getEmail() {
         return email;
     }
