@@ -11,6 +11,7 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, String> {
     Product findProductByProductCode(String id);
+    List<Product> findByNameContaining(String keyword);
     @Query("SELECT p FROM Product p WHERE p.category.categoryId = :categoryId AND p.productCode <> :productCode")
     List<Product> findSimilarProducts(@Param("categoryId") long categoryId, @Param("productCode") String productCode);
 }

@@ -41,8 +41,11 @@
 
     <div class="orthers">
         <li>
-            <input placeholder="Search..." type="text">
-            <i class="fa fa-search"></i>
+            <form th:action="@{/auth/category}" method="GET">
+                <input placeholder="Search..." name="keyword"  th:value="${keyword}" type="text">
+                <button type="submit" id="submitBtn" style="display: none;"></button>
+                <i class="fa fa-search" id="searchIcon" style="cursor: pointer;"></i>
+            </form>
         </li>
         <li><i class="fa fa-paw"></i></li>
         <a th:href="@{'/auth/login'}">
@@ -86,4 +89,13 @@
     //         }
     //     });
     // });
+</script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Trigger form submission when the search icon is clicked
+        $("#searchIcon").click(function() {
+            $("#submitBtn").click();
+        });
+    });
 </script>

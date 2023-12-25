@@ -21,7 +21,15 @@ public class ProductService {
         return repo.findSimilarProducts(categoryId, productCode);
     }
 
+    public List<Product> findByNameContaining(String keyword){
+        if(keyword != null)
+        {
+            return repo.findByNameContaining(keyword);
+        }
+       else return repo.findAll();
 
+
+    }
     public Product getProductByCode(String productCode) {
         return repo.findProductByProductCode(productCode);
     }

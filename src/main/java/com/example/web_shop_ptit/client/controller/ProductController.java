@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -90,6 +91,35 @@ public class ProductController {
         model.addAttribute("listImg", listImg);
         model.addAttribute("ImgSimilarProducts", ImgSimilarProducts);
         return "web_client/product";
+    }
+
+    @GetMapping("/category")
+    public String search(@RequestParam("keyword") String keyword, Model model) {
+        List<Product> productList = service.findByNameContaining(keyword);
+
+        for(Product product: productList){
+            System.out.println(product.getName());
+            System.out.println(product.getPrice());
+        }
+        System.out.println(productList.size());
+
+        List<ProductImage> listProductImg = productImgService.listAll();
+        List<ProductImage> listImg = new ArrayList<>();
+        int flag = 0;
+        for ( ProductImage productImage : listProductImg) {
+            if (flag == 0){
+                listImg.add(productImage);
+            }
+            flag++;
+            if(flag == 4){
+                flag = 0;
+            }
+        }
+
+        model.addAttribute("listProductImgs", listImg);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("productSearch", productList);
+        return "web_client/category";
     }
 
 }
