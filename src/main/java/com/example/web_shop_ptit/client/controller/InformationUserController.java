@@ -31,6 +31,15 @@ public class InformationUserController {
         List<Category> listCategory = service.listAll();
         model.addAttribute("listCategorys", listCategory);
 
+        if (customerInfo != null){
+            System.out.println("success");
+            model.addAttribute("checkSession", "1");
+        }else{
+            System.out.println("error");
+            model.addAttribute("checkSession", "");
+
+        }
+
         System.out.println("---- INFORMATION ----");
         System.out.println(customerInfo.getFullname());
         model.addAttribute("CustomerInfo", customerInfo);
