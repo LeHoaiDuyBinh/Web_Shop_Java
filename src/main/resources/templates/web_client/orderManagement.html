@@ -11,7 +11,11 @@
     <!-- Bootstrap CSS -->
     <!-- <?php require_once './mvc/views/shopping/libcss.php'; ?> -->
     <link rel="stylesheet" th:href="@{/client/css/orderManagement.css}">
+    <link rel="stylesheet" th:href="@{/client/css/informationUser.css}">
+    <link rel="stylesheet" th:href="@{/client/css/home.css}">
+    <link rel="stylesheet" th:href="@{/client/css/responsive.css}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 
@@ -25,7 +29,7 @@
 
 <!--****** INFORMATION ****** -->
 
-<main id="main" class="site-main">
+<main id="main" class="site-main" style="margin-top: 50px;">
     <div class="container">
         <div class="order-wrapper mt-40 my-account">
             <div class="row">
@@ -36,19 +40,22 @@
                                 <img src="https://pubcdn.ivymoda.com/ivy2//images/v2/assets/user-avatar-placeholder.png" alt="">
                             </div>
                             <div class="order-sidemenu__user-name">
-                                <p>Lê Bình</p>
+                                <p th:text="${CustomerInfor.fullname}"></p>
                             </div>
                         </div>
                         <div class="order-sidemenu__menu">
                             <ul class="menu_side">
                                 <li class="">
-                                    <a href=""><span class="fa fa-user"></span>Thông tin tài khoản</a>
-                                </li>
-                                <li class="">
-                                    <a href=""><span class="fa fa-file"></span>Quản lý đơn hàng</a>
+                                    <a href="/auth/informationUser"><span class="fa fa-user"></span>Thông tin tài khoản</a>
                                 </li>
                                 <li class="active">
-                                    <a href=""><span class="fa fa-key"></span>Đổi mật khẩu</a>
+                                    <a href=""><span class="fa fa-file"></span>Quản lý đơn hàng</a>
+                                </li>
+                                <li class="">
+                                    <a href="/auth/changePasswordUser"><span class="fa fa-key"></span>Đổi mật khẩu</a>
+                                </li>
+                                <li class="">
+                                    <a href="/logout"><span class="fas fa-door-open"></span>Đăng xuất</a>
                                 </li>
                             </ul>
                         </div>
@@ -75,35 +82,48 @@
                         </div>
                     </div>
                     <div class="order-block">
+                        <p class="alert alert-primary" style="margin-top: -41px;">"Nếu bạn muốn hủy đơn hàng vui lòng liên hệ hotline 0707427559"</p>
                         <table class="order-block__table">
                             <thead>
                             <tr>
                                 <th>MÃ ĐƠN HÀNG</th>
                                 <th>NGÀY</th>
                                 <th style="width: 210px">TRẠNG THÁI</th>
-                                <th>SẢN PHẨM</th>
                                 <th>TỔNG TIỀN</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="item in list_order track by $index" class="ng-scope">
+                            <div th:if="${listOrders != null}">
+                            <tr ng-repeat="item in list_order track by $index" class="ng-scope" th:each="order : ${listOrders}">
                                 <td>
-                                    <a href="" class="ng-binding" style="color: #6c6d70; text-decoration: underline;"> IVM7353885</a>
+                                    <a href="" class="ng-binding" style="color: #6c6d70; text-decoration: underline;" th:text="${order.orderCode}"></a>
                                 </td>
-                                <td class="ng-binding">13/12/2023 21:35:38</td>
+                                <td class="ng-binding" th:text="${order.orderDate}"></td>
                                 <td>
                                     <div class="order__status">
                                         <span class="icon-ic_reload"></span>
-                                        <span class="ng-binding">Đã hủy đơn hàng</span>
+                                        <span class="ng-binding" th:text="${order.state}"></span>
                                     </div>
                                 </td>
-                                <td>
-                                    <p ng-repeat="item_product in list_order_product | filter: { order_id: item.order_id }" class="ng-binding ng-scope">
-                                        1x Áo thun trơn Slim fit, Đen
-                                    </p>
-                                </td>
-                                <td><span class="price ng-binding">232,000 ₫</span></td>
+                                <td><span class="price ng-binding" th:text="${order.totalPrice * 1000}"></span></td>
                             </tr>
+                            </div>
+
+                            <div th:if="${listOrderHistories != null}">
+                            <tr ng-repeat="item in list_order track by $index" class="ng-scope" th:each="orderHistory : ${listOrderHistories}">
+                                <td>
+                                    <a href="" class="ng-binding" style="color: #6c6d70; text-decoration: underline;" th:text="${orderHistory.orderCode}"></a>
+                                </td>
+                                <td class="ng-binding" th:text="${orderHistory.orderDate}"></td>
+                                <td>
+                                    <div class="order__status">
+                                        <span class="icon-ic_reload"></span>
+                                        <span class="ng-binding" th:text="${orderHistory.state}"></span>
+                                    </div>
+                                </td>
+                                <td><span class="price ng-binding" th:text="${orderHistory.totalPrice * 1000}"></span></td>
+                            </tr>
+                            </div>
                             </tbody>
                         </table>
                     </div>
@@ -116,3 +136,21 @@
 </body>
 
 </html>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var priceElements = document.getElementsByClassName("price");
+
+        for (var i = 0; i < priceElements.length; i++) {
+            var priceElement = priceElements[i];
+            var price = parseFloat(priceElement.innerText);
+
+            if (!isNaN(price)) {
+                var formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+                priceElement.innerText = formattedPrice;
+            }
+        }
+    });
+
+
+</script>

@@ -61,6 +61,7 @@ public class InformationUserController {
         if (customerInfo != null){
             System.out.println("success");
             model.addAttribute("checkSession", "1");
+            model.addAttribute("CustomerInfor", customerInfo);
         }else{
             System.out.println("error");
             model.addAttribute("checkSession", "");
