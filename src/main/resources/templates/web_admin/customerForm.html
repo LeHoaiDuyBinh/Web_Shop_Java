@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" th:href="@{/admin/css/dashboard.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/dashboard_information.css}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>PTITShop</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+</head>
+<body>
+    <div id="myModal" class="modal" style="display: block ;">
+        <div class="modal-content" style="border-radius: 8px;">
+            <form id="CustomerForm" th:action="'/admin/' + ${operation}" method="POST">
+
+                <label id="Email">Email:</label>
+                <input style="color: black" type="text" id="Mail" name="Mail" readonly th:value="${Mail}">
+
+                <label th:if="${operation eq 'editCustomer'}" id="NameCustomer">Tên khách hàng:</label>
+                <input style="color: black" type="text" id="TenKhachHang" name="TenKhachHang" th:value="${TenKhachHang}" required>
+
+                <label id="NumberPhoneCustomer">SĐT:</label>
+                <input style="color: black" type="text" id="SDT" name="SDT" th:value="${SDT}" required>
+
+                <br>
+
+                <button style="color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-right: 10px;" type="submit" id="submitBtn">Lưu</button>
+                <a href="/admin/customer">
+                    <button style="color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;" class="btnCancel" type="button" id="cancelBtn">Hủy</button>
+                </a>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,9 +1,8 @@
 package com.example.web_shop_ptit.client.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.Collection;
 
 @Entity
 @Table(name = "Customers")
@@ -20,6 +19,12 @@ public class Customer {
 
     @Column(name = "phone")
     private String phoneNumber;
+
+    @OneToMany(mappedBy = "customer")
+    private Collection<Order> orders;
+
+    public Customer() {
+    }
 
     public String getEmail() {
         return email;
@@ -51,5 +56,13 @@ public class Customer {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public Collection<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Collection<Order> orders) {
+        this.orders = orders;
     }
 }

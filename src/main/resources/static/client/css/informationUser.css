@@ -135,3 +135,33 @@ img {
     color: #221f20;
     border-color: #221f20;
 }
+
+.custom-alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    margin-bottom: 16px;
+    border: 1px solid transparent;
+    padding: .75rem 1.25rem;
+    border-radius: .25rem;
+}
+
+.custom-alert-error {
+    color: #721c24;
+    background-color: #f8d7da;
+    margin-bottom: 16px;
+    border: 1px solid transparent;
+    padding: .75rem 1.25rem;
+    border-radius: .25rem;
+}
+
+.custom-alert i {
+    margin-right: 8px;
+}
+
+.item:hover .sub-action {
+    display: block;
+}
+
+.sub-action {
+    display: none;
+}

@@ -25,6 +25,10 @@ public class CustomerService {
         return (List<Customer>) repo.findAll();
     }
 
+    public Customer findByEmail(String email) {
+        return repo.findByEmail(email);
+    }
+
     @Autowired
     public CustomerService(CustomerRepository customerRepository, BCryptPasswordEncoder passwordEncoder) {
         this.repo = customerRepository;
@@ -46,6 +50,28 @@ public class CustomerService {
         return false;
     }
 
+<<<<<<< HEAD
+=======
+    public void updatePassword(String email, String newPassword) {
+        Customer customer = repo.findByEmail(email);
+        if (customer != null) {
+            // Hash the new password using BCryptPasswordEncoder
+            String hashedPassword = newPassword;
+            customer.setPassword(hashPassword(hashedPassword));
+            repo.save(customer);
+        }
+    }
+
+    public void updateInfomation(String email, String fullName, String phoneNumber) {
+        Customer customer = repo.findByEmail(email);
+        if (customer != null) {
+            // Hash the new password using BCryptPasswordEncoder
+            customer.setFullName(fullName);
+            customer.setPhoneNumber(phoneNumber);
+            repo.save(customer);
+        }
+    }
+>>>>>>> bb2f0fffc2c36d61375e59f065f3b2ced6adf568
 
     // Hàm băm mật khẩu sử dụng SHA-256
     private static String hashPassword(String password) {

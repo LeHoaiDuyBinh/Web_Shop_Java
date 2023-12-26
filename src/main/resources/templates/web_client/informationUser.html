@@ -11,7 +11,11 @@
     <!-- Bootstrap CSS -->
     <!-- <?php require_once './mvc/views/shopping/libcss.php'; ?> -->
     <link rel="stylesheet" th:href="@{/client/css/informationUser.css}">
+    <link rel="stylesheet" th:href="@{/client/css/home.css}">
+    <link rel="stylesheet" th:href="@{/client/css/responsive.css}">
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 
@@ -25,7 +29,7 @@
 
 <!--****** INFORMATION ****** -->
 
-<main id="main" class="site-main">
+<main id="main" class="site-main" style="margin-top: 50px;">
     <div class="container">
         <div class="order-wrapper mt-40 my-account">
             <div class="row">
@@ -36,7 +40,7 @@
                                 <img src="https://pubcdn.ivymoda.com/ivy2//images/v2/assets/user-avatar-placeholder.png" alt="">
                             </div>
                             <div class="order-sidemenu__user-name">
-                                <p>Lê Bình</p>
+                                <p th:text="${CustomerInfo.fullname}"></p>
                             </div>
                         </div>
                         <div class="order-sidemenu__menu">
@@ -48,7 +52,10 @@
                                     <a href=""><span class="fa fa-file"></span>Quản lý đơn hàng</a>
                                 </li>
                                 <li class="">
-                                    <a href=""><span class="fa fa-key"></span>Đổi mật khẩu</a>
+                                    <a href="/auth/changePasswordUser"><span class="fa fa-key"></span>Đổi mật khẩu</a>
+                                </li>
+                                <li class="">
+                                    <a href="/logout"><span class="fas fa-door-open"></span>Đăng xuất</a>
                                 </li>
                             </ul>
                         </div>
@@ -68,7 +75,7 @@
                                         <label>Họ tên</label>
                                     </div>
                                     <div class="col col-input">
-                                        <input class="form-control" value="Lê Hoài Duy Bình" type="text">
+                                        <input name="fullName" class="form-control" th:value="${CustomerInfo.fullname}" type="text">
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -76,7 +83,7 @@
                                         <label>Số điện thoại</label>
                                     </div>
                                     <div class="col col-input has-button">
-                                        <input value="0707427559" class="form-control" type="text" id="customer_phone">
+                                        <input name="phoneNumber" th:value="${CustomerInfo.phone}" class="form-control" type="text" id="customer_phone">
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -84,8 +91,12 @@
                                         <label>Email</label>
                                     </div>
                                     <div class="col col-input has-button">
-                                        <input class="form-control" type="text" value="lehoaiduybinh.pch.2b7.97@gmail.com" id="customer_email" name="customer_email" disabled="disabled">
+                                        <input class="form-control" type="text" th:value="${CustomerInfo.email}" id="customer_email" name="customer_email" disabled="disabled">
                                     </div>
+                                </div>
+                                <div th:if="${success}" class="custom-alert custom-alert-success" role="alert" style="display: block !important">
+                                    <i class="fa fa-check"></i>
+                                    <span th:text="${success == '1' ? 'Thay đổi thông tin thành công' : ''}"></span>
                                 </div>
 
                                 <div class="col col-label"></div>

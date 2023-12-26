@@ -225,3 +225,11 @@ a.google span {
 .custom-alert i {
     margin-right: 8px;
 }
+
+.item:hover .sub-action {
+    display: block;
+}
+
+.sub-action {
+    display: none;
+}

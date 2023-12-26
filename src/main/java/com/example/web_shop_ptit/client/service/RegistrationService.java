@@ -2,6 +2,7 @@ package com.example.web_shop_ptit.client.service;
 
 import com.example.web_shop_ptit.client.entity.Customer;
 import com.example.web_shop_ptit.client.repository.CustomerRepository;
+import org.hibernate.annotations.SQLInsert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,8 @@ public class RegistrationService {
             String hashedPassword = newPassword;
             customer.setPassword(hashedPassword);
             customerRepository.save(customer);
+
+
         }
     }
 
