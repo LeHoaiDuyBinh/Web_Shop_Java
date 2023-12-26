@@ -20,14 +20,10 @@
 
                 <label th:if="${operation eq 'add'}" th:style="${operation eq 'add'} ? 'display: none;' : 'block'">ID danh mục:</label>
                 <input th:if="${operation eq 'add'}" type="hidden" name="maDanhMuc" value="">
-
                 <input th:if="${operation eq 'edit'}" type="text" name="maDanhMuc" readonly th:value="${maDanhMuc}">
 
-
                 <label id="CategoryName">Tên danh mục:</label>
-
                 <input th:if="${operation eq 'add'}" style="color: black" type="text" name="tenDanhMuc" required>
-
                 <input th:if="${operation eq 'edit'}" style="color: black" type="text" name="tenDanhMuc" th:value="${tenDanhMuc}" required>
 
                 <label id="OrderName">Tên danh mục cha:</label>
