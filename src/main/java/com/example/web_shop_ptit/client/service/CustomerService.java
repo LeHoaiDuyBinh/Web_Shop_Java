@@ -50,8 +50,6 @@ public class CustomerService {
         return false;
     }
 
-<<<<<<< HEAD
-=======
     public void updatePassword(String email, String newPassword) {
         Customer customer = repo.findByEmail(email);
         if (customer != null) {
@@ -71,7 +69,6 @@ public class CustomerService {
             repo.save(customer);
         }
     }
->>>>>>> bb2f0fffc2c36d61375e59f065f3b2ced6adf568
 
     // Hàm băm mật khẩu sử dụng SHA-256
     private static String hashPassword(String password) {
