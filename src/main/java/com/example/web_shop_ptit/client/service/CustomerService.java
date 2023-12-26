@@ -46,6 +46,7 @@ public class CustomerService {
         return false;
     }
 
+
     // Hàm băm mật khẩu sử dụng SHA-256
     private static String hashPassword(String password) {
         try {
@@ -59,4 +60,8 @@ public class CustomerService {
             return null;
         }
     }
+    public boolean isEmailExists(String email) {
+        return repo.existsByEmail(email);
+    }
+
 }

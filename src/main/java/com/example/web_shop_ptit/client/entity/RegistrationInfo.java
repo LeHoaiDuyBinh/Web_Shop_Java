@@ -1,17 +1,46 @@
 package com.example.web_shop_ptit.client.entity;
 
+import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Size;
+import org.hibernate.validator.constraints.Length;
+
+
 public class RegistrationInfo {
+    @NotBlank
+    @Length(min = 5, max = 20)
     private String fullname;
+
+    @NotBlank(message = "*Không được để trống email!")
+    @Email(message = "*Không đúng định dạng email!")
     private String email;
+
+    @NotBlank
+    @Size(min = 12)
     private String password;
+    @NotBlank
+    @Size(min = 12)
+    private String confirmPassword;
+    @NotBlank
+    @Size(min = 11, max=11)
     private String phone;
 
     // constructor, getters, and setters
+
+    public RegistrationInfo() {
+    }
 
     public RegistrationInfo(String email) {
         this.email = email;
     }
 
+
+    public RegistrationInfo(String fullname, String email, String password, String confirmPassword, String phone) {
+        this.fullname = fullname;
+        this.email = email;
+        this.password = password;
+        this.confirmPassword = confirmPassword;
+        this.phone = phone;
+    }
 
     public RegistrationInfo(String fullname, String email, String password, String phone) {
         this.fullname = fullname;
@@ -42,6 +71,14 @@ public class RegistrationInfo {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 
     public String getPhone() {

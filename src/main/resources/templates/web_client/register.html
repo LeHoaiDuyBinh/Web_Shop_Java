@@ -9,7 +9,13 @@
 
     <!-- CSS -->
     <link rel="stylesheet" th:href="@{/client/css/login_user.css}">
-
+    <style>
+        .alert-danger {
+            color: red;
+            font-style: italic;
+            font-size: 12px;
+        }
+    </style>
     <!-- Boxicons CSS -->
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://unpkg.com/sweetalert2@11.0.0/dist/sweetalert2.min.css">
@@ -23,27 +29,37 @@
     <div class="form signup" style="display: block !important;">
         <div class="form-content">
             <header>Đăng ký tài khoản</header>
-            <form id="RegisterForm" action="/auth/register" method="POST">
+            <form id="RegisterForm" th:action="@{/auth/register}" th:object="${registrationInfo}" method="POST">
                 <div class="field input-field">
-                    <label for="full-name">Nhập họ Tên</label>
-                    <input type="text" id="full-name" name="fullname" placeholder="Enter Full Name" class="input">
+                    <label for="fullname">Nhập họ Tên</label>
+                    <input type="text" id="fullname" name="fullname" placeholder="Enter Full Name" class="input" th:field=="*{fullname}">
+                    <p class="alert alert-danger" th:if="${#fields.errors('fullname').size() le 1} and ${#fields.errors('fullname').size() gt 0}">*Tên phải từ 5 đến 20 kí tự!</p>
+                    <p class="alert alert-danger" th:if="${#fields.errors('fullname').size() gt 1}">*Không được để trống họ và tên!</p>
                 </div>
                 <div class="field input-field">
                     <label id="username">Nhập email</label>
-                    <input type="text" id="email" name="email" placeholder="Enter Email" class="input">
+                    <input type="text" id="email" name="email" placeholder="Enter Email" class="input" th:field=="*{email}">
+                    <p class="alert alert-danger" th:if="${#fields.errors('email')}" th:errors="*{email}"></p>
                 </div>
+
                 <div class="field input-field">
                     <label for="password">Nhập password</label>
-                    <input type="password" id="password" name="password" placeholder="Enter Password" class="password">
+                    <input type="password" id="password" name="password" placeholder="Enter Password" class="password" th:field=="*{password}">
+                    <p class="alert alert-danger" th:if="${#fields.errors('password').size() le 1} and ${#fields.errors('password').size() gt 0}">*Password phải từ 12 kí tự trở lên</p>
+                    <p class="alert alert-danger" th:if="${#fields.errors('password').size() gt 1}">*Không được để trống password</p>
                 </div>
                 <div class="field input-field">
-                    <label for="confirm-password">Xác thực password</label>
-                    <input type="password" id="confirm-password" name="retype_password" placeholder="Confirm Password" class="password">
+                    <label for="confirmpassword">Xác thực password</label>
+                    <input type="password" id="confirmpassword" name="confirmPassword" placeholder="Confirm Password" class="password" th:field=="*{confirmPassword}">
                     <i style="margin-top: 24px;" class='bx bx-hide eye-icon'></i>
+                    <p class="alert alert-danger" th:if="${#fields.errors('confirmPassword').size() le 1} and ${#fields.errors('confirmPassword').size() gt 0}">*Password phải từ 12 kí tự trở lên</p>
+                    <p class="alert alert-danger" th:if="${#fields.errors('confirmPassword').size() gt 1}">*Không được để trống comfirm password</p>
                 </div>
                 <div class="field input-field">
                     <label for="phone-number">Nhập số điện thoại</label>
-                    <input type="text" id="phone-number" name="phone" placeholder="Enter Mobile Number" class="input">
+                    <input type="text" id="phone-number" name="phone" placeholder="Enter Mobile Number" class="input" th:field=="*{phone}">
+                    <p class="alert alert-danger" th:if="${#fields.errors('phone').size() le 1} and ${#fields.errors('phone').size() gt 0}">*Số điện thoại phải 11 số</p>
+                    <p class="alert alert-danger" th:if="${#fields.errors('phone').size() gt 1}">*Không được để trống số điện thoại</p>
                 </div>
                 <div class="field button-field">
                     <button type="submit" name="action" value="register">Đăng ký</button>
