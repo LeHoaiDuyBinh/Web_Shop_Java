@@ -50,6 +50,26 @@ public class CustomerService {
         return false;
     }
 
+    public void updatePassword(String email, String newPassword) {
+        Customer customer = repo.findByEmail(email);
+        if (customer != null) {
+            // Hash the new password using BCryptPasswordEncoder
+            String hashedPassword = newPassword;
+            customer.setPassword(hashPassword(hashedPassword));
+            repo.save(customer);
+        }
+    }
+
+    public void updateInfomation(String email, String fullName, String phoneNumber) {
+        Customer customer = repo.findByEmail(email);
+        if (customer != null) {
+            // Hash the new password using BCryptPasswordEncoder
+            customer.setFullName(fullName);
+            customer.setPhoneNumber(phoneNumber);
+            repo.save(customer);
+        }
+    }
+
     // Hàm băm mật khẩu sử dụng SHA-256
     private static String hashPassword(String password) {
         try {

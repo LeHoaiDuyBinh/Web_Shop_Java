@@ -28,6 +28,8 @@ public class RegistrationService {
             String hashedPassword = newPassword;
             customer.setPassword(hashedPassword);
             customerRepository.save(customer);
+
+
         }
     }
 
