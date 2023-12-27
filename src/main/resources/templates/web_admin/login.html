@@ -19,6 +19,11 @@
     <div class="borderLine"></div>
     <form action="/admin/login" method="post">
         <h2>Sign in</h2>
+        <div class="custom" style="width: 100%; text-align: center;">
+            <div th:if="${error}" class="custom-alert custom-alert-error" role="alert" style="display: block !important; color: red"><i class="fa fa-times-circle"></i>
+                <span th:text="${error}"></span>
+            </div>
+        </div>
         <div class="inputBox">
             <input type="text" name="username" required>
             <span>Username</span>
@@ -32,14 +37,6 @@
         <input style="margin-top: 35px;" type="submit" value="Login">
     </form>
 </div>
-<script>
-    if (window.history && window.history.pushState) {
-        history.pushState(null, null, window.location.href);
-        window.onpopstate = function () {
-            history.go(1);
-        };
-    }
-</script>
 </body>
 
 </html>

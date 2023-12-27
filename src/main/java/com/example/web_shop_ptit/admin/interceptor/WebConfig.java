@@ -13,10 +13,13 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(authInterceptor)
+//                .addPathPatterns("/admin/category", "/admin/product", "/admin/customer", "/admin/detail",
+//                                "/admin/order") // Add paths you want to intercept
+//                .excludePathPatterns("/admin/login", "/admin/logout");
         registry.addInterceptor(authInterceptor)
-                .addPathPatterns("/admin/category", "/admin/product", "/admin/customer", "/admin/detail",
-                                "/admin/order") // Add paths you want to intercept
-                .excludePathPatterns("/admin/login", "/admin/logout");
+                .addPathPatterns("/admin/**") // Áp dụng cho mọi đường dẫn con của /admin
+                .excludePathPatterns("/admin/login", "/admin/css/**", "/admin/js/**"); // Loại trừ /admin/login, /admin/css và /admin/js
     }
 }
 
