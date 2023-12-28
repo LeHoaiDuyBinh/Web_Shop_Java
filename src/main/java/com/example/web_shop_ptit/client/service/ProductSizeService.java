@@ -18,7 +18,7 @@ public class ProductSizeService {
         return repo.findAll();
     }
 
-    public List<ProductSizes> getProductSizesByCode(String productCode) {
-        return repo.findByProductCode(productCode);
+    public List<ProductSizes> findByProductCode(String productCode) {
+        return repo.findById_ProductCode(productCode);
     }
 }

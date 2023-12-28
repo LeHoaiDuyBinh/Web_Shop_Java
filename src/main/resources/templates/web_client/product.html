@@ -7,6 +7,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>PTIT-Shop</title>
+    <style>
+        .size span.selected {
+            border: 1px solid #000; /* Black border */
+        }
+    </style>
+
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -64,23 +70,30 @@
                     </div>
                 </div>
                 <div class="product-content-right-product-size" style="margin-top: 10px;">
-                    <div class="size" onclick="selectSize(event)">
-                        <span>S</span>
-                        <span>M</span>
-                        <span>L</span>
-                        <span>XL</span>
-                        <span>XXL</span>
+                    <div class="size">
+                        <span th:each="size : ${productSizes}"
+                              th:data-size="${size.id.size}"
+                              th:onclick="selectSize(event)"
+                              th:data-value="${size.quantity}"
+                              th:class="${size.id.size}"
+                              th:text="${size.id.size}"></span>
                     </div>
                 </div>
                 <div class="quantity">
                     <p style="font-weight: bold; color: #6C6D70;">Số lượng</p>
                     <input type="number" min="0" value="1" class="custom-number-input">
                 </div>
+                <p id="quantityDisplay"></p>
                 <p style=" color: red; display: none;">Vui lòng chọn size</p>
                 <div class="product-content-right-product-button">
-                    <a href="/auth/login">
-                    <button><p style="margin-bottom: 1%;">THÊM VÀO GIỎ</p></button>
+                    <a th:if="${checkSession == ''}" th:href="@{/auth/login}">
+                        <button><p style="margin-bottom: 1%;">THÊM VÀO GIỎ</p></button>
                     </a>
+
+                    <!-- Check if the customer is logged in -->
+                    <button th:if="${checkSession == '1'}" onclick="addToCart()">
+                        <p style="margin-bottom: 1%;">THÊM VÀO GIỎ</p>
+                    </button>
 <!--                    <a href="/auth/cart">-->
 <!--                        <button><i class="fa fa-shopping-cart"></i><p style="margin-bottom: 1%;">MUA HÀNG</p></button>-->
 <!--                    </a>-->
@@ -181,90 +194,64 @@
 <script th:src="@{/client/js/responsiveMenu.js}"></script>
 <script th:src="@{/client/js/scroll.js}"></script>
 <script th:src="@{/client/js/product.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
 
 <script>
+    function addToCart() {
+        // Check if a size is selected
+        let selectedSize = document.querySelector('.size span.selected');
+        if (!selectedSize) {
+            // Display error message and stop further execution
+            Swal.fire({
+                icon: 'warning',
+                title: 'Thông báo',
+                text: 'Vui lòng chọn size',
+                showCloseButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'OK'
+            });
+            return;
+        }
+
+        // Reset the error message display
+        document.getElementById('sizeErrorMessage').style.display = 'none';
+    }
     function selectSize(event) {
-        var allSizes = document.querySelectorAll('.size span');
-        var outOfStockButton = document.getElementById('outOfStockButton');
-        var addToCartButton = document.querySelector('.product-content-right-product-button button');
-        var buyButton = document.querySelector('.product-content-right-product-button a button');
-        var sizeElements = document.querySelectorAll('.size-element');
-        var sizesArray = Array.from(sizeElements).map(function (element) {
-            return element.textContent;
+        let quantity = event.target.getAttribute('data-value');
+        let isSelected = event.target.classList.contains('selected');
+        // Remove the 'selected' class from all size spans
+        let sizeSpans = document.querySelectorAll('.size span');
+        sizeSpans.forEach(function(span) {
+            span.classList.remove('selected');
         });
 
-        var sizeS = sizesArray[0];
-        var sizeM = sizesArray[1];
-        var sizeL = sizesArray[2];
-        var sizeXL = sizesArray[3];
-        var sizeXXL = sizesArray[4];
+        if (!isSelected) {
+            event.target.classList.add('selected');
 
-        allSizes.forEach(function(size) {
-            size.style.border = '1px solid #dddddd';
-        });
-        var selectedSize = event.target;
-        if(selectedSize.tagName === 'SPAN') {
-            selectedSize.style.border = '1px solid black';
-            var sizeInput = document.getElementById('selectedSize');
-            if (sizeInput) {
-                sizeInput.value = selectedSize.getAttribute('data-size');
-                if(sizeInput.value === "S"){
-                    if(sizeS > 0){
-                        showInStockButtons();
-                    }else{
-                        showOutOfStockButton();
-                    }
-                }else if(sizeInput.value === "M"){
-                    if(sizeM > 0){
-                        showInStockButtons();
-                    }else{
-                        showOutOfStockButton();
-                    }
-                }else if(sizeInput.value === "L"){
-                    if(sizeL > 0){
-                        showInStockButtons();
-                    }else{
-                        showOutOfStockButton();
-                    }
-                }else if(sizeInput.value === "XL") {
-                    if(sizeXL > 0){
-                        showInStockButtons();
-                    }else{
-                        showOutOfStockButton();
-                    }
-                }else {
-                    if(sizeXXL > 0){
-                        showInStockButtons();
-                    }else{
-                        showOutOfStockButton();
-                    }
-                }
+            // Hiển thị số lượng hoặc thông báo hết hàng trong quantityDisplay
+            let quantityDisplay = document.getElementById('quantityDisplay');
+            let quantityInput = document.querySelector('.custom-number-input');
+
+            if (quantity > 0) {
+                quantityDisplay.innerText = 'Còn hàng: ' + quantity + ' sản phẩm';
+                // Cập nhật giá trị mặc định cho input số lượng
+                quantityInput.value = 1;
             } else {
-                //console.log('sizeInput is null');
+                quantityDisplay.innerText = 'Hết hàng';
+                // Nếu hết hàng, có thể bạn muốn vô hiệu hóa hoặc ẩn input số lượng
+                quantityInput.value = 0;
             }
+        }else {
+            // Nếu không có size được chọn
+            quantityDisplay.innerText = '';
+            quantityInput.value = 0;
         }
     }
 
-    // Hàm hiển thị còn hàng
-    function showInStockButtons() {
-        var outOfStockButton = document.getElementById('outOfStockButton');
-        var addToCartButton = document.querySelector('.product-content-right-product-button button:nth-of-type(1)');
-        var buyButton = document.querySelector('.product-content-right-product-button a button');
-
-        outOfStockButton.style.display = 'none';
-        addToCartButton.style.display = 'block';
-    }
-
-    // Hàm hiểm thị hết hàng
-    function showOutOfStockButton() {
-        var outOfStockButton = document.getElementById('outOfStockButton');
-        var addToCartButton = document.querySelector('.product-content-right-product-button button:nth-of-type(1)');
-        var buyButton = document.querySelector('.product-content-right-product-button a button');
-
-        outOfStockButton.style.display = 'block';
-        addToCartButton.style.display = 'none';
-        buyButton.style.display = 'none';
-    }
 </script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {

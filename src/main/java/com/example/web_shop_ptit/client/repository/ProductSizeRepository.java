@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ProductSizeRepository extends JpaRepository<ProductSizes, String> {
-    List<ProductSizes> findByProductCode(String productCode);
+public interface ProductSizeRepository extends JpaRepository<ProductSizes, ProductSizes.ProductSizeId> {
+    List<ProductSizes> findById_ProductCode(String productCode);
 }

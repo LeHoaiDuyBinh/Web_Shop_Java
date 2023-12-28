@@ -2,15 +2,14 @@ package com.example.web_shop_ptit.client.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "productsizes")
 public class ProductSizes {
-    @Id
-    @Column(name = "product_code")
-    private String productCode;
 
-    @Column(name = "size")
-    private Size size;
+    @EmbeddedId
+    private ProductSizeId id;
 
     @Column(name = "quantity")
     private Long quantity;
@@ -19,20 +18,12 @@ public class ProductSizes {
     @JoinColumn(name = "product_code", insertable = false, updatable = false)
     private Product product;
 
-    public String getProductCode() {
-        return productCode;
+    public ProductSizeId getId() {
+        return id;
     }
 
-    public void setProductCode(String productCode) {
-        this.productCode = productCode;
-    }
-
-    public Size getSize() {
-        return size;
-    }
-
-    public void setSize(Size size) {
-        this.size = size;
+    public void setId(ProductSizeId id) {
+        this.id = id;
     }
 
     public Long getQuantity() {
@@ -50,4 +41,31 @@ public class ProductSizes {
     public void setProduct(Product product) {
         this.product = product;
     }
+
+    @Embeddable
+    public static class ProductSizeId implements Serializable {
+        @Column(name = "product_code")
+        private String productCode;
+        @Enumerated(EnumType.STRING)
+        @Column(name = "size")
+        private Size size;
+
+        public String getProductCode() {
+            return productCode;
+        }
+
+        public Size getSize() {
+            return size;
+        }
+
+        public void setProductCode(String productCode) {
+            this.productCode = productCode;
+        }
+
+        public void setSize(Size size) {
+            this.size = size;
+        }
+    }
+
+
 }

@@ -34,6 +34,14 @@ CREATE TABLE ProductImages(
 
 DROP TABLE IF EXISTS `ProductSizes`;
 
+CREATE TABLE ProductSizes(
+    product_code VARCHAR(50),
+    size ENUM('S', 'M', 'L', 'XL', 'XXL'),
+    quantity INT DEFAULT 0,
+    PRIMARY KEY (product_code, size),
+    FOREIGN KEY (`product_code`) REFERENCES `Products`(`product_code`) ON DELETE CASCADE,
+    CHECK (quantity >= 0)
+);
 
 DROP TABLE IF EXISTS `Customers`;
 

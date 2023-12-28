@@ -95,11 +95,20 @@ public class ProductController {
             model.addAttribute("similarProducts",similarProducts);
         }
 
+        List<ProductSizes> productSizes = productSizeService.findByProductCode(productCode);
+
+        for(ProductSizes productSizes1 : productSizes){
+            System.out.println(productSizes1.getId().getProductCode());
+            System.out.println(productSizes1.getId().getSize());
+            System.out.println(productSizes1.getQuantity());
+        }
+
         model.addAttribute("nameParentCategory",nameParentCategory);
         model.addAttribute("productImages",productImages);
         model.addAttribute("product", product);
         model.addAttribute("listImg", listImg);
         model.addAttribute("ImgSimilarProducts", ImgSimilarProducts);
+        model.addAttribute("productSizes",productSizes);
         return "web_client/product";
     }
 
