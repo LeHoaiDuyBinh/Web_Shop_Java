@@ -23,6 +23,10 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     private Collection<Order> orders;
 
+    @OneToOne
+    @JoinColumn(name = "email", referencedColumnName = "email")
+    private ShoppingCart shoppingCart;
+
     public Customer() {
     }
 
@@ -64,5 +68,13 @@ public class Customer {
 
     public void setOrders(Collection<Order> orders) {
         this.orders = orders;
+    }
+
+    public ShoppingCart getShoppingCart() {
+        return shoppingCart;
+    }
+
+    public void setShoppingCart(ShoppingCart shoppingCart) {
+        this.shoppingCart = shoppingCart;
     }
 }
