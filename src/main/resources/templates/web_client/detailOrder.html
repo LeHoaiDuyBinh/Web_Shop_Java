@@ -9,9 +9,12 @@
     <title>PTIT-Shop</title>
 
     <!-- Bootstrap CSS -->
-    <!-- <?php require_once './mvc/views/shopping/libcss.php'; ?> -->
     <link rel="stylesheet" th:href="@{/client/css/detailOrder.css}">
+    <link rel="stylesheet" th:href="@{/client/css/informationUser.css}">
+    <link rel="stylesheet" th:href="@{/client/css/home.css}">
+    <link rel="stylesheet" th:href="@{/client/css/responsive.css}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 
@@ -25,7 +28,7 @@
 
 <!--****** INFORMATION ****** -->
 
-<main id="main" class="site-main">
+<main id="main" class="site-main" style="margin-top: 40px">
     <div class="container">
         <div class="order-wrapper mt-40 my-account">
             <div class="row">
@@ -36,19 +39,22 @@
                                 <img src="https://pubcdn.ivymoda.com/ivy2//images/v2/assets/user-avatar-placeholder.png" alt="">
                             </div>
                             <div class="order-sidemenu__user-name">
-                                <p>Lê Bình</p>
+                                <p th:text="${CustomerInfor.fullname}"></p>
                             </div>
                         </div>
                         <div class="order-sidemenu__menu">
                             <ul class="menu_side">
                                 <li class="">
-                                    <a href=""><span class="fa fa-user"></span>Thông tin tài khoản</a>
+                                    <a href="/auth/informationUser"><span class="fa fa-user"></span>Thông tin tài khoản</a>
                                 </li>
                                 <li class="active">
                                     <a href=""><span class="fa fa-file"></span>Quản lý đơn hàng</a>
                                 </li>
                                 <li class="">
-                                    <a href=""><span class="fa fa-key"></span>Đổi mật khẩu</a>
+                                    <a href="/auth/changePasswordUser"><span class="fa fa-key"></span>Đổi mật khẩu</a>
+                                </li>
+                                <li class="">
+                                    <a href="/logout"><span class="fas fa-door-open"></span>Đăng xuất</a>
                                 </li>
                             </ul>
                         </div>
@@ -59,41 +65,44 @@
                     <div class="order-block__title">
                         <h2>
                             <span class="icon-ic_back"></span>CHI TIẾT ĐƠN HÀNG
-                            <b>IVM7353885</b>
+                            <b th:if="${Order != null}" th:text="${Order.orderCode}"></b>
+                            <b th:if="${OrderHistory != null}" th:text="${OrderHistory.orderCode}"></b>
                         </h2>
                         <div class="order__status order--cancel">
                             <div style="margin-right: 15px">
                             </div>
                             <span style="margin-right: 5px" class="icon-ic_reload"></span>
-                            <span>Đã hủy đơn hàng</span>
+                            <span th:if="${Order != null}" th:text="${Order.state}"></span>
+                            <span th:if="${OrderHistory != null}" th:text="${OrderHistory.state}"></span>
                         </div>
                     </div>
                     <div class="order-block row">
                         <div class="col-xl">
                             <div class="order-block__products checkout-my-cart">
                                 <table class="cart__tables">
-                                    <tbody>
+                                    <tbody th:if="${Order != null}">
                                     <tr>
                                         <td>
-                                            <div class="cart__product-item">
-                                                <div class="cart__product-item__img">
-                                                    <a href="https://ivymoda.com/sanpham/ao-thun-tron-slim-fit-ms-57e3464-38587"><img src="https://pubcdn.ivymoda.com/files/product/thumab/400/2023/09/25/e528a39812ba7a0755aefea3f1fb6084.jpg" alt=""></a>
+                                            <div style="margin-top: 5px;" class="cart__product-item" th:each="product : ${Order.getOrderItems()}">
+                                                <div class="cart__product-item__img" th:each="productImg, iterStat : ${product.product.productImages}">
+                                                    <a th:if="${iterStat.first}" href="">
+                                                        <img th:src="${productImg.image.substring(1)}" alt="">
+                                                    </a>
                                                 </div>
                                                 <div class="cart__product-item__content">
-                                                    <h3 class="cart__product-item__title">
-                                                        Áo thun trơn Slim fit
+                                                    <h3 class="cart__product-item__title" th:text="${product.product.name}">
                                                     </h3>
                                                     <div class="cart__product-item__properties">
-                                                        <p>Màu sắc: <span>Đen </span></p>
+                                                        <p>Màu sắc: <span th:text="${product.product.color}"></span></p>
                                                     </div>
                                                     <div class="cart__product-item__properties">
-                                                        <p>Size: <span style="text-transform: uppercase">s</span></p>
+                                                        <p>Size: <span style="text-transform: uppercase" th:text="${product.size}"></span></p>
                                                     </div>
                                                     <div class="cart__product-item__properties">
-                                                        <p>Số lượng: <span>1</span></p>
+                                                        <p>Số lượng: <span th:text="${product.quantity}"></span></p>
                                                     </div>
                                                     <div class="cart__product-item__properties">
-                                                        <p>SKU:<span>(#5710E34640490022)</span></p>
+                                                        <p>Mã sản phẩm: <span th:text="${product.productCode}"></span></p>
                                                     </div>
                                                     <div class="cart__product-item__btn--save">
                                                         <button class="btn btn--outline btn--large repurchase-product" data-product-sub-id="188978">
@@ -101,9 +110,45 @@
                                                         </button>
                                                     </div>
                                                 </div>
-                                                <div class="cart__product-item__price">
-                                                    207.000đ
+                                                <div class="cart__product-item__price price_coin" th:text="${product.totalPrice * 1000}"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody th:if="${OrderHistory != null}">
+                                    <tr>
+                                        <td>
+                                            <div style="margin-top: 5px;" class="cart__product-item" th:each="productHistory : ${OrderHistory.getOrderHistoryItems()}">
+                                                <div style="display: flex !important; " class="showProduct" th:each="product : ${ListProducts}">
+                                                    <!-- Kiểm tra nếu productCode của sản phẩm trong OrderHistory trùng với productCode của sản phẩm trong danh sách -->
+                                                    <div th:if="${productHistory.productCode eq product.productCode}" class="cart__product-item__img" th:each="productImg, iterStat : ${product.productImages}">
+                                                        <a th:if="${iterStat.first}" href="">
+                                                            <img th:src="${productImg.image.substring(1)}" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <div th:if="${productHistory.productCode eq product.productCode}" class="cart__product-item__content">
+                                                        <h3 class="cart__product-item__title" th:text="${product.name}">
+                                                        </h3>
+                                                        <div class="cart__product-item__properties">
+                                                            <p>Màu sắc: <span th:text="${product.color}"></span></p>
+                                                        </div>
+                                                        <div class="cart__product-item__properties">
+                                                            <p>Size: <span style="text-transform: uppercase" th:text="${productHistory.size}"></span></p>
+                                                        </div>
+                                                        <div class="cart__product-item__properties">
+                                                            <p>Số lượng: <span th:text="${productHistory.quantity}"></span></p>
+                                                        </div>
+                                                        <div class="cart__product-item__properties">
+                                                            <p>Mã sản phẩm: <span th:text="${productHistory.productCode}"></span></p>
+                                                        </div>
+                                                        <div class="cart__product-item__btn--save">
+                                                            <button class="btn btn--outline btn--large repurchase-product" data-product-sub-id="188978">
+                                                                Mua lại
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                 </div>
+                                                <div style="margin-left: 120%;" class="cart__product-item__price price_coin" th:text="${productHistory.totalPrice * 1000}"></div>
                                             </div>
                                         </td>
                                     </tr>
@@ -118,19 +163,14 @@
                                     <h3>Tóm tắt đơn hàng</h3>
                                     <div class="cart-summary__overview__item">
                                         <p>Ngày tạo đơn</p>
-                                        <p><span class="price">13/12/2023</span></p>
-                                    </div>
-                                    <div class="cart-summary__overview__item">
-                                        <p>Tạm tính</p>
-                                        <p><span class="price">207.000 <sup>đ</sup></span></p>
-                                    </div>
-                                    <div class="cart-summary__overview__item">
-                                        <p>Phí vận chuyển</p>
-                                        <p>25.000&nbsp;<sup>đ</sup></p>
+                                        <p><span th:if="${Order != null}" class="price" th:text="${Order.orderDate}"></span></p>
+                                        <p><span th:if="${OrderHistory != null}" class="price" th:text="${OrderHistory.orderDate}"></span></p>
                                     </div>
                                     <div class="cart-summary__overview__item">
                                         <p>Tổng tiền</p>
-                                        <p><b>232.000 <sup>đ</sup></b></p>
+                                        <p><b th:if="${Order != null}" class="price_coin" th:text="${Order.totalPrice * 1000}"><sup></sup></b></p>
+                                        <p><b th:if="${OrderHistory != null}" class="price_coin" th:text="${OrderHistory.totalPrice * 1000}"><sup></sup></b></p>
+
                                     </div>
                                 </div>
                                 <div class="cart-summary__payment">
@@ -149,17 +189,14 @@
                                 <div class="cart-summary__address">
                                     <h4>Địa chỉ</h4>
                                     <div class="cart-summary__overview__item">
-                                        <p> Lê Bình </p>
+                                        <p th:text="${CustomerInfor.fullname}"></p>
                                     </div>
                                     <div class="cart-summary__overview__item">
-                                        <p>
-                                            65/2a, ấp 7, xã Xuân Thới Thượng, huyện Hóc Môn, TP.HCM, Xuân Thới Thượng, Hóc Môn, Hồ Chí Minh<br>
-                                        </p>
+                                        <p th:if="${Order != null}" th:text="${Order.address}"><br></p>
+                                        <p th:if="${OrderHistory != null}" th:text="${OrderHistory.address}"><br></p>
                                     </div>
                                     <div class="cart-summary__overview__item">
-                                        <p>
-                                            Điện thoại: 0707427559
-                                        </p>
+                                        <p th:text="${CustomerInfor.phone}"></p>
                                     </div>
                                 </div>
                             </div>
@@ -171,8 +208,38 @@
     </div>
 </main>
 
-<!-- <?php require_once './mvc/views/shopping/footer.php'; ?> -->
-
 </body>
 
 </html>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Lấy tất cả các div có class 'cart__product-item'
+        var productItems = document.querySelectorAll('.cart__product-item');
+
+        // Duyệt qua từng div
+        productItems.forEach(function (item) {
+            // Lấy tất cả các div có class 'cart__product-item__img'
+            var imgDivs = item.querySelectorAll('.cart__product-item__img');
+
+            // Duyệt qua từng div, bắt đầu từ div thứ 2
+            for (var i = imgDivs.length - 1; i > 0; i--) {
+                // Xóa div
+                imgDivs[i].remove();
+            }
+        });
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var priceElements = document.getElementsByClassName("price_coin");
+
+        for (var i = 0; i < priceElements.length; i++) {
+            var priceElement = priceElements[i];
+            var price = parseFloat(priceElement.innerText);
+
+            if (!isNaN(price)) {
+                var formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+                priceElement.innerText = formattedPrice;
+            }
+        }
+    });
+</script>
