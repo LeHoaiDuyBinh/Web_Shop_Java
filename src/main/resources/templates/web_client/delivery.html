@@ -49,19 +49,31 @@
     <div class="container-delivery">
         <div class="delivery-content row" style="margin-right: 0px !important;">
             <div class="delivery-content-left">
-                <p style="font-weight: normal; margin-top: 10px;">Địa chỉ giao hàng</p>
-
+            <p>Địa chỉ giao hàng</p>
+            <form id="MakePaymentForm" action="">
                 <div class="delivery-content-left-input-top row">
+                    <?php $province = $data['province'] ?>
                     <div class="delivery-content-left-input-top-item">
-                        <input class="form-control" type="text" value="" name="city" placeholder="Tỉnh/Thành phố">
+                        <input id="provinceText" name="provinceText" type="hidden">
+                        <select id="province" style="width: 100%; padding-left: 10px;margin-left: 12px;height: 39px;background-color: white;margin-bottom: 12px; border-radius: 5px" onchange="loadDistricts()">
+                            <option>Thành phố/ Tỉnh</option>
+                            <option value="1">Hồ Chí Minh</option>
+                            <option value="2">Thủ Đức</option>
+                        </select>
                     </div>
                     <div class="delivery-content-left-input-top-item">
-                        <input class="form-control" type="text" value="" name="district" placeholder="Quận/Huyện">
+                        <input id="districtText" name="districtText" type="hidden">
+                        <select id="district" style="width: 100%;; padding-left: 10px; margin-left: 12px; height: 39px; background-color: white; margin-bottom: 12px; border-radius: 5px" onchange="loadWards()">
+                            <option>Quận/Huyện</option>
+                        </select>
                     </div>
                 </div>
                 <div class="delivery-content-left-input-bottom">
                     <div class="delivery-content-left-input-bottom-item">
-                        <input class="form-control" type="text" value="" name="commune" placeholder="Phường xã">
+                        <input id="wardText" name="wardText" type="hidden">
+                        <select id="ward" style="width: 104.5%; padding-left: 10px; margin-left: -3px; height: 39px; background-color: white; margin-bottom: 12px; border-radius: 5px" onchange="getWardsTxt()">
+                            <option>Phường/Xã</option>
+                        </select>
                     </div>
                     <div class="delivery-content-left-input-bottom-item">
                         <input class="form-control" type="text" value="" name="address" placeholder="Địa chỉ">
@@ -72,12 +84,13 @@
                     <label>Thu tiền khi nhận hàng</label>
                 </div>
                 <div class="delivery-content-left-button row">
-                    <a href="/auth/cart"><span>&#171;</span><p>Quay lại giỏ hàng</p></a>
-                    <a href="/auth/payment">
-                        <button><p>THANH TOÁN VÀ GIAO HÀNG</p></button>
+                    <a href="/Cart"><span>&#171;</span><p>Quay lại giỏ hàng</p></a>
+                    <a href="/Payment">
+                        <button type="submit"><p>THANH TOÁN VÀ GIAO HÀNG</p></button>
                     </a>
                 </div>
-            </div>
+            </form>
+        </div>
             <div class="delivery-content-right">
                 <table>
                     <tr>
@@ -121,3 +134,64 @@
 </html>
 <script th:src="@{/client/js/scroll.js}"></script>
 <script th:src="@{/client/js/responsiveMenu.js}"></script>
+<script>
+    function loadDistricts() {
+        var provinceSelect = document.getElementById("province");
+        var districtSelect = document.getElementById("district");
+        var provinceTxt = document.getElementById("provinceText");
+
+        districtSelect.innerHTML = "<option>Quận/Huyện</option>";
+        if (provinceSelect.value == "1") {
+            var districts = ["Quận 7", "Quận 5"];
+            provinceTxt.value = "Hồ Chí Minh";
+        } else if (provinceSelect.value == "2") {
+            var districts = ["Quận 9", "Quận 2"];
+            provinceTxt.value = "Thủ Đức";
+        }
+        for (var i = 0; i < districts.length; i++) {
+            var option = document.createElement("option");
+            option.value = i + 1;
+            option.text = districts[i];
+            districtSelect.add(option);
+        }
+    }
+
+    function loadWards() {
+        var districtSelect = document.getElementById("district");
+        var wardSelect = document.getElementById("ward");
+        var districtTxt = document.getElementById("districtText");
+
+        wardSelect.innerHTML = "<option>Phường/Xã</option>";
+        var selectedDistrict = districtSelect.options[districtSelect.selectedIndex].text;
+
+        if (selectedDistrict == "Quận 7") {
+            districtTxt.value = "Quận 7";
+            var wards = ["Phường Phú Mỹ", "Phường Tân Quy"];
+        } else if (selectedDistrict == "Quận 5") {
+            districtTxt.value = "Quận 5";
+            var wards = ["Phường 5", "Phường 6"];
+        } else if (selectedDistrict == "Quận 9") {
+            districtTxt.value = "Quận 9";
+            var wards = ["Phường Hiệp Phú", "Phường Tăng Nhơn Phú A"];
+        } else if (selectedDistrict == "Quận 2") {
+            districtTxt.value = "Quận 2";
+            var wards = ["Phường Thảo Điền", "Phường An Phú"];
+        }
+        for (var i = 0; i < wards.length; i++) {
+            var option = document.createElement("option");
+            option.value = i + 1;
+            option.text = wards[i];
+            wardSelect.add(option);
+        }
+    }
+
+    function getWardsTxt() {
+        var wardSelect = document.getElementById("ward");
+        var wardText = document.getElementById("wardText");
+
+        var selectedWard = wardSelect.options[wardSelect.selectedIndex].text;
+        if(selectedWard != "Phường/Xã"){
+            wardText.value = selectedWard;
+        }
+    }
+</script>

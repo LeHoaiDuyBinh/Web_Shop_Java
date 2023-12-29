@@ -1,0 +1,64 @@
+.orthers .sub-action {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background: #FFF;
+    display: none;
+    z-index: 2;
+    border: 1px solid #E7E8E9;
+    box-sizing: border-box;
+    border-radius: 4px;
+    width: max-content;
+    min-width: 255px;
+}
+
+.top-action {
+    padding: 24px 24px 20px;
+    position: relative;
+    border-bottom: 1px solid #F7F8F9;
+    margin-bottom: 24px;
+}
+
+.sub-action h3 {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 16px;
+    color: #221F20;
+}
+
+.sub-action .balance {
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 24px;
+    margin-bottom: 0;
+}
+
+.sub-action .balance strong {
+    display: inline-block;
+    margin-left: 7px;
+    color: #221F20;
+}
+
+.sub-action ul {
+    padding: 0 24px;
+}
+
+.sub-action ul li a {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 16px;
+    color: #808285;
+    margin-bottom: 24px;
+    display: block;
+}
+
+.sub-action ul li.active a,
+.sub-action ul li:hover a {
+    color: #221F20;
+}
+
+.sub-action ul li a i {
+    display: inline-block;
+    margin-right: 12px;
+    vertical-align: middle;
+}

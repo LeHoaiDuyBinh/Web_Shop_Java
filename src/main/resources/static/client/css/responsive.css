@@ -21,6 +21,10 @@
         position: absolute;
         top: 15px;
     }
+
+    .menu > ul > li {
+        line-height: 22px !important;
+    }
     .myHeader .menu {
         position: absolute;
         left: 0;
