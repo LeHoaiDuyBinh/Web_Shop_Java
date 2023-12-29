@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" th:href="@{/admin/css/dashboard.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/dashboard_information.css}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>PTITShop</title>
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <a href="#" class="logo">
+        <i class='bx bx-code-alt'></i>
+        <div class="logo-name"><span>PTIT</span>Shop</div>
+    </a>
+    <ul class="side-menu">
+        <li class="slide-menu-product"><a href="/admin/product"><i class='bx bxs-dashboard'></i>Sản phẩm</a></li>
+        <li class="slide-menu-category"><a href="/admin/category"><i class='bx bx-store-alt'></i>Danh mục sản phẩm</a></li>
+        <li class="slide-menu-order"><a href="/admin/order"><i class='bx bx-analyse'></i>Đơn hàng</a></li>
+        <li class="slide-menu-customer"><a href="/admin/customer"><i class='bx bx-group'></i>Khách hàng</a></li>
+        <li class="slide-menu-staff"><a href="/admin/staff"><i class='bx bx-group'></i>Nhân viên</a></li>
+        <li><a href="#"><i class='bx bx-cog'></i>Settings</a></li>
+    </ul>
+    <ul class="side-menu">
+        <li>
+            <a th:href="@{/admin/logout}" class="logout">
+                <i class='bx bx-log-out-circle'></i> Logout
+            </a>
+        </li>
+    </ul>
+</div>
+<!-- End of Sidebar -->
+
+<!-- Main Content -->
+<div class="content">
+    <!-- Navbar -->
+    <nav>
+        <i class='bx bx-menu'></i>
+    </nav>
+
+    <!-- End of Navbar -->
+
+    <main>
+        <div class="header">
+            <div class="left">
+                <h1>Nhân viên</h1>
+                <ul class="breadcrumb">
+                    <li><a href="#">
+                        Staff
+                    </a></li>
+                    /
+                    <li><a href="#" class="active">Shop</a></li>
+                    <button id="addBtn" style="font-size: 14px; border: none; right: 0; position: absolute; margin-right: 26px;margin-bottom: 48px; background-color:var(--primary); color: white;; width: 150px; height: 40px;border-radius: 8px;">
+                        Thêm nhân viên
+                    </button>
+                </ul>
+            </div>
+        </div>
+
+        <!--********************* Details ***********************-->
+        <div style="background: var(--light);color: var(--dark);">
+            <table width="100%">
+                <thead>
+                <tr>
+                    <th><span class="las la-sort"></span> USERNAME</th>
+                    <th><span class="las la-sort"></span> ROLE</th>
+                    <th><span class="las la-sort"></span> ACTION</th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                    <tr th:each="admin : ${admins}">
+                        <td th:text="${admin.username}"></td>
+                        <td th:text="${admin.role}"></td>
+                        <td>
+                            <i class="fa fa-trash"></i>
+                            <i class="fa fa-pencil editBtn"></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+</main>
+
+</div>
+
+</body>
+
+</html>
+<script th:src="@{/admin/js/dashboard.js}"></script>
+<script>
+    // Khai báo biến
+    const link = document.querySelector(".slide-menu-details");
+    const addBtn = document.getElementById("addBtn");
+    const tbody = document.getElementById("tbody");
+
+
+    // Active
+    link.classList.add('active');
+</script>
