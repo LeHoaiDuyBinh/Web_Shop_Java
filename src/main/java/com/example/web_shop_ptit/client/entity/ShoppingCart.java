@@ -16,6 +16,8 @@ public class ShoppingCart {
     @OneToOne(mappedBy = "shoppingCart")
     private Customer customer;
 
+
+
     public String getCartCode() {
         return cartCode;
     }
