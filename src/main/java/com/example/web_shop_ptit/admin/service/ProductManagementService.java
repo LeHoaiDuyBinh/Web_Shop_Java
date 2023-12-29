@@ -31,7 +31,7 @@ public class ProductManagementService {
             product.setPrice(GiaSanPham);
             product.setDescription(MoTa);
             product.setCategory(DanhMuc);
-
+            product.setUpdateLatest(new Date());
             List<ProductImageManagement> listProductImage = new ArrayList<>();
 
             List<String> ordinals = new ArrayList<>();
@@ -91,7 +91,7 @@ public class ProductManagementService {
             product.setColor(color);
             product.setDescription(MoTa);
             product.setCategory(DanhMuc);
-
+            product.setUpdateLatest(new Date());
             List<ProductImageManagement> listProductImage = product.getProductImages();
 
             List<String> ordinals = new ArrayList<>();

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -14,5 +15,10 @@ public class GlobalExceptionHandler {
     public String handleMaxUploadSizeExceededException(MaxUploadSizeExceededException ex, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("err", "Kích thước tối đa là 25MB mỗi file");
         return "redirect:/admin/addProduct";
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public String handleNoResourceFoundException(NoResourceFoundException ex){
+        return "404";
     }
 }

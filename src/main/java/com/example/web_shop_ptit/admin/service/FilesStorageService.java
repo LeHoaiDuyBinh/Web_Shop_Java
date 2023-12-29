@@ -28,29 +28,29 @@ public class FilesStorageService {
             String month = String.format("%02d", currentDate.getMonthValue());
             String day = String.format("%02d", currentDate.getDayOfMonth());
 
-            String rootPath = Paths.get("src/main/resources/static/public/products", year, month, day).toString();
+            // Đường dẫn mới bạn muốn lưu trữ
+            String rootPath = Paths.get("D:/LapTrinhWeb/image", year, month, day).toString();
             Path uploadPath = Paths.get(rootPath);
 
             if (!Files.exists(uploadPath)) {
                 Files.createDirectories(uploadPath);
             }
 
+            // Lưu tệp tin vào đường dẫn mới
             Path filePath = uploadPath.resolve(newFileName);
             Files.copy(file.getInputStream(), filePath);
 
-            return "/public/products/" + year + "/" + month + "/" + day + "/" + newFileName;
+            return "./image/" + year + "/" + month + "/" + day + "/" + newFileName; // Đường dẫn trả về cho client
         } catch (IOException e) {
             throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
         }
     }
 
-
     public void deleteFile(String filePath) {
         try {
-            if (isValidPath(filePath)) {
-                Path fileToDelete = Paths.get(filePath);
-                Files.deleteIfExists(fileToDelete);
-            }
+            String systemPath = "D:/LapTrinhWeb" + filePath.replace("/", "\\");
+            Path fileToDelete = Paths.get(systemPath);
+            Files.deleteIfExists(fileToDelete);
         } catch (IOException e) {
             System.err.println("Unable to delete the file: " + e.getMessage());
         }
