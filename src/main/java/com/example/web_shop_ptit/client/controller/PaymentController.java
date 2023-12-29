@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class PaymentController {
     @GetMapping("/payment")
     public String paymentPage() {
-        return "web_client/payment";
+        return "web_client/delivery";
     }
 }
