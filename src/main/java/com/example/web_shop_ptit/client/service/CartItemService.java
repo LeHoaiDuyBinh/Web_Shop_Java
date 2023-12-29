@@ -1,6 +1,8 @@
 package com.example.web_shop_ptit.client.service;
 
 import com.example.web_shop_ptit.client.entity.CartItem;
+import com.example.web_shop_ptit.client.entity.Product;
+import com.example.web_shop_ptit.client.entity.Size;
 import com.example.web_shop_ptit.client.repository.CartItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,4 +24,16 @@ public class CartItemService {
             throw e;
         }
     }
+
+    public void addToCart(String cartCode,String productCode, int quantity, Size size, Long totalPrice) {
+        CartItem cartItem= new CartItem();
+        cartItem.setCartCode(cartCode);
+        System.out.println("prouctcode: " +productCode);
+        cartItem.setProductCode(productCode);
+        cartItem.setQuantity(quantity);
+        cartItem.setSize(size);
+        cartItem.setTotalPrice(totalPrice/1000);
+        cartItemRepository.save(cartItem);
+    }
+
 }
