@@ -18,8 +18,5 @@ public class ProductImgService {
         return repo.findAll();
     }
 
-//    public List<ProductImage> getProductImagesByCode(String productCode) {
-//        return repo.findByProductCode(productCode);
-//    }
 
 }

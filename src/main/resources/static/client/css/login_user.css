@@ -233,3 +233,17 @@ a.google span {
 .sub-action {
     display: none;
 }
+
+.captcha-container {
+    display: flex;
+    align-items: center;
+}
+
+.captcha-container input,
+.captcha-container label {
+    margin-right: 10px; 
+}
+.short-input {
+    width: 100px;
+    margin-right: 10px;
+}

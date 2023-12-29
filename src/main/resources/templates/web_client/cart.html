@@ -49,7 +49,7 @@
     <div class="container-cart">
         <div class="cart-content row" style="margin-right: 0px !important;">
             <div class="cart-content-left">
-                <table>
+                <table class="cart__item">
                     <tr>
                         <th>Sản phẩm</th>
                         <th>Tên sản phẩm</th>
@@ -59,36 +59,29 @@
                         <th>Thành tiền</th>
                         <th>Xóa</th>
                     </tr>
+
+                    <div th:each="product : ${listCartItems}">
                     <tr>
-                        <td><img th:src="@{/client/img/aothun_babytee.jpg}" alt=""></td>
+                        <td><img th:src="@{${product.product.productImages[0].image.substring(1)}}" alt=""></td>
                         <td>
-                            <p>Áo thun baby tee SKU 57B9489</p>
+                            <p th:text="${product.product.name}"></p>
                         </td>
-                        <td><img th:src="@{/client/img/color_trang_nga.png}" alt=""></td>
+                        <td><p th:text="${product.product.color}"></p></td>
                         <td>
-                            <p>M</p>
+                            <p th:text="${product.size}"></p>
                         </td>
-                        <td><input type="number" value="1" min="1"></td>
                         <td>
-                            <p>590.000 đ</p>
+                            <input type="number" class="number-input" th:value="${product.quantity}" min="1">
+                        </td>
+                        <td class="cart-product-sub-total" style="display: none;">
+                            <span class="cart-price" th:text="${product.totalPrice} / ${product.quantity}"></span>
+                        </td>
+                        <td class="cart-product-sub-total">
+                            <p class="price_coin cart-sub-total-price" th:text="${product.totalPrice} * 1000"></p>
                         </td>
                         <td><span>X</span></td>
                     </tr>
-                    <tr>
-                        <td><img th:src="@{/client/img/aothun_co_vien_den.jpg}" alt=""></td>
-                        <td>
-                            <p>Áo cổ viền đen SKU 54B8352</p>
-                        </td>
-                        <td><img th:src="@{/client/img/color_black.png}" alt=""></td>
-                        <td>
-                            <p>M</p>
-                        </td>
-                        <td><input type="number" value="1" min="1"></td>
-                        <td>
-                            <p>790.000 đ</p>
-                        </td>
-                        <td><span>X</span></td>
-                    </tr>
+                    </div>
                 </table>
             </div>
             <div class="cart-content-right">
@@ -98,18 +91,18 @@
                     </tr>
                     <tr>
                         <td>TỔNG SẢN PHẨM</td>
-                        <td>2</td>
+                        <td id="total-quantity"></td>
                     </tr>
                     <tr>
                         <td>TỔNG TIỀN HÀNG</td>
-                        <td>
-                            <p style="font-size: 15px;">1.380.000 <sup>đ</sup></p>
+                        <td id="overall-total">
+                            <p style="font-size: 15px;"><sup>đ</sup></p>
                         </td>
                     </tr>
                     <tr>
                         <td>TẠM TÍNH</td>
-                        <td>
-                            <p style="color: black; font-weight: bold; font-size: 15px;">1.380.000 <sup>đ</sup></p>
+                        <td id="sub-total">
+                            <p style="color: black; font-weight: bold; font-size: 15px;"><sup>đ</sup></p>
                         </td>
                     </tr>
                 </table>
@@ -124,10 +117,6 @@
                         <button>THANH TOÁN</button>
                     </a>
                 </div>
-                <div class="cart-content-right-login">
-                    <p>TÀI KHOẢN PTIT-SHOP</p>
-                    <p>Hãy <a href="" style="color: #DDC488; font-weight: bold;">Đăng nhập </a>tài khoản của bạn để tích điểm thành viên</p>
-                </div>
             </div>
         </div>
     </div>
@@ -140,3 +129,78 @@
 </html>
 <script th:src="@{/client/js/scroll.js}"></script>
 <script th:src="@{/client/js/responsiveMenu.js}"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var priceElements = document.getElementsByClassName("cart-product-sub-total price_coin");
+
+        for (var i = 0; i < priceElements.length; i++) {
+            var priceElement = priceElements[i];
+            var price = parseFloat(priceElement.innerText);
+
+            if (!isNaN(price)) {
+                var formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+                priceElement.innerText = formattedPrice;
+            }
+        }
+    });
+
+    /*======================= Tính tổng tiền 1 sản phẩm ==============*/
+    // Lấy tất cả các phần tử input có class "number-input"
+    const numberInputs = document.querySelectorAll('.number-input');
+    const cartSubTotalSpans = document.querySelectorAll('.cart-sub-total-price');
+
+    numberInputs.forEach((input, index) => {
+        input.addEventListener('change', () => updateSubTotal(index));
+    });
+
+    // Hàm tính tổng cart-sub-total-price cho sản phẩm cụ thể (dựa trên index)
+    function updateSubTotal(index) {
+        const cartPriceSpan = numberInputs[index].closest('tr').querySelector('.cart-price');
+        const cartSubTotalSpan = cartSubTotalSpans[index];
+        const quantity = parseInt(numberInputs[index].value, 10);
+        const cartPrice = parseFloat(cartPriceSpan.textContent.replace('$', '').trim());
+        const subTotal = quantity * cartPrice;
+        cartSubTotalSpan.textContent = subTotal.toFixed(0);
+        var totalWithAddition = subTotal * 1000;
+
+        var formattedTotalWithAddition = totalWithAddition.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+
+        cartSubTotalSpan.textContent = formattedTotalWithAddition;
+        updateOverallTotal();
+        updateTotalQuantity();
+    }
+
+    function updateTotalQuantity() {
+        var totalQuantity = 0;
+
+        // Calculate the total quantity based on individual quantities
+        numberInputs.forEach(input => {
+            totalQuantity += parseInt(input.value, 10);
+        });
+
+        // Update the total quantity display
+        document.getElementById('total-quantity').textContent = totalQuantity;
+    }
+
+    function updateOverallTotal() {
+        var overallTotal = 0;
+
+        // Calculate the overall total based on individual subtotals
+        cartSubTotalSpans.forEach(span => {
+            overallTotal += parseFloat(span.textContent.replace(/\D/g, '')); // Remove non-digit characters
+        });
+
+        var formattedOverallTotal = overallTotal.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+
+        // Update the overall total display
+        document.getElementById('overall-total').textContent = formattedOverallTotal;
+    }
+
+    numberInputs.forEach((input, index) => {
+        input.addEventListener('change', () => updateSubTotal(index));
+    });
+    numberInputs.forEach((input, index) => {
+        updateSubTotal(index);
+    });
+
+</script>

@@ -64,7 +64,9 @@
             </div>
         </div>
         </a>
-        <li><i class="fa fa-shopping-bag"></i></li>
+        <a th:href="${checkSession == '1' ? '/auth/cart' : '/auth/login'}">
+            <li><i class="fa fa-shopping-bag"></i></li>
+        </a>
     </div>
 </header>
 <script>

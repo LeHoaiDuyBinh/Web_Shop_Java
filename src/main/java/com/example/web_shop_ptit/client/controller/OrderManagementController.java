@@ -1,19 +1,15 @@
 package com.example.web_shop_ptit.client.controller;
 
 
-import com.example.web_shop_ptit.client.entity.Category;
-import com.example.web_shop_ptit.client.entity.Order;
-import com.example.web_shop_ptit.client.entity.OrderHistory;
-import com.example.web_shop_ptit.client.entity.RegistrationInfo;
-import com.example.web_shop_ptit.client.service.CategoryService;
-import com.example.web_shop_ptit.client.service.CustomerService;
-import com.example.web_shop_ptit.client.service.OrderHistoryService;
-import com.example.web_shop_ptit.client.service.OrderService;
+import com.example.web_shop_ptit.client.entity.*;
+import com.example.web_shop_ptit.client.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Collections;
@@ -33,6 +29,15 @@ public class OrderManagementController {
 
     @Autowired
     private OrderHistoryService orderHistoryService;
+
+    @Autowired
+    private OrderItemService orderItemService;
+
+    @Autowired
+    private OrderHistoryItemService orderHistoryItemService;
+
+    @Autowired
+    private ProductService productService;
 
     @RequestMapping("orderManagement")
     public String showOrderManagement(Model model, HttpServletRequest request){
@@ -61,5 +66,35 @@ public class OrderManagementController {
         }
 
         return "web_client/orderManagement";
+    }
+
+    @GetMapping("orderManagement/{slug}")
+    public String getPageOrderDetail(@PathVariable String slug, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        RegistrationInfo customerInfo = (RegistrationInfo) session.getAttribute("customerInfor");
+        List<Category> listCategory = service.listAll();
+        model.addAttribute("listCategorys", listCategory);
+
+        if (customerInfo != null) {
+            System.out.println("success");
+            model.addAttribute("checkSession", "1");
+
+            Order order = orderService.findByOrderCodeAndEmail(slug, customerInfo.getEmail());
+            OrderHistory orderHistory = orderHistoryService.findByOrderCodeAndEmail(slug, customerInfo.getEmail());
+            List<Product> listProduct = productService.listAll();
+//            List<OrderItem> listOrderItem = Collections.singletonList(orderItemService.findByOrderCode(slug));
+
+            System.out.println(customerInfo);
+            model.addAttribute("CustomerInfor", customerInfo);
+            model.addAttribute("Order", order);
+            model.addAttribute("OrderHistory", orderHistory);
+            model.addAttribute("ListProducts", listProduct);
+//            model.addAttribute("listOrderItem", listOrderItem);
+//            model.addAttribute("listOrderHistoryItem", listOrderHistoryItem);
+        }else{
+            System.out.println("error");
+            model.addAttribute("checkSession", "");
+        }
+        return "web_client/detailOrder";
     }
 }

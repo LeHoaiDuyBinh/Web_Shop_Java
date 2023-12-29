@@ -33,7 +33,7 @@
                                 </div>
                                 <div th:if="${success}" class="custom-alert custom-alert-success" role="alert" style="display: block !important">
                                     <i class="fa fa-check"></i>
-                                    <span th:text="${error == '1' ? 'Quá trình đăng ký thành công !' : ''}"></span>
+                                    <span th:text="${success == '1' ? 'Quá trình đăng ký thành công !' : ''}"></span>
                                 </div>
                                 <div th:if="${error}" class="custom-alert custom-alert-error" role="alert" style="display: block !important">
                                     <i class="fa fa-times-circle"></i>

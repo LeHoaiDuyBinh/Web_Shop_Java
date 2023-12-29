@@ -21,4 +21,6 @@ public class OrderHistoryService {
     public OrderHistory findByEmail(String email){
         return orderHistoryRepository.findByEmail(email);
     }
+
+    public OrderHistory findByOrderCodeAndEmail(String orderCode, String email) {return orderHistoryRepository.findByOrderCodeAndEmail(orderCode, email);}
 }

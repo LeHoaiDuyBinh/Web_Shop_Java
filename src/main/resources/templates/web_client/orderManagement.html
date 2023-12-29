@@ -96,7 +96,7 @@
                             <div th:if="${listOrders != null}">
                             <tr ng-repeat="item in list_order track by $index" class="ng-scope" th:each="order : ${listOrders}">
                                 <td>
-                                    <a href="" class="ng-binding" style="color: #6c6d70; text-decoration: underline;" th:text="${order.orderCode}"></a>
+                                    <a th:href="@{'/auth/orderManagement/' + ${order.orderCode}}" class="ng-binding" style="color: #6c6d70; text-decoration: underline;" th:text="${order.orderCode}"></a>
                                 </td>
                                 <td class="ng-binding" th:text="${order.orderDate}"></td>
                                 <td>
@@ -112,7 +112,7 @@
                             <div th:if="${listOrderHistories != null}">
                             <tr ng-repeat="item in list_order track by $index" class="ng-scope" th:each="orderHistory : ${listOrderHistories}">
                                 <td>
-                                    <a href="" class="ng-binding" style="color: #6c6d70; text-decoration: underline;" th:text="${orderHistory.orderCode}"></a>
+                                    <a th:href="@{'/auth/orderManagement/' + ${orderHistory.orderCode}}" class="ng-binding" style="color: #6c6d70; text-decoration: underline;" th:text="${orderHistory.orderCode}"></a>
                                 </td>
                                 <td class="ng-binding" th:text="${orderHistory.orderDate}"></td>
                                 <td>
