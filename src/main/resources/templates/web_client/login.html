@@ -23,9 +23,12 @@
   <div class="form login">
     <div class="form-content">
       <header>Đăng nhập</header>
-      <form id="loginForm" action="/auth/login" method="POST">
+      <form id="loginForm" action="/auth/login" method="POST" th:object="${customer}">
         <div class="custom" style="width: 100%; text-align: center;">
-          <div th:if="${error}" class="custom-alert custom-alert-error" role="alert" style="display: block !important"><i class="fa fa-times-circle"></i>
+          <div th:if="${message!=null}" class="custom-alert custom-alert-error" role="alert" style="display: block !important"><i class="fa fa-times-circle">
+            <span th:text="${message}"></span>
+          </div>
+          <div th:unless="${message != null}" th:if="${error}" class="custom-alert custom-alert-error" role="alert" style="display: block !important"><i class="fa fa-times-circle"></i>
               <span th:text="${error}"></span>
           </div>
         </div>
@@ -35,6 +38,12 @@
         <div class="field input-field">
           <input type="password" name="password" placeholder="Password" class="password">
           <i class='bx bx-hide eye-icon'></i>
+        </div>
+        <div class="captcha-container">
+          <input type="hidden" th:field="*{hiddenCaptcha}" />
+          <label for="captchatext">Enter Captcha</label>
+          <input type="text" id="captchatext" th:field="*{captcha}" class="short-input"/>
+          <input type="image" id="image" th:src="'data:realCaptcha/jpg;base64,' + ${customer.realCaptcha}">
         </div>
         <div class="form-link">
           <a href="/auth/forgotpassword" class="forgot-pass" id="forgotPasswordLink">Quên mật khẩu?</a>

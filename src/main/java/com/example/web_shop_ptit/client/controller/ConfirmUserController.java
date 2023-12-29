@@ -2,6 +2,7 @@ package com.example.web_shop_ptit.client.controller;
 
 import com.example.web_shop_ptit.client.entity.RegistrationInfo;
 import com.example.web_shop_ptit.client.service.RegistrationService;
+import com.example.web_shop_ptit.client.service.ShoppingCartService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ import java.security.NoSuchAlgorithmException;
 public class ConfirmUserController {
     @Autowired
     private RegistrationService registrationService;
+    @Autowired
+    private ShoppingCartService shoppingCartService;
 
     @PostMapping("confirmUser")
     public String confirmUser(@RequestParam String code, RedirectAttributes redirectAttributes, HttpServletRequest request) {
@@ -41,6 +44,10 @@ public class ConfirmUserController {
                     hashPasswordSHA256(registrationInfo.getPassword()),
                     registrationInfo.getPhone()
             );
+
+            String email_hash = modifyEmail(registrationInfo.getEmail());
+            email_hash = email_hash + hashPasswordSHA256(registrationInfo.getEmail());
+            shoppingCartService.saveShoppingCart(email_hash, registrationInfo.getEmail());
 
             // Xóa thông tin khỏi session
             session.removeAttribute("verifyCode");
@@ -78,6 +85,21 @@ public class ConfirmUserController {
             // Xử lý exception nếu cần
             e.printStackTrace();
             return null;
+        }
+    }
+
+    private static String modifyEmail(String email) {
+        // Tìm vị trí của dấu '@'
+        int atIndex = email.indexOf('@');
+
+        // Kiểm tra xem có tồn tại dấu '@' không
+        if (atIndex != -1) {
+            // Cắt chuỗi và thay đổi dấu '@' thành '_'
+            String modifiedEmail = email.substring(0, atIndex) + "_";
+            return modifiedEmail;
+        } else {
+            // Trả về địa chỉ email không thay đổi nếu không có dấu '@'
+            return email;
         }
     }
 }

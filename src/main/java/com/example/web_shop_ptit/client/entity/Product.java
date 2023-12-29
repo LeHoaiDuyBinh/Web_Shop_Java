@@ -37,6 +37,9 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private Collection<OrderItem> orderItems;
 
+    @OneToMany(mappedBy = "product")
+    private Collection<CartItem> cartItems;
+
 
     public String getProductCode() {
         return productCode;
@@ -108,5 +111,13 @@ public class Product {
 
     public void setOrderItems(Collection<OrderItem> orderItems) {
         this.orderItems = orderItems;
+    }
+
+    public Collection<CartItem> getCartItems() {
+        return cartItems;
+    }
+
+    public void setCartItems(Collection<CartItem> cartItems) {
+        this.cartItems = cartItems;
     }
 }

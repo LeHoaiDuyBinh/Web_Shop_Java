@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OrderHistoryRepository extends JpaRepository<OrderHistory, String> {
     OrderHistory findByEmail(String email);
+    OrderHistory findByOrderCodeAndEmail(String orderCode, String email);
 }

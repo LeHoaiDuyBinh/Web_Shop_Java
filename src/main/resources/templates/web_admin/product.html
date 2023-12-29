@@ -8,8 +8,9 @@
     <link rel="stylesheet" th:href="@{/admin/css/dashboard.css}">
     <link rel="stylesheet" th:href="@{/admin/css/dashboard_information.css}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="ckeditor/ckeditor.js"></script>
-    <script src="ckfinder/ckfinder.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/sweetalert2@11.0.0/dist/sweetalert2.min.css">
+    <script src="https://unpkg.com/sweetalert2@11.0.0/dist/sweetalert2.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <title>PTITShop</title>
 </head>
 
@@ -70,9 +71,11 @@
                     </a></li>
                     /
                     <li><a href="#" class="active">Shop</a></li>
-                    <button id="addBtn" style="font-size: 14px; border: none; right: 0; position: absolute; margin-right: 26px;margin-bottom: 48px; background-color:var(--primary); color: white; width: 120px; height: 40px;border-radius: 8px;">
-                        Thêm sản phẩm
-                    </button>
+                    <a href="/admin/addProductForm">
+                        <button id="addBtn" style="font-size: 14px; border: none; right: 0; position: absolute; margin-right: 26px;margin-bottom: 48px; background-color:var(--primary); color: white;; width: 180px; height: 40px;border-radius: 8px;">
+                            Thêm sản phẩm
+                        </button>
+                    </a>
                 </ul>
             </div>
         </div>
@@ -82,71 +85,87 @@
             <table width="100%">
                 <thead>
                 <tr>
-                    <th style="width: 130px;"><span class="las la-sort"></span> MÃ SP</th>
-                    <th style="width: 150px;"><span class="las la-sort"></span> TÊN SP</th>
-                    <th style="width: 100px;"><span class=" las la-sort "></span> Giá</th>
-                    <th style="width: 100px;"><span class="las la-sort "></span> % Giảm</th>
+                    <th style="width: 150px;"><span class="las la-sort"></span> MÃ SP</th>
+                    <th style="width: 220px;"><span class="las la-sort"></span> TÊN SP</th>
+                    <th style="width: 150px;"><span class=" las la-sort "></span> Giá</th>
                     <th style="width: 100px;"><span class="las la-sort "></span> Màu</th>
-                    <th style="width: 60px;"><span class="las la-sort "></span> Size</th>
-                    <th style="width: 180px;"><span class="las la-sort "></span> Mô tả</th>
-                    <th style="width: 150px;"><span class="las la-sort "></span> Ảnh</th>
-                    <th style="width: 120px;"><span class="las la-sort "></span> DMSP</th>
-                    <th style="width: 60px;"><span class="las la-sort "></span> SL</th>
-                    <th><span class="las la-sort "></span> ACTION</th>
+                    <th style="width: 220px;"><span class="las la-sort "></span> Mô tả</th>
+                    <th style="width: 200px;"><span class="las la-sort "></span> DMSP</th>
+                    <th style="width: 80px;"><span class="las la-sort "></span> SL</th>
+                    <th style="width: 120px;"><span class="las la-sort "></span> Last Updated</th>
+                    <th><span class="las la-sort"></span> ACTION</th>
+                    <th><span class="las la-sort"></span></th>
                 </tr>
                 </thead>
                 <tbody id="tbody">
+                <tr th:each="product : ${products}">
+                    <td th:text="${product.productCode}" data-label="MaSP"></td>
+                    <td th:text="${product.name}" data-label="TenSP"></td>
+                    <td th:text="${product.price}" data-label="GiaSP"></td>
+                    <td data-label="MauSP">
+                        <img th:src="'/admin/img/' + ${product.color} + '.jpg'" style="border-radius: 50%; height: 20px; width: 22px;" />
+                    </td>
+                    <td data-label="MoTaSP">
+                        <div th:text="${product.description}" class="product-description"></div>
+                        <button style="background: var(--primary);border: var(--primary);padding: 3px;color: var(--dark);border-radius: 3px;" class="show-more-btn">Xem thêm</button>
+                    </td>
+                    <td th:text="${product.category.name}" data-label="DMSP" th:attr="value=${product.category.categoryId}"></td>
+                    <td th:text="${product.calculateTotalQuantity()}"></td>
+                    <td th:text="${product.updateLatest}"></td>
+                    <td data-label="SizeSP" style="color: var(--dark); display: none;">
+                        <th:block th:each="size : ${product.productSizes}">
+                            <p th:if="${size.id.size == 'S'}" th:data-label="SizeS" th:text="${size.quantity}"></p>
+                            <p th:if="${size.id.size == 'M'}" th:data-label="SizeM" th:text="${size.quantity}"></p>
+                            <p th:if="${size.id.size == 'L'}" th:data-label="SizeL" th:text="${size.quantity}"></p>
+                            <p th:if="${size.id.size == 'XL'}" th:data-label="SizeXL" th:text="${size.quantity}"></p>
+                            <p th:if="${size.id.size == 'XXL'}" th:data-label="SizeXXL" th:text="${size.quantity}"></p>
+                        </th:block>
+                    </td>
+                    <th:block th:each="image, iterStat : ${product.productImages}">
+                        <th:block th:if="${image.image.startsWith('.')}">
+                            <!-- Xóa dấu chấm nếu chuỗi bắt đầu bằng dấu chấm -->
+                            <td th:data-label="'HinhSP' + ${iterStat.index + 1}" style="display: none">
+                                <img th:src="${image.image.substring(1)}" />
+                           </td>
+
+                        </th:block>
+                        <th:block th:unless="${image.image.startsWith('.')}">
+                            <!-- Giữ nguyên nếu chuỗi không bắt đầu bằng dấu chấm -->
+                            <td th:data-label="'HinhSP' + ${iterStat.index + 1}" style="display: none">
+                                <img th:src="${image.image}" />
+                            </td>
+                        </th:block>
+                    </th:block>
+
+                    <td>
+                        <i class="fa fa-trash"></i>
+                        <i class="fa fa-pencil editBtn"></i>
+                    </td>
+                    <td><button type="button" class="xemChiTietBtn" style="font-size: 14px; border: none;background-color:var(--primary); color: white; width: 120px; height: 30px;border-radius: 8px;">Xem chi tiết</button></td>
+                </tr>
                 </tbody>
             </table>
         </div>
-        <div id="myModal" class="modal" style="display: none;">
-            <div class="modal-content" style="border-radius: 8px;">
-                <form id="ProductForm">
-                    <label id="ProductCode">Mã Sản phẩm:</label>
-                    <input style="color: black;" type="text" id="MaSanPham" name="MaSanPham" required>
-                    <label id="ProductName">Tên Sản phẩm:</label>
-                    <input style="color: black;" type="text" id="TenSanPham" name="TenSanPham" required>
-                    <label id="ProductValue">Giá Sản phẩm:</label>
-                    <input style="color: black;" type="text" id="GiaSanPham" name="GiaSanPham" required>
-                    <label id="ProductFree">Giá khuyến mãi(%):</label>
-                    <input style="color: black; margin-bottom: 20px;" type="text" id="GiaKhuyenMai" name="GiaKhuyenMai" required>
-                    <label id="ProductColor">Chọn màu sản phẩm:</label>
-                    <select name=""  style="width: 100%; height: 45px; margin-bottom: 20px; padding-left: 20px;">
-                        <!-- Mẫu test -->
-                        <option value="Đỏ">Đỏ</option>
-                        <option value="Cam">Cam</option>
-                        <option value="Vàng">Vàng</option>
-                        <option value="Lục">Lục</option>
-                        <option value="Lam">Lam</option>
-                        <option value="Chàm">Chàm</option>
-                        <option value="Tím">Tím</option>
-                    </select>
-                    <label id="ProductSize">Chọn size sản phẩm:</label>
-                    <select name=""  style="width: 100%; height: 45px; margin-bottom: 20px; padding-left: 20px;">
-                        <!-- Mẫu test -->
-                        <option value="M">M</option>
-                        <option value="L">L</option>
-                        <option value="XL">XL</option>
-                        <option value="XXL">XXL</option>
-                    </select>
-                    <label for="ProductColor">Mô tả sản phẩm:</label>
-                    <textarea name="MoTa" id="MoTa" cols="30" rows="5" style="width: 100%; margin-bottom: 20px;" placeholder="Mô tả sản phẩm"></textarea>
-                    <label for="ProductValue" style="margin-top: 20px;">Chọn hình ảnh:</label>
-                    <input multiple type="file" style="margin-bottom: 20px;">
-                    <label id="ProductCategory">Danh mục sản phẩm:</label>
-                    <select name="" id="" style="width: 100%; height: 45px; margin-bottom: 20px; padding-left: 20px;">
-                        <!-- Mẫu test -->
-                        <option value="Nam">Nam</option>
-                        <option value="Nu">Nữ</option>
-                        <option value="TreEm">Trẻ em</option>
-                    </select>
-                    <label for="ProductColor">Số lượng:</label>
-                    <input style="color: black; width: 100%; height: 45px; border-radius: 3px;" type="number" id="SLSanPham" name="SLSanPham" required>
-                    <button style="color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-right: 10px;" type="submit" id="submitBtn">Thêm</button>
-                    <button style="color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;" class="btnCancel" type="button" id="cancelBtn">Hủy</button>
-                </form>
+        <div id="formChiTietSP" class="XemChiTiet" style="display:none; border-radius: 12px;">
+            <h2 style="font-size:20px;margin-bottom: 10px;">Size:</h2>
+            <div class="product_select_size">
+                <p id="size_S">S</p><br>
+                <p id="size_M">M</p><br>
+                <p id="size_L">L</p><br>
+                <p id="size_XL">XL</p><br>
+                <p id="size_XXL">XXL</p><br>
             </div>
+            <h2 style="font-size:20px;margin-bottom: 10px;">Image:</h2>
+            <div class="product_select_img">
+                <img id="product_image1" src="" alt="Product Image 1" style="width: 150px; height: 150px">
+                <img id="product_image2" src="" alt="Product Image 2" style="width: 150px; height: 150px">
+                <img id="product_image3" src="" alt="Product Image 3" style="width: 150px; height: 150px">
+                <img id="product_image4" src="" alt="Product Image 4" style="width: 150px; height: 150px">
+            </div>
+            <button id="cancelXemChiTietSP" style="font-size: 14px;border: none;background-color: red;margin-top: 21px; color: white; width: 120px; height: 30px;border-radius: 1px;">Cancel</button>
         </div>
+        <div id="errorMessage" style="display: none" th:text="${err != null ? err : 'None'}"></div>
+        <div id="successMessage" style="display: none" th:text="${success != null ? success : 'None'}"></div>
     </main>
 </div>
 
@@ -159,25 +178,325 @@
 <script th:src="@{/admin/js/dashboard.js}"></script>
 <script>
     const link = document.querySelector(".slide-menu-product");
-    const addBtn = document.getElementById("addBtn");
-    const modal = document.getElementById("myModal");
-    const cancelBtn = document.getElementById("cancelBtn");
     link.classList.add('active');
+    var err = document.getElementById('errorMessage');
+    var success = document.getElementById('successMessage');
+    var formChiTietSP = document.getElementById('formChiTietSP');
+    var cancelXemChiTiet = document.getElementById('cancelXemChiTietSP');
 
-    //Thêm đơn hàng
-    addBtn.addEventListener('click', function() {
-        modal.style.display = "block";
-    })
+    document.querySelectorAll('.xemChiTietBtn').forEach(function(button) {
+        button.addEventListener('click', function() {
+            formChiTietSP.style.display = 'block';
+            var row = $(this).closest('tr');
+            var sizeS = row.find('p[data-label="SizeS"]').text();
+            var sizeM = row.find('p[data-label="SizeM"]').text();
+            var sizeL = row.find('p[data-label="SizeL"]').text();
+            var sizeXL = row.find('p[data-label="SizeXL"]').text();
+            var sizeXXL = row.find('p[data-label="SizeXXL"]').text();
+            var hinhSP =  row.find('td[data-label="HinhSP1"]').find('img').attr('src');
+            var hinhSP2 = row.find('td[data-label="HinhSP2"]').find('img').attr('src');
+            var hinhSP3 = row.find('td[data-label="HinhSP3"]').find('img').attr('src');
+            var hinhSP4 = row.find('td[data-label="HinhSP4"]').find('img').attr('src');
+            //console.log(hinhSP);
+            //Size
+            document.getElementById('size_S').innerHTML = 'S: ' + sizeS;
+            document.getElementById('size_M').innerHTML = 'M: ' + sizeM;
+            document.getElementById('size_L').innerHTML = 'L: ' + sizeL;
+            document.getElementById('size_XL').innerHTML = 'XL: ' + sizeXL;
+            document.getElementById('size_XXL').innerHTML = 'XXL: ' + sizeXXL;
+            //Img
+            document.getElementById('product_image1').src = hinhSP;
+            document.getElementById('product_image2').src = hinhSP2;
+            document.getElementById('product_image3').src = hinhSP3;
+            document.getElementById('product_image4').src = hinhSP4;
 
-
-    // Xử lý nút cancel
-    cancelBtn.addEventListener('click', function() {
-        modal.style.display = "none";
-    })
-
-    //ckeditor
-    CKEDITOR.replace('MoTa', {
-        filebrowserBrowseUrl: 'ckfinder/ckfinder.html',
-        filebrowserUploadUrl: 'ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files'
+        });
     });
+
+    cancelXemChiTiet.addEventListener('click', function() {
+        formChiTietSP.style.display = 'none';
+    });
+
+    // Hiển thị thêm phần mô tả:
+    document.addEventListener('DOMContentLoaded', function () {
+        const productDescriptions = document.querySelectorAll('.product-description');
+        productDescriptions.forEach(function (descriptionDiv) {
+            const showMoreBtn = descriptionDiv.nextElementSibling;
+            const maxLength = 150;
+            const fullText = descriptionDiv.textContent;
+            const truncatedText = fullText.slice(0, maxLength);
+            descriptionDiv.innerHTML = truncatedText + '<span class="hidden-text">' + fullText.slice(maxLength) + '</span>';
+            const hiddenText = descriptionDiv.querySelector('.hidden-text');
+            hiddenText.style.display = 'none';
+            if (fullText.length > maxLength) {
+                showMoreBtn.style.display = 'inline'; // Show the button
+            } else {
+                showMoreBtn.style.display = 'none'; // Hide the button
+            }
+            showMoreBtn.addEventListener('click', function () {
+                if (hiddenText.style.display === 'none' || hiddenText.style.display === '') {
+                    hiddenText.style.display = 'inline';
+                    showMoreBtn.textContent = 'Thu gọn';
+                } else {
+                    hiddenText.style.display = 'none';
+                    showMoreBtn.textContent = 'Xem thêm';
+                }
+            });
+        });
+    });
+
+    // truyền dữ liệu qua form
+    $(document).ready(function () {
+        var newInput = document.createElement("input");
+        var newLabel = document.createElement("label");
+        // Sự kiện click vào biểu tượng bút chì
+        $('.editBtn').on('click', function () {
+            // Lấy dữ liệu từ hàng tương ứng để điền vào form
+            action = 'edit';
+            var row = $(this).closest('tr');
+            var maSP = row.find('td[data-label="MaSP"]').text();
+            var tenSP = row.find('td[data-label="TenSP"]').text();
+            var giaSP = row.find('td[data-label="GiaSP"]').text();
+            var sizeS = row.find('p[data-label="SizeS"]').text();
+            var sizeM = row.find('p[data-label="SizeM"]').text();
+            var sizeL = row.find('p[data-label="SizeL"]').text();
+            var sizeXL = row.find('p[data-label="SizeXL"]').text();
+            var sizeXXL = row.find('p[data-label="SizeXXL"]').text();
+            var moTaSP = row.find('td[data-label="MoTaSP"]').text().trim();
+            moTaSP = moTaSP.replace(/\s*Xem thêm\s*/g, ''); //
+            var hinhSP =  row.find('td[data-label="HinhSP1"]').find('img').attr('src');
+            var hinhSP2 = row.find('td[data-label="HinhSP2"]').find('img').attr('src');
+            var hinhSP3 = row.find('td[data-label="HinhSP3"]').find('img').attr('src');
+            var hinhSP4 = row.find('td[data-label="HinhSP4"]').find('img').attr('src');
+            var danhMucSP = row.find('td[data-label="DMSP"]').attr('value');
+
+            var mauSP = row.find('td[data-label="MauSP"]').find('img').attr('src').split('/')[3].split('.')[0];
+
+            // Tạo và điền dữ liệu vào form
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/admin/updateProductForm';
+
+            const productCodeInput = document.createElement('input');
+            productCodeInput.type = 'text';
+            productCodeInput.name = 'MaSanPham';
+            productCodeInput.value = maSP;
+            form.appendChild(productCodeInput);
+
+            const tenSPInput = document.createElement('input');
+            tenSPInput.type = 'text';
+            tenSPInput.name = 'TenSanPham';
+            tenSPInput.value = tenSP;
+            form.appendChild(tenSPInput);
+
+            const giaSPInput = document.createElement('input');
+            giaSPInput.type = 'text';
+            giaSPInput.name = 'GiaSanPham';
+            giaSPInput.value = parseFloat(giaSP);
+            form.appendChild(giaSPInput);
+
+            const soLuongSizeSInput = document.createElement('input');
+            soLuongSizeSInput.type = 'text';
+            soLuongSizeSInput.name = 'SoLuongSP_S';
+            soLuongSizeSInput.value = parseFloat(sizeS);
+            form.appendChild(soLuongSizeSInput);
+
+            const soLuongSizeMInput = document.createElement('input');
+            soLuongSizeMInput.type = 'text';
+            soLuongSizeMInput.name = 'SoLuongSP_M';
+            soLuongSizeMInput.value = parseFloat(sizeM);
+            form.appendChild(soLuongSizeMInput);
+
+            const soLuongSizeLInput = document.createElement('input');
+            soLuongSizeLInput.type = 'text';
+            soLuongSizeLInput.name = 'SoLuongSP_L';
+            soLuongSizeLInput.value = parseFloat(sizeL);
+            form.appendChild(soLuongSizeLInput);
+
+            const soLuongSizeXLInput = document.createElement('input');
+            soLuongSizeXLInput.type = 'text';
+            soLuongSizeXLInput.name = 'SoLuongSP_XL';
+            soLuongSizeXLInput.value = parseFloat(sizeXL);
+            form.appendChild(soLuongSizeXLInput);
+
+            const soLuongSizeXXLInput = document.createElement('input');
+            soLuongSizeXXLInput.type = 'text';
+            soLuongSizeXXLInput.name = 'SoLuongSP_XXL';
+            soLuongSizeXXLInput.value = parseFloat(sizeXXL);
+            form.appendChild(soLuongSizeXXLInput);
+
+            const moTaInput = document.createElement('input');
+            moTaInput.type = 'text';
+            moTaInput.name = 'MoTa';
+            moTaInput.value = moTaSP;
+            form.appendChild(moTaInput);
+
+            const danhMucInput = document.createElement('input');
+            danhMucInput.type = 'text';
+            danhMucInput.name = 'DanhMucSanPham';
+            danhMucInput.value = parseFloat(danhMucSP);
+            form.appendChild(danhMucInput);
+
+            const mauInput = document.createElement('input');
+            mauInput.type = 'text';
+            mauInput.name = 'color';
+            mauInput.value = mauSP;
+            form.appendChild(mauInput);
+
+            const imageInput = document.createElement('input');
+            imageInput.type = 'text';
+            imageInput.name = 'imageInput';
+            imageInput.value = hinhSP;
+            form.appendChild(imageInput);
+
+            const imageInput2 = document.createElement('input');
+            imageInput2.type = 'text';
+            imageInput2.name = 'imageInput2';
+            imageInput2.value = hinhSP2;
+            form.appendChild(imageInput2);
+
+            const imageInput3 = document.createElement('input');
+            imageInput3.type = 'text';
+            imageInput3.name = 'imageInput3';
+            imageInput3.value = hinhSP3;
+            form.appendChild(imageInput3);
+
+            const imageInput4 = document.createElement('input');
+            imageInput4.type = 'text';
+            imageInput4.name = 'imageInput4';
+            imageInput4.value = hinhSP4;
+            form.appendChild(imageInput4);
+
+            document.body.appendChild(form);
+            form.submit();
+        });
+    });
+
+    function setFiles(img1, img2, img3, img4, fileInputs) { // khi nào lỗi hình thì xóa dấu . trước đường dẫn
+        // Tạo một input file mới
+        const imageURLs = [];
+        imageURLs.push(img1);
+        imageURLs.push(img2);
+        imageURLs.push(img3);
+        imageURLs.push(img4);
+
+        const blobs = [];
+        // blob là data dạng bin
+        // hàm map là hàm duyệt từng phần tử trong arr
+        // ý nghĩa đoạn code là duyệt từng phần tử gán vào biến url
+        // mỗi url gọi hàm fetch(url), đây là hàm tải data từ url này
+        // hàm fetch sẽ trả về một Promise chứa response từ URL đó
+        // sau đó ta gọi .then() để xử lý data trả về
+        // tương tự lấy giá trị trả về từ hàm fetch gán vào biến response
+        // và thực thi  blobs.push(response.blob());
+        const promises = imageURLs.map((url) =>
+            fetch(url).then((response) =>  response.blob()).then((blob) => {
+                let tmp_arr = []
+                tmp_arr["data"] = blob;
+                tmp_arr["url"] = url;
+
+                let tmp = tmp_arr["url"].split(".");
+                let extension = tmp[tmp.length - 1];
+
+                if(extension === "jpeg"){
+                    tmp_arr["extension"] = 'image/jpeg';
+                }
+                else if(extension === "png"){
+                    tmp_arr["extension"] = 'image/png';
+                }
+                blobs.push(tmp_arr);
+            })
+        );
+
+        Promise.all(promises).then(() => {
+            const newFileList = new DataTransfer();
+
+            blobs.forEach((blob) => {
+                const file = new File([blob["data"]], blob["url"], { type: blob["extension"]});
+                //console.log([blob["data"]]);
+                newFileList.items.add(file);
+            });
+
+            fileInputs.files = newFileList.files;
+        });
+    }
+
+    function showConfirmationModal(MaSanPham) {
+        Swal.fire({
+            title: 'Bạn có chắc chắn muốn xóa dữ liệu này?',
+            text: "Bạn sẽ không thể hoàn tác sau khi hoàn tất!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Vẫn xóa',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Trực tiếp submit form để xóa dữ liệu từ cơ sở dữ liệu
+                const form = document.createElement('form');
+
+                form.method = 'POST';
+                form.action = '/admin/product/delete';
+                const categoryIdInput = document.createElement('input');
+                categoryIdInput.type = 'hidden';
+                categoryIdInput.name = 'MaSanPham';
+                categoryIdInput.value = MaSanPham;
+                form.appendChild(categoryIdInput);
+                document.body.appendChild(form);
+                form.submit();
+            }
+        });
+    }
+
+    // xóa
+    tbody.addEventListener("click", function (event) {
+        if (event.target.classList.contains("fa-trash")) {
+            const row = event.target.closest("tr");
+            const MaSanPham = row.querySelector("td:first-child").textContent;
+
+            showConfirmationModal(MaSanPham);
+        }
+    });
+
+    // hiệu ứng load
+    function showLoadingSwal() {
+        return Swal.fire({
+            title: 'Loading...',
+            text: 'Vui lòng chờ trong giây lát!',
+            showConfirmButton: false,
+            imageUrl: '/admin/img/gif/loading.gif',
+            timer: 2000,
+            allowOutsideClick: false // Không cho phép đóng khi click ra ngoài
+        });
+    }
+
+    function showErrSwal(err) {
+        return Swal.fire({
+            title: 'Error',
+            text: err,
+            icon: "error"
+        });
+    }
+
+    function showSuccessSwal(success) {
+        Swal.fire({
+            icon: "success",
+            title: success,
+            showConfirmButton: false,
+            timer: 1500
+        });
+    }
+
+    if(err.textContent !== "None"){
+        showErrSwal(err.textContent);
+    }
+    else{
+        if(success.textContent !== "None"){
+            showSuccessSwal(success.textContent);
+        }
+        else{
+            showLoadingSwal();
+        }
+    }
 </script>

@@ -20,4 +20,6 @@ public class OrderService {
     public Order findByEmail(String email){
         return orderRepository.findByEmail(email);
     }
+
+    public Order findByOrderCodeAndEmail(String orderCode, String email) {return orderRepository.findByOrderCodeAndEmail(orderCode, email);}
 }

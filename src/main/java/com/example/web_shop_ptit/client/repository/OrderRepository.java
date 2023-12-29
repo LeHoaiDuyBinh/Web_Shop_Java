@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, String> {
     Order findByEmail(String email);
+
+    Order findByOrderCodeAndEmail(String orderCode, String email);
 }

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PTITShop</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" th:href="@{/admin/css/dashboard.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/dashboard_information.css}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/sweetalert2@11.0.0/dist/sweetalert2.min.css">
+    <script src="https://unpkg.com/sweetalert2@11.0.0/dist/sweetalert2.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+<div id="myModal" class="modal">
+    <div class="modal-content" style="border-radius: 8px;">
+        <form id="ProductForm" enctype="multipart/form-data" th:action="'/admin/product/' + ${operation}" method="POST">
+            <div th:text="${err}"></div>
+            <label th:if="${operation eq 'add'}" th:style="${operation eq 'add'} ? 'display: none;' : 'block'">Mã sản phẩm:</label>
+            <input th:if="${operation eq 'add'}" type="hidden" name="MaSanPham" value="">
+            <input th:if="${operation eq 'edit'}" type="text" name="MaSanPham" readonly th:value="${MaSanPham}">
+
+            <label>Tên sản phẩm:</label>
+            <input th:value="${TenSanPham != null ? TenSanPham : ''}" style="color: black;" type="text" id="TenSanPham" name="TenSanPham" required>
+            <label>Giá sản phẩm:</label>
+            <input th:value="${GiaSanPham != null ? GiaSanPham : ''}" style="color: black;" type="text" id="GiaSanPham" name="GiaSanPham" required>
+            <label style="margin-top: 20px">Danh mục sản phẩm:</label>
+            <select name="DanhMucSanPham" id="DMSP"
+                    style="width: 100%; height: 45px; margin-bottom: 20px; padding-left: 20px;" required>
+                <!-- Mẫu test -->
+                <option value=""></option>
+                <th:block th:each="categoryManagement : ${categories}">
+                    <th:block th:if="${categoryManagement.parentCategoryManagement != null}">
+                        <option th:value="${categoryManagement.categoryId}" th:text="${categoryManagement.name}" th:selected="${operation eq 'edit' and categoryManagement.categoryId eq DanhMucSanPham}"></option>
+                    </th:block>
+                </th:block>
+            </select>
+            <label>Chọn màu sản phẩm:</label>
+            <div class="product-detail__color">
+                <div class="product-detail__color__input">
+                    <label>
+                        <input type="radio" name="color" value="red" th:checked="${color == 'red'}">
+                        <span>
+                              <img src="/admin/img/red.jpg" style="border-radius: 50%; height:25px"/>
+                        </span>
+                    </label>
+                    <label>
+                        <input type="radio" name="color" value="pink" th:checked="${color == 'pink'}">
+                        <span>
+                              <img src="/admin/img/pink.jpg" style="border-radius: 50%; height:25px"/>
+                        </span>
+                    </label>
+                    <label>
+                        <input type="radio" name="color" value="yellow" th:checked="${color == 'yellow'}">
+                        <span>
+                              <img src="/admin/img/yellow.png" style="border-radius: 50%; height:25px"/>
+                        </span>
+                    </label>
+                    <label>
+                        <input type="radio" name="color" value="green" th:checked="${color == 'green'}">
+                        <span>
+                              <img src="/admin/img/green.jpg" style="border-radius: 50%; height:25px"/>
+                        </span>
+                    </label>
+                    <label>
+                        <input type="radio" name="color" value="blue" th:checked="${color == 'blue'}">
+                        <span>
+                              <img src="/admin/img/blue.jpg" style="border-radius: 50%; height:25px"/>
+                        </span>
+                    </label>
+                    <label>
+                        <input type="radio" name="color" value="beige" th:checked="${color == 'beige'}">
+                        <span>
+                              <img src="/admin/img/beige.jpg" style="border-radius: 50%; height:25px"/>
+                        </span>
+                    </label>
+                    <label>
+                        <input type="radio" name="color" value="white" th:checked="${color == 'white'}">
+                        <span>
+                              <img src="/admin/img/white.jpg" style="border-radius: 50%; height:25px"/>
+                        </span>
+                    </label>
+                    <label>
+                        <input type="radio" name="color" value="black" th:checked="${color == 'black'}">
+                        <span>
+                              <img src="/admin/img/black.jpg" style="border-radius: 50%; height:25px"/>
+                        </span>
+                    </label>
+                    <label>
+                        <input type="radio" name="color" value="brown" th:checked="${color == 'brown'}">
+                        <span>
+                              <img src="/admin/img/brown.jpg" style="border-radius: 50%; height:25px"/>
+                        </span>
+                    </label>
+                    <label>
+                        <input type="radio" name="color" value="gray" th:checked="${color == 'gray'}">
+                        <span>
+                            <img src="/admin/img/gray.jpg" style="border-radius: 50%; height:25px"/>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+                <label style="margin-top: 20px;">Chọn hình ảnh:</label>
+            <input multiple type="file" name="fileToUpload" id="Img">
+            <th:block  th:if="images != null">
+                <th:block th:each="image, iterStat : ${images}">
+                    <th:block th:if="${image.startsWith('.')}">
+                        <!-- Xóa dấu chấm nếu chuỗi bắt đầu bằng dấu chấm -->
+                        <p th:data-label="'HinhSP' + ${iterStat.index + 1}" style="display: none">
+                            <img th:src="${image.substring(1)}" />
+                        </p>
+
+                    </th:block>
+                    <th:block th:unless="${image.startsWith('.')}">
+                        <!-- Giữ nguyên nếu chuỗi không bắt đầu bằng dấu chấm -->
+                        <p th:data-label="'HinhSP' + ${iterStat.index + 1}" style="display: none">
+                            <img th:src="${image}" />
+                        </p>
+                    </th:block>
+                </th:block>
+            </th:block>
+                <br>
+                <label style="margin-top: 20px">Chọn size sản phẩm:</label>
+                <div class="product-detail__size" style="margin-top: 10px;">
+                    <div class="product-detail__size__input">
+                        <label style="display: inline-block;">
+                            <!-- <input type="radio" name="size" value="s"/> -->
+                            <span class="text-uppercase" style="display: inline-block;">s</span>
+                            <input th:value="${SoLuongSP_S != null ? SoLuongSP_S : ''}" style="color: black; border-radius: 3px; display: inline-block; padding-bottom: 12px; margin-left: -4px;"
+                                   type="number" id="SoLuongSP_S" name="SoLuongSP_S" placeholder="Số lượng" min="0"
+                                   required>
+                        </label>
+                        <br>
+                        <label>
+                            <!-- <input type="radio" name="size" value="m"/> -->
+                            <span class="text-uppercase" style="display: inline-block;">m</span>
+                            <input th:value="${SoLuongSP_M != null ? SoLuongSP_M : ''}" style="color: black; border-radius: 3px; display: inline-block; padding-bottom: 12px;"
+                                   type="number" id="SoLuongSP_M" name="SoLuongSP_M" placeholder="Số lượng" min="0"
+                                   required>
+                        </label>
+                        <br>
+                        <label>
+                            <!-- <input type="radio" name="size" value="l"/> -->
+                            <span class="text-uppercase" style="display: inline-block;">l</span>
+                            <input th:value="${SoLuongSP_L != null ? SoLuongSP_L : ''}" style="color: black; border-radius: 3px; display: inline-block; padding-bottom: 12px;"
+                                   type="number" id="SoLuongSP_L" name="SoLuongSP_L" placeholder="Số lượng" min="0"
+                                   required>
+                        </label>
+                        <br>
+                        <label>
+                            <!-- <input type="radio" name="size" value="xl"/> -->
+                            <span class="text-uppercase" style="display: inline-block;">xl</span>
+                            <input th:value="${SoLuongSP_XL != null ? SoLuongSP_XL : ''}" style="color: black; border-radius: 3px; display: inline-block; padding-bottom: 12px;"
+                                   type="number" id="SoLuongSP_XL" name="SoLuongSP_XL" placeholder="Số lượng" min="0"
+                                   required>
+                        </label>
+                        <br>
+                        <label>
+                            <!-- <input type="radio" name="size" value="xxl"/> -->
+                            <span class="text-uppercase" style="display: inline-block;">xxl</span>
+                            <input th:value="${SoLuongSP_XXL != null ? SoLuongSP_XXL : ''}" style="color: black; border-radius: 3px; display: inline-block; padding-bottom: 12px;"
+                                   type="number" id="SoLuongSP_XXL" name="SoLuongSP_XXL" placeholder="Số lượng" min="0"
+                                   required>
+                        </label>
+                    </div>
+                </div>
+                <label style="margin-top: 20px">Mô tả sản phẩm:</label>
+                <textarea th:text="${MoTa != null ? MoTa : ''}" name="MoTa" id="MoTa" cols="30" rows="5" style="width: 100%; margin-bottom: 20px;"
+                          placeholder="Mô tả sản phẩm" required></textarea>
+                <button style="color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-right: 10px;"
+                        type="submit" id="submitBtn">Thêm
+                </button>
+                <a href="/admin/product">
+                    <button style="color: #000000; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;" class="btnCancel" type="button" id="cancelBtn">Hủy</button>
+                </a>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
+
+<script>
+    const imgElements = document.querySelectorAll('form p img');
+    const inputFiles = document.getElementById("Img");
+
+    function showLoadingSwal() {
+        return Swal.fire({
+            title: 'Loading...',
+            text: 'Vui lòng chờ trong giây lát!',
+            showConfirmButton: false,
+            imageUrl: '/admin/img/gif/loading.gif',
+            timer: 2000,
+            allowOutsideClick: false // Không cho phép đóng khi click ra ngoài
+        });
+    }
+
+
+    function setFiles(imgs) { // khi nào lỗi hình thì xóa dấu . trước đường dẫn
+        // Tạo một input file mới
+        const imageURLs = imgs;
+
+        const blobs = [];
+        // blob là data dạng bin
+        // hàm map là hàm duyệt từng phần tử trong arr
+        // ý nghĩa đoạn code là duyệt từng phần tử gán vào biến url
+        // mỗi url gọi hàm fetch(url), đây là hàm tải data từ url này
+        // hàm fetch sẽ trả về một Promise chứa response từ URL đó
+        // sau đó ta gọi .then() để xử lý data trả về
+        // tương tự lấy giá trị trả về từ hàm fetch gán vào biến response
+        // và thực thi  blobs.push(response.blob());
+        const promises = imageURLs.map((url) =>
+            fetch(url).then((response) =>  response.blob()).then((blob) => {
+                let tmp_arr = []
+                tmp_arr["data"] = blob;
+                tmp_arr["url"] = url;
+
+                let tmp = tmp_arr["url"].split(".");
+                let extension = tmp[tmp.length - 1];
+
+                if(extension === "jpeg"){
+                    tmp_arr["extension"] = 'image/jpeg';
+                }
+                else if(extension === "png"){
+                    tmp_arr["extension"] = 'image/png';
+                }
+                blobs.push(tmp_arr);
+                console.log("oke");
+            })
+        );
+
+        Promise.all(promises).then(() => {
+            const newFileList = new DataTransfer();
+
+            blobs.forEach((blob) => {
+                const file = new File([blob["data"]], blob["url"], { type: blob["extension"]});
+                //console.log([blob["data"]]);
+                newFileList.items.add(file);
+            });
+
+            inputFiles.files = newFileList.files;
+        });
+    }
+
+
+    // Mảng để chứa tất cả các giá trị src
+    const srcValues = [];
+
+    // Duyệt qua mỗi thẻ <img> và lấy giá trị src
+    imgElements.forEach(img => {
+        const src = img.getAttribute('src');
+        srcValues.push(src);
+    });
+
+    setFiles(srcValues);
+    showLoadingSwal();
+</script>

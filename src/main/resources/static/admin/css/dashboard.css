@@ -582,6 +582,7 @@ body {
         height: auto;
         background: transparent;
         color: var(--dark);
+        border-radius: none;
     }
     .content nav form.show .form-input input {
         display: block;
@@ -620,4 +621,331 @@ table td i {
     width: 20px;
     text-align: center;
     cursor: pointer;
+}
+/*********************************** PRODUCT **************************************/
+/*SIZE*/
+/* .product-detail__size .product-detail__size__input {
+    display: flex !important;
+} */
+
+.product-detail__size__input label {
+    display: inline-block;
+    margin: 5px;
+    text-align: center;
+    /* Align text center within the label */
+}
+
+.product-detail__size input[type="radio"]:checked~span {
+    border: 1px solid #221f20;
+    color: #221f20;
+}
+
+.product-detail__size label span {
+    width: 48px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #e7e8e9;
+}
+
+.text-uppercase {
+    text-transform: uppercase !important;
+}
+
+.product-detail__size label {
+    cursor: pointer;
+}
+
+.product-detail__size input[type="radio"] {
+    display: none;
+}
+
+.product-detail__size label span {
+    margin-right: 12px;
+}
+/*Color*/
+
+#save,
+#colorPickerButton {
+    background-color: var(--primary);
+    width: 90px;
+    height: 38px;
+    border: 1px solid var(--primary);
+    border-radius: 3px;
+    color: white;
+    cursor: pointer;
+    font-size: 15px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.product-detail__color .product-detail__color__input {
+    display: flex;
+    align-items: center;
+}
+
+.product-detail__color label {
+    display: inline-flex;
+    border-radius: 10px;
+    position: relative;
+    cursor: pointer;
+}
+
+.product-detail__color label img {
+    width: 25px;
+    margin-right: 10px
+}
+
+.product-detail__color input[type="radio"] {
+    display: none;
+}
+
+.product-detail__color input[type="radio"]:checked~span::before {
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    content: "\2713";
+    font-weight: 900;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    color: var(--dark-grey);
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 1px;
+    right: 13px;
+}
+/*Dialog chọn color*/
+
+#colorPickerDialog {
+    display: none;
+    position: fixed;
+    z-index: 10;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 300px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#colorPickerDialog.show {
+    display: block;
+}
+
+.product-detail__color__input_dialog {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.product-detail__color__input_dialog label {
+    display: block;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.product-detail__color__input_dialog img {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+}
+
+#confirmColor_confirm {
+    background-color: var(--primary);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+#confirmColor_cancel {
+    background-color: var(--dark);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+#confirmColor:hover {
+    background-color: var(--primary-dark);
+}
+
+.product-detail__color input[type="checkbox"] {
+    display: none;
+}
+
+.product-detail__color input[type="checkbox"]:checked~span::before {
+    width: 25px;
+    height: 20px;
+    border-radius: 10px;
+    content: "\2713";
+    font-weight: 900;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    color: #f7f8f9;
+    font-size: 23px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 5px;
+}
+/*Hiển thị lỗi và thành công*/
+
+.custom-alert {
+    width: 100%;
+    height: 60px;
+    padding-top: 20px !important;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    z-index: 1000;
+    /* Đảm bảo nằm trên các phần khác */
+    display: none;
+    /* Ẩn ban đầu */
+}
+
+.custom-alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.custom-alert-error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.custom-alert i {
+    margin-right: 8px;
+}
+/* Xem chi tiết */
+
+.XemChiTiet {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 1000;
+    transform: translate(-50%, -50%);
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.product_select_size {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.size_button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: 2px solid #333;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.size_button:hover {
+    background-color: #333;
+    color: #fff;
+}
+
+.product_select_img {
+    display: flex;
+    justify-content: space-around;
+}
+
+.product_image {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.disabled {
+    pointer-events: none;
+    filter: grayscale(90%);
+}
+
+#formChiTietOrder {
+    border-radius: 12px;
+    background: var(--light);
+    padding: 20px;
+}
+
+.XemChiTiet h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: var(--dark);
+}
+
+.XemChiTiet p {
+    display: inline-block;
+    margin: 0;
+    margin-right: 20px;
+    /* Khoảng cách giữa các phần tử */
+}
+
+#cancelXemChiTietOrder {
+    display: block;
+    margin-top: 20px;
+    /* Khoảng cách giữa dòng chữ và button */
+    background-color: red;
+    color: white;
+    border: none;
+    width: 120px;
+    height: 30px;
+    border-radius: 1px;
+    font-size: 14px;
+}
+/* CSS cho phần phân trang */
+
+.pagination {
+    padding-bottom: 20px !important;
+    padding-top: 20px !important;
+    align-items: center;
+    display: flex;
+    list-style: none;
+    padding: 0;
+    justify-content: center;
+    background: var(--grey);
+}
+
+.pagination a {
+    color: var(--dark);
+    text-decoration: none;
+    padding: 8px 16px;
+    margin: 0 4px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.pagination a.active {
+    background-color: var(--primary);
+    color: white;
+    border: 1px solid var(--primary);
+}
+
+.pagination a:hover {
+    background-color: #ddd;
 }
