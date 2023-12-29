@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" th:href="@{/admin/css/dashboard.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/dashboard_information.css}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>PTITShop</title>
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <a href="#" class="logo">
+        <i class='bx bx-code-alt'></i>
+        <div class="logo-name"><span>PTIT</span>Shop</div>
+    </a>
+    <ul class="side-menu">
+        <li class="slide-menu-product"><a href="/admin/product"><i class='bx bxs-dashboard'></i>Sản phẩm</a></li>
+        <li class="slide-menu-category"><a href="/admin/category"><i class='bx bx-store-alt'></i>Danh mục sản phẩm</a></li>
+        <li class="slide-menu-order"><a href="/admin/order"><i class='bx bx-analyse'></i>Đơn hàng</a></li>
+        <li class="slide-menu-orderHistory"><a href="#"><i class='bx bx-store-alt'></i>Lịch sử đơn hàng</a></li>
+        <li class="slide-menu-details"><a href="/admin/detail"><i class='bx bx-message-square-dots'></i>Chi tiết đơn hàng</a></li>
+        <li class="slide-menu-customer"><a href="/admin/customer"><i class='bx bx-group'></i>Khách hàng</a></li>
+        <li><a href="#"><i class='bx bx-cog'></i>Settings</a></li>
+    </ul>
+    <ul class="side-menu">
+        <li>
+            <a th:href="@{/admin/logout}" class="logout">
+                <i class='bx bx-log-out-circle'></i> Logout
+            </a>
+        </li>
+    </ul>
+</div>
+<!-- End of Sidebar -->
+
+<!-- Main Content -->
+<div class="content">
+    <!-- Navbar -->
+    <nav>
+        <i class='bx bx-menu'></i>
+        <form action="#">
+            <div class="form-input">
+                <input type="search" placeholder="Search...">
+                <button class="search-btn" type="submit"><i class='bx bx-search'></i></button>
+            </div>
+        </form>
+        <input type="checkbox" id="theme-toggle" hidden>
+        <label for="theme-toggle" class="theme-toggle"></label>
+        <a href="#" class="profile">
+            <img src="/src/view/admin/img/user.jpg">
+        </a>
+    </nav>
+
+    <!-- End of Navbar -->
+
+    <main>
+        <div class="header">
+            <div class="left">
+                <h1>Lịch sử đơn hàng</h1>
+                <ul class="breadcrumb">
+                    <li><a href="#">
+                        Order
+                    </a></li>
+                    /
+                    <li><a href="#" class="active">Shop</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!--********************* OrderHistory ***********************-->
+        <div style="background: var(--light);color: var(--dark);">
+            <table width="100%">
+                <thead>
+                <tr>
+                    <th style="width: 120px;"><span class="las la-sort"></span> MÃ ĐƠN</th>
+                    <th style="width: 120px;"><span class="las la-sort"></span> NGÀY ĐẶT</th>
+                    <th style="width: 90px;"><span class="las la-sort"></span> T.THÁI</th>
+                    <th style="width: 80px;"><span class="las la-sort"></span> T.TIỀN</th>
+                    <th style="width: 300px;"><span class="las la-sort"></span> EMAIL</th>
+                    <th style="width: 120px;"><span class="las la-sort"></span> MÃ TT</th>
+                    <th style="width: 120px;"><span class="las la-sort"></span> NGÀY TT</th>
+                    <th style="width: 120px;"><span class="las la-sort"></span> LOẠI TT</th>
+                    <th style="width: 180px;"><span class="las la-sort"></span> ĐỊA CHỈ</th>
+                    <th style="width: 120px;"><span class="las la-sort"></span> SĐT</th>
+                    <th><span class="las la-sort"></span> ACTION</th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                <tr th:each="odersHistoryManagement : ${ordersHistory}">
+                    <td th:text="${odersHistoryManagement.orderCode}"></td>
+                    <td th:text="${odersHistoryManagement.orderDate}"></td>
+                    <td th:text="${odersHistoryManagement.state}"></td>
+                    <td class="price ng-binding" th:text="${odersHistoryManagement.totalPrice*1000}"></td>
+                    <td th:text="${odersHistoryManagement.email}"></td>
+                    <td th:text="${odersHistoryManagement.paymentCode != null ? odersHistoryManagement.paymentCode : 'NONE'}"></td>
+                    <td th:text="${odersHistoryManagement.paymentDate != null ? odersHistoryManagement.paymentDate : 'NONE'}"></td>
+                    <td th:text="${odersHistoryManagement.paymentType != null ? odersHistoryManagement.paymentType : 'NONE'}"></td>
+                    <td th:text="${odersHistoryManagement.address}"></td>
+                    <td th:text="${odersHistoryManagement.phone}"></td>
+                    <td>
+                        <i id="showDetailIcon" style="background: #16bb5e; border: 2px solid #16bb5e !important; margin-left: 5px; margin-top: 5px" class="fa fa-file xemChiTietOrder" title="Xem chi tiết"></i>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="formChiTietOrder" class="XemChiTiet" style="display:none; border-radius: 12px; background: var(--light); width: 80% !important;">
+            <table width="100%" >
+                <thead>
+                <tr style="background: none !important;">
+                    <th style="width: 120px;"><span class="las la-sort"></span>Mã đơn</th>
+                    <th style="width: 120px;"><span class="las la-sort"></span>Mã SP</th>
+                    <th style="width: 120px;"><span class="las la-sort"></span>Số Lượng</th>
+                    <th style="width: 120px;"><span class="las la-sort"></span>Size</th>
+                    <th style="width: 120px;"><span class="las la-sort"></span>Tổng tiền</th>
+                </tr>
+                </thead>
+                <tbody id="tbody_2">
+                <tr th:each="item : ${ordersHistoryItemList}">
+                    <td data-label="MaDonCT"><span th:text="${item.orderCode}"></span></td>
+                    <td data-label="MaSPCT"><span th:text="${item.productCode}"></span></td>
+                    <td data-label="SoLuong"><span th:text="${item.quantity}"></span></td>
+                    <td data-label="Size"><span th:text="${item.size}"></span></td>
+                    <td data-label="TongTien"><span th:text="${item.totalPrice*1000}"></span></td>
+                </tr>
+                </tbody>
+            </table>
+            <button id="cancelXemChiTietOrder" style="font-size: 14px;border: none;background-color: red;margin-top: 21px; color: white; width: 120px; height: 30px;border-radius: 1px;">Cancel</button>
+        </div>
+    </main>
+</div>
+</body>
+</html>
+<script th:src="@{/admin/js/dashboard.js}"></script>
+<script>
+    const formChiTietSP = document.getElementById('formChiTietOrder');
+    const cancelXemChiTietOrder = document.getElementById("cancelXemChiTietOrder");
+
+    document.querySelectorAll('.xemChiTietOrder').forEach(function (button) {
+        button.addEventListener('click', function () {
+            formChiTietSP.style.display = 'block';
+
+            // Lấy dữ liệu từ hàng được chọn
+            const row = this.closest('tr');
+            const orderItemsData = row.querySelectorAll('td[data-label]');
+            console.log(orderItemsData);
+            const tbody2 = document.getElementById('tbody_2');
+            tbody2.innerHTML = "";
+            let newRow;
+            orderItemsData.forEach(function (td) {
+                const label = td.getAttribute('data-label');
+                const value = td.textContent;
+
+                // Tạo một dòng mới nếu gặp "MaDonCT"
+                if (label === "MaDonCT") {
+                    newRow = tbody2.insertRow();
+                }
+
+                const newCell = newRow.insertCell();
+                newCell.textContent = value;
+                newCell.setAttribute('data-label', label);
+            });
+        });
+    });
+
+    cancelXemChiTietOrder.addEventListener("click", function () {
+        formChiTietSP.style.display = 'none';
+    });
+//Hàm chuẩn hóa giá tiền
+    document.addEventListener("DOMContentLoaded", function() {
+        var priceElements = document.getElementsByClassName("price");
+
+        for (var i = 0; i < priceElements.length; i++) {
+            var priceElement = priceElements[i];
+            var price = parseFloat(priceElement.innerText);
+
+            if (!isNaN(price)) {
+                var formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+                formattedPrice = formattedPrice.replace("₫", "");
+                priceElement.innerText = formattedPrice.trim();
+            }
+        }
+    });
+</script>
