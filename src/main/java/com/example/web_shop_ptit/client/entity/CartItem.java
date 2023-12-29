@@ -17,7 +17,7 @@ public class CartItem {
     @Column(name = "cart_code")
     private String cartCode;
 
-    @Column(name = "product_code", insertable=false, updatable=false)
+    @Column(name = "product_code", insertable = true , updatable=false)
     private String productCode;
 
     @Column(name = "quantity", nullable = false)
@@ -31,7 +31,7 @@ public class CartItem {
     private Long totalPrice;
 
     @ManyToOne
-    @JoinColumn(name = "product_code")
+    @JoinColumn(name = "product_code", referencedColumnName = "product_code", insertable = false, updatable = false)
     private Product product;
 
     public int getCartItemId() {
