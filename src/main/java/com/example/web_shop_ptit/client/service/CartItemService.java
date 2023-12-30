@@ -4,6 +4,7 @@ import com.example.web_shop_ptit.client.entity.CartItem;
 import com.example.web_shop_ptit.client.entity.Product;
 import com.example.web_shop_ptit.client.entity.Size;
 import com.example.web_shop_ptit.client.repository.CartItemRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,4 +37,23 @@ public class CartItemService {
         cartItemRepository.save(cartItem);
     }
 
+    public void updateQuantityAndPrice(List<CartItem> cartItemList, String[] quantity,
+                                       String[] totalPrice){
+        for(int i = 0; i < cartItemList.size(); i++){
+            cartItemList.get(i).setQuantity(Integer.parseInt(quantity[i]));
+            cartItemList.get(i).setTotalPrice(Long.valueOf(totalPrice[i]));
+            cartItemRepository.save(cartItemList.get(i));
+        }
+
+    }
+
+    @Transactional
+    public void deleteCartItem(String cartCode){
+        cartItemRepository.deleteByCartCode(cartCode);
+    }
+
+    @Transactional
+    public void deleteCartProduct(String productCode){
+        cartItemRepository.deleteByProductCode(productCode);
+    }
 }
