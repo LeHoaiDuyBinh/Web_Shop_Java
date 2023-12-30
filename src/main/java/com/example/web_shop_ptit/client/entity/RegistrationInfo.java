@@ -88,4 +88,5 @@ public class RegistrationInfo {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
 }

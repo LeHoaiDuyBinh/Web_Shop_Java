@@ -8,6 +8,7 @@
     <link rel="stylesheet" th:href="@{/admin/css/dashboard.css}">
     <link rel="stylesheet" th:href="@{/admin/css/dashboard_information.css}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10"></link>
     <title>PTITShop</title>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -26,8 +27,8 @@
         <li class="slide-menu-category"><a href="#"><i class='bx bx-store-alt'></i>Danh mục sản phẩm</a></li>
         <li class="slide-menu-order"><a href="/admin/order"><i class='bx bx-analyse'></i>Đơn hàng</a></li>
         <li class="slide-menu-orderHistory"><a href="/admin/ordersHistory"><i class='bx bx-store-alt'></i>Lịch sử đơn hàng</a></li>
-        <li class="slide-menu-details"><a href="/admin/detail"><i class='bx bx-message-square-dots'></i>Chi tiết đơn hàng</a></li>
         <li class="slide-menu-customer"><a href="/admin/customer"><i class='bx bx-group'></i>Khách hàng</a></li>
+        <li class="slide-menu-staff"><a href="/admin/staff"><i class='bx bx-group'></i>Nhân viên</a></li>
         <li><a href="#"><i class='bx bx-cog'></i>Settings</a></li>
     </ul>
     <ul class="side-menu">
@@ -45,17 +46,6 @@
     <!-- Navbar -->
     <nav>
         <i class='bx bx-menu'></i>
-        <form action="#">
-            <div class="form-input">
-                <input type="search" placeholder="Search...">
-                <button class="search-btn" type="submit"><i class='bx bx-search'></i></button>
-            </div>
-        </form>
-        <input type="checkbox" id="theme-toggle" hidden>
-        <label for="theme-toggle" class="theme-toggle"></label>
-        <a href="#" class="profile">
-            <img src="/src/view/admin/img/user.jpg">
-        </a>
     </nav>
 
     <!-- End of Navbar -->
@@ -255,4 +245,5 @@
             }
         });
     });
+
 </script>

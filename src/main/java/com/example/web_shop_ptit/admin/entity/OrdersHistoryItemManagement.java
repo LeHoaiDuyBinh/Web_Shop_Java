@@ -1,5 +1,6 @@
 package com.example.web_shop_ptit.admin.entity;
 
+import com.example.web_shop_ptit.client.entity.OrderHistory;
 import jakarta.persistence.*;
 
 

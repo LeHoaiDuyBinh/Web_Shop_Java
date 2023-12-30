@@ -11,6 +11,12 @@
         .size span.selected {
             border: 1px solid #000; /* Black border */
         }
+        input:hover {
+            border: 1px solid #ccc; /* You can customize the border style here */
+        }
+        input:focus {
+            outline: none;
+        }
     </style>
 
 
@@ -34,15 +40,18 @@
 
 <!--************* Product  ****************  -->
 <section class="product">
+    <form th:action="@{/auth/add-to-cart}" method="post">
     <div class="container-product" >
-        <div class="product-top row" th:each="categoryManagement : ${categoryManagement}">
-            <p>Trang chủ</p><span>&#10230; </span>
-            <p th:text ="${nameParentCategory}"></p> <span>&#10230; </span>
-            <p th:text ="${categoryManagement.name}"></p>
-            <span>&#10230;</span>
-            <p th:text="${product.name}"></p>
-        </div>
+<!--        <div class="product-top row" th:each="category : ${category}">-->
+<!--            <p>Trang chủ</p><span>&#10230; </span>-->
+<!--            <p th:text ="${nameParentCategory}"></p> <span>&#10230; </span>-->
+<!--            <p th:text ="${category.name}"></p>-->
+<!--            <span>&#10230;</span>-->
+<!--            <p th:text="${product.name}"></p>-->
+<!--        </div>-->
+
         <div class="product-content row">
+
         <div class="product-content-left row" th:if="${listImg != null and not #lists.isEmpty(listImg)}">
                 <div class="product-content-left-big-img" >
                     <img th:src="@{${listImg.get(0).image.substring(1)}}" alt="">
@@ -57,16 +66,17 @@
             </div>
             <div class="product-content-right">
                 <div class="product-content-right-product-name">
-                    <h1 th:text="${product.name}"></h1>
-                    <p>SKU: 57B9489</p>
+                    <h1 th:if="${product != null}" th:text="${product.name}"></h1>
+                    <input style="border: none" name="productCode" th:value="${productCode1}" readonly>
                 </div>
                 <div class="product-content-right-product-price">
-                    <p class="price" th:text="${product.price * 1000}"style="font-weight: bold; font-size: 24px;"><sup>đ</sup></p>
+                    <input style="border: none; font-weight: bold; font-size: 24px;" class="price" name="price"
+                           th:value="${product != null && product.price != null ? product.price * 1000 : ''}" readonly>
                 </div>
                 <div class="product-content-right-product-color">
 <!--                    <p th:text="${product.color}"style="font-weight: bold; font-size: 24px;"><span>Màu sắc</span></p>-->
                     <div class="product-content-right-product-color-img">
-                        <img th:src="@{'/client/img/' + ${product.color} + '.jpg'}" alt="">
+                        <img th:if="${product != null}" th:src="@{'/client/img/' + ${product.color} + '.jpg'}" alt="">
                     </div>
                 </div>
                 <div class="product-content-right-product-size" style="margin-top: 10px;">
@@ -77,11 +87,12 @@
                               th:data-value="${size.quantity}"
                               th:class="${size.id.size}"
                               th:text="${size.id.size}"></span>
+                        <input name="size" id="getsize"  value="DEFAULT_SIZE" style="display: none">
                     </div>
                 </div>
                 <div class="quantity">
                     <p style="font-weight: bold; color: #6C6D70;">Số lượng</p>
-                    <input type="number" min="0" value="1" class="custom-number-input">
+                    <input type="number" name="quantity" min="0" value="1" class="custom-number-input">
                 </div>
                 <p id="quantityDisplay"></p>
                 <p style=" color: red; display: none;">Vui lòng chọn size</p>
@@ -94,6 +105,7 @@
                     <button th:if="${checkSession == '1'}" onclick="addToCart()">
                         <p style="margin-bottom: 1%;">THÊM VÀO GIỎ</p>
                     </button>
+
 <!--                    <a href="/auth/cart">-->
 <!--                        <button><i class="fa fa-shopping-cart"></i><p style="margin-bottom: 1%;">MUA HÀNG</p></button>-->
 <!--                    </a>-->
@@ -157,6 +169,7 @@
             </div>
         </div>
     </div>
+    </form>
 </section>
 
 <!-- Product related-->
@@ -221,9 +234,9 @@
         document.getElementById('sizeErrorMessage').style.display = 'none';
     }
     function selectSize(event) {
+        let size = event.target.getAttribute('data-size');
         let quantity = event.target.getAttribute('data-value');
         let isSelected = event.target.classList.contains('selected');
-        // Remove the 'selected' class from all size spans
         let sizeSpans = document.querySelectorAll('.size span');
         sizeSpans.forEach(function(span) {
             span.classList.remove('selected');
@@ -231,7 +244,7 @@
 
         if (!isSelected) {
             event.target.classList.add('selected');
-
+            document.getElementById('getsize').value = size;
             // Hiển thị số lượng hoặc thông báo hết hàng trong quantityDisplay
             let quantityDisplay = document.getElementById('quantityDisplay');
             let quantityInput = document.querySelector('.custom-number-input');
@@ -267,4 +280,5 @@
             }
         }
     });
+
 </script>

@@ -24,8 +24,8 @@
         <li class="slide-menu-category"><a href="/admin/category"><i class='bx bx-store-alt'></i>Danh mục sản phẩm</a></li>
         <li class="slide-menu-order"><a href="/admin/order"><i class='bx bx-analyse'></i>Đơn hàng</a></li>
         <li class="slide-menu-orderHistory"><a href="#"><i class='bx bx-store-alt'></i>Lịch sử đơn hàng</a></li>
-        <li class="slide-menu-details"><a href="/admin/detail"><i class='bx bx-message-square-dots'></i>Chi tiết đơn hàng</a></li>
         <li class="slide-menu-customer"><a href="/admin/customer"><i class='bx bx-group'></i>Khách hàng</a></li>
+        <li class="slide-menu-staff"><a href="/admin/staff"><i class='bx bx-group'></i>Nhân viên</a></li>
         <li><a href="#"><i class='bx bx-cog'></i>Settings</a></li>
     </ul>
     <ul class="side-menu">
@@ -91,19 +91,28 @@
                 </tr>
                 </thead>
                 <tbody id="tbody">
-                <tr th:each="odersHistoryManagement : ${ordersHistory}">
-                    <td th:text="${odersHistoryManagement.orderCode}"></td>
-                    <td th:text="${odersHistoryManagement.orderDate}"></td>
-                    <td th:text="${odersHistoryManagement.state}"></td>
-                    <td class="price ng-binding" th:text="${odersHistoryManagement.totalPrice*1000}"></td>
-                    <td th:text="${odersHistoryManagement.email}"></td>
-                    <td th:text="${odersHistoryManagement.paymentCode != null ? odersHistoryManagement.paymentCode : 'NONE'}"></td>
-                    <td th:text="${odersHistoryManagement.paymentDate != null ? odersHistoryManagement.paymentDate : 'NONE'}"></td>
-                    <td th:text="${odersHistoryManagement.paymentType != null ? odersHistoryManagement.paymentType : 'NONE'}"></td>
-                    <td th:text="${odersHistoryManagement.address}"></td>
-                    <td th:text="${odersHistoryManagement.phone}"></td>
+                <tr th:each="orderHistoryManagement : ${ordersHistory}">
+                    <td th:text="${orderHistoryManagement.orderCode}"></td>
+                    <td th:text="${orderHistoryManagement.orderDate}"></td>
+                    <td th:text="${orderHistoryManagement.state}"></td>
+                    <td class="price ng-binding" th:text="${orderHistoryManagement.totalPrice*1000}"></td>
+                    <td th:text="${orderHistoryManagement.email}"></td>
+                    <td th:text="${orderHistoryManagement.paymentCode != null ? orderHistoryManagement.paymentCode : 'NONE'}"></td>
+                    <td th:text="${orderHistoryManagement.paymentDate != null ? orderHistoryManagement.paymentDate : 'NONE'}"></td>
+                    <td th:text="${orderHistoryManagement.paymentType != null ? orderHistoryManagement.paymentType : 'NONE'}"></td>
+                    <td th:text="${orderHistoryManagement.address}"></td>
+                    <td th:text="${orderHistoryManagement.phone}"></td>
                     <td>
                         <i id="showDetailIcon" style="background: #16bb5e; border: 2px solid #16bb5e !important; margin-left: 5px; margin-top: 5px" class="fa fa-file xemChiTietOrder" title="Xem chi tiết"></i>
+                    </td>
+                    <td data-label="ChiTietOrder" style="color: var(--dark); display: none;">
+                        <th:block th:each="items : ${orderHistoryManagement.orderHistoryItemslist}">
+                            <p data-label="MaDonCT" th:text="${items.orderCode}"></p>
+                            <p data-label="MaSPCT" th:text="${items.productCode}"></p>
+                            <p data-label="SoLuong" th:text="${items.quantity}"></p>
+                            <p data-label="Size" th:text="${items.size}"></p>
+                            <p data-label="TongTien" th:text="${items.totalPrice*1000}"></p>
+                        </th:block>
                     </td>
                 </tr>
                 </tbody>
@@ -121,13 +130,7 @@
                 </tr>
                 </thead>
                 <tbody id="tbody_2">
-                <tr th:each="item : ${ordersHistoryItemList}">
-                    <td data-label="MaDonCT"><span th:text="${item.orderCode}"></span></td>
-                    <td data-label="MaSPCT"><span th:text="${item.productCode}"></span></td>
-                    <td data-label="SoLuong"><span th:text="${item.quantity}"></span></td>
-                    <td data-label="Size"><span th:text="${item.size}"></span></td>
-                    <td data-label="TongTien"><span th:text="${item.totalPrice*1000}"></span></td>
-                </tr>
+                <tr></tr>
                 </tbody>
             </table>
             <button id="cancelXemChiTietOrder" style="font-size: 14px;border: none;background-color: red;margin-top: 21px; color: white; width: 120px; height: 30px;border-radius: 1px;">Cancel</button>
@@ -138,52 +141,56 @@
 </html>
 <script th:src="@{/admin/js/dashboard.js}"></script>
 <script>
-    const formChiTietSP = document.getElementById('formChiTietOrder');
-    const cancelXemChiTietOrder = document.getElementById("cancelXemChiTietOrder");
+    document.addEventListener("DOMContentLoaded", function() {
+        const formChiTietSP = document.getElementById('formChiTietOrder');
+        const cancelXemChiTietOrder = document.getElementById("cancelXemChiTietOrder");
 
-    document.querySelectorAll('.xemChiTietOrder').forEach(function (button) {
-        button.addEventListener('click', function () {
-            formChiTietSP.style.display = 'block';
-
-            // Lấy dữ liệu từ hàng được chọn
-            const row = this.closest('tr');
-            const orderItemsData = row.querySelectorAll('td[data-label]');
-            console.log(orderItemsData);
-            const tbody2 = document.getElementById('tbody_2');
-            tbody2.innerHTML = "";
-            let newRow;
-            orderItemsData.forEach(function (td) {
-                const label = td.getAttribute('data-label');
-                const value = td.textContent;
-
-                // Tạo một dòng mới nếu gặp "MaDonCT"
-                if (label === "MaDonCT") {
-                    newRow = tbody2.insertRow();
-                }
-
-                const newCell = newRow.insertCell();
-                newCell.textContent = value;
-                newCell.setAttribute('data-label', label);
+        document.querySelectorAll('.xemChiTietOrder').forEach(function(button) {
+            button.addEventListener('click', function() {
+                formChiTietSP.style.display = 'block';
             });
         });
-    });
 
-    cancelXemChiTietOrder.addEventListener("click", function () {
-        formChiTietSP.style.display = 'none';
-    });
-//Hàm chuẩn hóa giá tiền
-    document.addEventListener("DOMContentLoaded", function() {
-        var priceElements = document.getElementsByClassName("price");
+        cancelXemChiTietOrder.addEventListener("click", function() {
+            formChiTietSP.style.display = 'none';
+        });
 
-        for (var i = 0; i < priceElements.length; i++) {
-            var priceElement = priceElements[i];
-            var price = parseFloat(priceElement.innerText);
+        document.querySelectorAll('.xemChiTietOrder').forEach(function(button) {
+            button.addEventListener('click', function() {
+                formChiTietSP.style.display = 'block';
+                const row = this.closest('tr');
+                const orderItemsData = row.querySelector('td[data-label="ChiTietOrder"]').querySelectorAll('p');
+
+                const tbody2 = document.getElementById('tbody_2');
+                tbody2.innerHTML = "";
+                let newRow;
+                orderItemsData.forEach(function(p) {
+                    const label = p.getAttribute('data-label');
+                    const value = p.textContent;
+
+                    // Nếu chưa có dòng mới hoặc là order mới, tạo dòng mới
+                    if (!newRow || label === "MaDonCT") {
+                        newRow = tbody2.insertRow();
+                    }
+
+                    const newCell = newRow.insertCell();
+                    newCell.textContent = value;
+                    newCell.setAttribute('data-label', label);
+                });
+            });
+        });
+
+        // Hàm chuẩn hóa giá tiền
+        const priceElements = document.getElementsByClassName("price");
+        for (let i = 0; i < priceElements.length; i++) {
+            const priceElement = priceElements[i];
+            const price = parseFloat(priceElement.innerText);
 
             if (!isNaN(price)) {
-                var formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
-                formattedPrice = formattedPrice.replace("₫", "");
-                priceElement.innerText = formattedPrice.trim();
+                const formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+                priceElement.innerText = formattedPrice.replace("₫", "").trim();
             }
         }
     });
+
 </script>

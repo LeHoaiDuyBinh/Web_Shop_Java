@@ -32,12 +32,16 @@ public class ProductManagement {
     @OneToMany(mappedBy = "id.product", cascade = CascadeType.ALL)
     private List<ProductSizeManagement> productSizes;
 
-//    @OneToMany(mappedBy = "product")
-//    private Collection<ProductSizeManagement> orderItems;
+    public List<OrderItemsManagement> getOrderItems() {
+        return orderItems;
+    }
 
-//    @OneToMany(mappedBy = "product")
-//    private Collection<OrderItem> orderItems;
+    public void setOrderItems(List<OrderItemsManagement> orderItems) {
+        this.orderItems = orderItems;
+    }
 
+    @OneToMany(mappedBy = "product")
+    private List<OrderItemsManagement> orderItems;
 
     public String getProductCode() {
         return productCode;

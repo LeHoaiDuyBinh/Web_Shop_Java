@@ -14,8 +14,8 @@ public class OrdersHistoryManagementService {
     public List<OrdersHistoryManagement> listAll() {
         return (List<OrdersHistoryManagement>) repo.findAll();
     }
-    public OrdersHistoryManagement getOrdersHistoryByOrderCode(String orderCode) {
-        List<OrdersHistoryManagement> resultList = repo.findByOrderCode(orderCode);
+    public OrdersHistoryManagement getOrdersHistoryByOrderCode(String MaSanPham) {
+        List<OrdersHistoryManagement> resultList = repo.findByOrderCode(MaSanPham);
         return resultList.isEmpty() ? null : resultList.get(0);
     }
 }

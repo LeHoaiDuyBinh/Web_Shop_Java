@@ -1,6 +1,7 @@
 package com.example.web_shop_ptit.admin.controller;
 
 import com.example.web_shop_ptit.admin.entity.CategoryManagement;
+import com.example.web_shop_ptit.admin.entity.OrderManagement;
 import com.example.web_shop_ptit.admin.entity.ProductImageManagement;
 import com.example.web_shop_ptit.admin.entity.ProductManagement;
 import com.example.web_shop_ptit.admin.exception.AddProductException;
@@ -8,6 +9,7 @@ import com.example.web_shop_ptit.admin.exception.DeleteProductException;
 import com.example.web_shop_ptit.admin.exception.EditProductException;
 import com.example.web_shop_ptit.admin.service.CategoryManagementService;
 import com.example.web_shop_ptit.admin.service.FilesStorageService;
+import com.example.web_shop_ptit.admin.service.OrderManagementService;
 import com.example.web_shop_ptit.admin.service.ProductManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,6 +38,9 @@ public class ProductAdminController {
 
     @Autowired
     private FilesStorageService filesStorageService;
+
+    @Autowired
+    private OrderManagementService orderManagementService;
     @GetMapping("/product")
     public String productPage(Model model) {
         List<ProductManagement> products = productManagementService.listAll();
@@ -86,7 +91,7 @@ public class ProductAdminController {
                     throw new RuntimeException(e);
                 }
                 String path = filesStorageService.saveWithNewName(file, newFileName);
-                fileNames.add('.'  + path);
+                fileNames.add(path);
             });
 
             String MaSanPham = generateProductCode();
@@ -189,7 +194,7 @@ public class ProductAdminController {
                     throw new RuntimeException(e);
                 }
                 String path = filesStorageService.saveWithNewName(file, newFileName);
-                fileNames.add('.'  + path);
+                fileNames.add(path);
             });
             ProductManagement product = productManagementService.getProductByProductCode(MaSanPham);
 
@@ -219,12 +224,18 @@ public class ProductAdminController {
     @PostMapping("/product/delete")
     public String deleteCategoryPage(@RequestParam String MaSanPham, RedirectAttributes redirectAttributes) {
         try {
+            List<OrderManagement> orders = orderManagementService.listOrderNotDelivered(MaSanPham);
+
+            if(!orders.isEmpty()){
+                redirectAttributes.addFlashAttribute("err", "Không thể xóa do sản phẩm nằm trong một đơn hàng!");
+                return "redirect:/admin/product";
+            }
             ProductManagement product = productManagementService.getProductByProductCode(MaSanPham);
 
             List<ProductImageManagement> images = product.getProductImages();
 
             for (ProductImageManagement image : images) {
-                filesStorageService.deleteFile(image.getImage());
+                filesStorageService.deleteFile(image.getImage().substring(1));
             }
 
             productManagementService.deleteProduct(MaSanPham);

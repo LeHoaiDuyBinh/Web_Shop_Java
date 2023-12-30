@@ -1,5 +1,6 @@
-package com.example.web_shop_ptit.admin.interceptor;
+package com.example.web_shop_ptit.admin.config;
 
+import com.example.web_shop_ptit.admin.interceptor.AuthInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -19,7 +20,8 @@ public class WebConfig implements WebMvcConfigurer {
 //                .excludePathPatterns("/admin/login", "/admin/logout");
         registry.addInterceptor(authInterceptor)
                 .addPathPatterns("/admin/**") // Áp dụng cho mọi đường dẫn con của /admin
-                .excludePathPatterns("/admin/login", "/admin/css/**", "/admin/js/**"); // Loại trừ /admin/login, /admin/css và /admin/js
+                .excludePathPatterns("/admin/login", "/admin/css/**", "/admin/js/**", "/image/**"); // Loại trừ /admin/login, /admin/css và /admin/js
+
     }
 }
 
