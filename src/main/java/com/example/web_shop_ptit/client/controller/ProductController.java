@@ -118,7 +118,8 @@ public class ProductController {
                 flag = 0;
             }
         }
-
+        List<Category> listCategory = categoryService.listAll();
+        model.addAttribute("listCategorys", listCategory);
         model.addAttribute("listProductImgs", listImg);
         model.addAttribute("keyword", keyword);
         model.addAttribute("productSearch", productList);
