@@ -107,7 +107,7 @@
                     </td>
                     <td data-label="ChiTietOrder" style="color: var(--dark); display: none;">
                         <th:block th:each="items : ${orderHistoryManagement.orderHistoryItemslist}">
-                            <p data-label="MaDonCT" th:text="${items.orderCode}"></p>
+                            <p data-label="MaDonCT" th:text="${items.getOrderHistoryManagement().orderCode}"></p>
                             <p data-label="MaSPCT" th:text="${items.productCode}"></p>
                             <p data-label="SoLuong" th:text="${items.quantity}"></p>
                             <p data-label="Size" th:text="${items.size}"></p>

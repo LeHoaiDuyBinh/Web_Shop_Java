@@ -1,6 +1,6 @@
 package com.example.web_shop_ptit.admin.entity;
 
-import com.example.web_shop_ptit.client.entity.OrderHistoryItem;
+import com.example.web_shop_ptit.admin.entity.OrdersHistoryItemManagement;
 import jakarta.persistence.*;
 
 import java.util.Collection;
@@ -45,16 +45,16 @@ public class OrdersHistoryManagement {
     private Double totalPrice;
 
 
-    public Collection<OrderHistoryItem> getOrderHistoryItemslist() {
+    public Collection<OrdersHistoryItemManagement> getOrderHistoryItemslist() {
         return orderHistoryItemslist;
     }
 
-    public void setOrderHistoryItemslist(Collection<OrderHistoryItem> orderHistoryItemslist) {
+    public void setOrderHistoryItemslist(Collection<OrdersHistoryItemManagement> orderHistoryItemslist) {
         this.orderHistoryItemslist = orderHistoryItemslist;
     }
 
-    @OneToMany(mappedBy = "orderHistory")
-    private Collection<OrderHistoryItem> orderHistoryItemslist;
+    @OneToMany(mappedBy = "orderHistoryManagement", cascade = CascadeType.ALL)
+    private Collection<OrdersHistoryItemManagement> orderHistoryItemslist;
 
 
     public String getOrderCode() {
