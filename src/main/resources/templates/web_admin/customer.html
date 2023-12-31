@@ -21,7 +21,7 @@
     </a>
     <ul class="side-menu">
         <li class="slide-menu-product"><a href="/admin/product"><i class='bx bxs-dashboard'></i>Sản phẩm</a></li>
-        <li class="slide-menu-category"><a href="admin/category"><i class='bx bx-store-alt'></i>Danh mục sản phẩm</a></li>
+        <li class="slide-menu-category"><a href="/admin/category"><i class='bx bx-store-alt'></i>Danh mục sản phẩm</a></li>
         <li class="slide-menu-order"><a href="/admin/order"><i class='bx bx-analyse'></i>Đơn hàng</a></li>
         <li class="slide-menu-orderHistory"><a href="/admin/ordersHistory"><i class='bx bx-store-alt'></i>Lịch sử đơn hàng</a></li>
         <li class="slide-menu-customer"><a href="#"><i class='bx bx-group'></i>Khách hàng</a></li>
@@ -43,6 +43,17 @@
     <!-- Navbar -->
     <nav>
         <i class='bx bx-menu'></i>
+        <form action="#">
+            <div class="form-input">
+                <input type="search" placeholder="Search..." hidden>
+                <button class="search-btn" type="submit" style="display: none"><i class='bx bx-search'></i></button>
+            </div>
+        </form>
+        <input type="checkbox" id="theme-toggle" hidden>
+        <label for="theme-toggle" class="theme-toggle"></label>
+        <a href="#" class="profile">
+            <img src="/public/img/user.jpg">
+        </a>
     </nav>
 
     <!-- End of Navbar -->

@@ -1,6 +1,9 @@
 package com.example.web_shop_ptit.admin.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Collection;
 import java.util.Date;
@@ -12,15 +15,19 @@ public class ProductManagement {
     @Id
     @Column(name = "product_code")
     private String productCode;
+
     @Column(name = "name")
     private String name;
+
     @Column(name = "description")
     private String description;
+
     @Column(name = "price")
     private Long price;
     @ManyToOne
     @JoinColumn(name = "category_id")
     private CategoryManagement category;
+
     @Column(name = "color")
     private String color;
     @Column(name = "update_latest")

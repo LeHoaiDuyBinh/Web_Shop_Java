@@ -21,16 +21,13 @@ public class ProductManagementService {
     public List<ProductManagement> listAll(){return (List<ProductManagement>) repo.findAll();}
     public ProductManagement getProductByProductCode(String productCode){return repo.findByProductCode(productCode);}
 
-    public void saveProduct(String MaSanPham, String TenSanPham, Long GiaSanPham, String color, Long SoLuongSP_S,
+    public void saveProduct(ProductManagement product, Long price, String MaSanPham, Long SoLuongSP_S,
                             Long SoLuongSP_M, Long SoLuongSP_L, Long SoLuongSP_XL, Long SoLuongSP_XXL,
-                            String MoTa, List<String> images, CategoryManagement DanhMuc) {
+                            List<String> images, CategoryManagement DanhMuc) {
         try {
-            ProductManagement product = new ProductManagement();
             product.setProductCode(MaSanPham);
-            product.setName(TenSanPham);
-            product.setPrice(GiaSanPham);
-            product.setDescription(MoTa);
             product.setCategory(DanhMuc);
+            product.setPrice(price);
             product.setUpdateLatest(new Date());
             List<ProductImageManagement> listProductImage = new ArrayList<>();
 
@@ -80,25 +77,20 @@ public class ProductManagementService {
         }
     }
 
-    public void updateProduct(String MaSanPham, String TenSanPham, Long GiaSanPham, String color, Long SoLuongSP_S,
-                            Long SoLuongSP_M, Long SoLuongSP_L, Long SoLuongSP_XL, Long SoLuongSP_XXL,
-                            String MoTa, List<String> images, CategoryManagement DanhMuc) {
+    public void updateProduct(ProductManagement product, Long price, Long SoLuongSP_S,
+                              Long SoLuongSP_M, Long SoLuongSP_L, Long SoLuongSP_XL, Long SoLuongSP_XXL,
+                              List<String> images, CategoryManagement DanhMuc) {
 
         try {
-            ProductManagement product = repo.findByProductCode(MaSanPham);
-            product.setName(TenSanPham);
-            product.setPrice(GiaSanPham);
-            product.setColor(color);
-            product.setDescription(MoTa);
-            product.setCategory(DanhMuc);
-            product.setUpdateLatest(new Date());
-            List<ProductImageManagement> listProductImage = product.getProductImages();
+            ProductManagement productOld = repo.findByProductCode(product.getProductCode());
+            productOld.setPrice(price);
+            productOld.setCategory(DanhMuc);
+            productOld.setUpdateLatest(new Date());
+            productOld.setName(product.getName());
+            productOld.setColor(product.getColor());
+            productOld.setDescription(product.getDescription());
 
-            List<String> ordinals = new ArrayList<>();
-            ordinals.add("first");
-            ordinals.add("second");
-            ordinals.add("third");
-            ordinals.add("fourth");
+            List<ProductImageManagement> listProductImage = productOld.getProductImages();
 
             for (int i = 0; i < listProductImage.size(); i++) {
                 ProductImageManagement productImage = listProductImage.get(i);
@@ -112,17 +104,18 @@ public class ProductManagementService {
             map.put("XL", SoLuongSP_XL);
             map.put("XXL", SoLuongSP_XXL);
 
-            List<ProductSizeManagement> listProductSize = product.getProductSizes();
+            List<ProductSizeManagement> listProductSize = productOld.getProductSizes();
 
             for (int i = 0; i < listProductSize.size(); i++) {
                 ProductSizeManagement productSize = listProductSize.get(i);
                 productSize.setQuantity(map.get(productSize.getId().getSize()));
             }
 
-            repo.save(product);
+            repo.save(productOld);
         }
         catch (Exception e){
             throw new EditProductException("Đã xảy ra lỗi trong quá trình sửa sản phẩm.");
+//            throw new EditProductException(e.getMessage());
         }
     }
 

@@ -20,6 +20,9 @@ public class AdminService {
     public List<Admin> listAll() {
         return (List<Admin>) repo.findAll();
     }
+    public Admin findAdminByUsername(String username){
+        return repo.findByUsername(username);
+    }
     public Admin validateLogin(String username, String password) {
         String passHash = hashPassword(password);
         Admin admin = repo.findByUsernameAndPassword(username, passHash);
@@ -40,5 +43,21 @@ public class AdminService {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public void saveStaff(Admin staff) {
+        String passHash = hashPassword(staff.getPassword());
+        staff.setPassword(passHash);
+        repo.save(staff);
+    }
+
+    public void updateStaff(Admin staff) {
+        Admin tmp = repo.findByUsername(staff.getUsername());
+        staff.setPassword(tmp.getPassword());
+        repo.save(staff);
+    }
+
+    public void deleteStaff(String username) {
+        repo.deleteById(username);
     }
 }
