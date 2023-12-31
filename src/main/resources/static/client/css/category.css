@@ -272,7 +272,8 @@ label:focus .custom-square {
 .pagination {
     display: flex;
     list-style: none;
-    margin: 0;
+    justify-content: center;
+    margin: 0 auto;
     padding: 0;
 }
 

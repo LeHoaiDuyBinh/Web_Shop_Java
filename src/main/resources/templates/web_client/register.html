@@ -58,7 +58,7 @@
                 <div class="field input-field">
                     <label for="phone-number">Nhập số điện thoại</label>
                     <input type="text" id="phone-number" name="phone" placeholder="Enter Mobile Number" class="input" th:field=="*{phone}">
-                    <p class="alert alert-danger" th:if="${#fields.errors('phone').size() le 1} and ${#fields.errors('phone').size() gt 0}">*Số điện thoại phải 11 số</p>
+                    <p class="alert alert-danger" th:if="${#fields.errors('phone').size() le 1} and ${#fields.errors('phone').size() gt 0}">*Số điện thoại phải 10 số</p>
                     <p class="alert alert-danger" th:if="${#fields.errors('phone').size() gt 1}">*Không được để trống số điện thoại</p>
                 </div>
                 <div class="field button-field">

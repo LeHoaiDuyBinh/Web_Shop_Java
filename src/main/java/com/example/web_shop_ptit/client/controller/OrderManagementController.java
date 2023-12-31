@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -50,14 +51,18 @@ public class OrderManagementController {
             model.addAttribute("checkSession", "1");
 
             List<Order> listOrder = Collections.singletonList(orderService.findByEmail(customerInfo.getEmail()));
-            List<OrderHistory> listOrderHistory = Collections.singletonList(orderHistoryService.findByEmail(customerInfo.getEmail()));
+            List<OrderHistory> listOrderHistory = new ArrayList<>();
+            if (orderHistoryService.findByEmail(customerInfo.getEmail()) != null){
+                listOrderHistory = Collections.singletonList(orderHistoryService.findByEmail(customerInfo.getEmail()));
+            } else{
+               listOrderHistory = null;
+            }
 
-            System.out.println(customerInfo);
-            System.out.println(listOrder.get(0).getAddress());
-            System.out.println(listOrderHistory.get(0).getAddress());
+
             model.addAttribute("CustomerInfor", customerInfo);
             model.addAttribute("listOrders", listOrder);
             model.addAttribute("listOrderHistories", listOrderHistory);
+
 
         }else{
             System.out.println("error");
