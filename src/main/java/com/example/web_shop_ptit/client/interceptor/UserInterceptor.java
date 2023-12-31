@@ -1,0 +1,28 @@
+package com.example.web_shop_ptit.client.interceptor;
+
+import com.example.web_shop_ptit.admin.entity.Admin;
+import com.example.web_shop_ptit.client.entity.RegistrationInfo;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
+
+@Component
+public class UserInterceptor implements HandlerInterceptor {
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        HttpSession session = request.getSession();
+        RegistrationInfo customerInfo = (RegistrationInfo) session.getAttribute("customerInfor");
+
+        // Check if the user is logged in
+        if (customerInfo == null) {
+            // Redirect to the login page if not logged in
+            response.sendRedirect(request.getContextPath() + "/auth/login");
+            return false;
+        }
+
+        // User is logged in, continue with the request
+        return true;
+    }
+}
