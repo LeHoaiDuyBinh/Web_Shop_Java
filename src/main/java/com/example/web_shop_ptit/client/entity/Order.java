@@ -3,6 +3,7 @@ package com.example.web_shop_ptit.client.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
 
@@ -14,7 +15,7 @@ public class Order {
     private String orderCode;
 
     @Column(name = "order_date")
-    private Date orderDate;
+    private LocalDateTime orderDate;
 
     @Column(name = "state")
     private String state;
@@ -44,11 +45,11 @@ public class Order {
         this.orderCode = orderCode;
     }
 
-    public Date getOrderDate() {
+    public LocalDateTime getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(LocalDateTime orderDate) {
         this.orderDate = orderDate;
     }
 

@@ -16,6 +16,7 @@
     <link rel="stylesheet" th:href="@{/client/css/responsive.css}">
     <link rel="stylesheet" th:href="@{/client/css/product.css}">
     <link rel="stylesheet" th:href="@{/client/css/cart.css}">
+    <link rel="stylesheet" th:href="@{/client/css/category.css}">
 </head>
 
 <body>
@@ -47,7 +48,7 @@
         </div>
     </div>
     <div class="container-cart">
-
+        <form th:action="@{/auth/cart}" method="POST">
         <div class="cart-content row" style="margin-right: 0px !important;">
             <div class="cart-content-left">
                 <table class="cart__item">
@@ -71,16 +72,31 @@
                         <td>
                             <p th:text="${product.size}"></p>
                         </td>
-                        <td>
-                            <input type="number" class="number-input" th:value="${product.quantity}" min="1">
+                        <td style="display: none;">
+                            <p th:text="${product.productCode}"></p>
+                        </td>
+                        <td style="display: none">
+                            <input class="product_code_check" name="product_code_check" value="">
+                        </td>
+                        <td style="display: none;">
+                            <input name="selectId" type="text" th:value="${product.cartItemId}">
+                        </td>
+                        <td >
+                            <input name="selectQuantity" type="number" class="number-input" th:value="${product.quantity}" min="1">
                         </td>
                         <td class="cart-product-sub-total" style="display: none;">
                             <span class="cart-price" th:text="${product.totalPrice} / ${product.quantity}"></span>
                         </td>
-                        <td class="cart-product-sub-total">
-                            <p class="price_coin cart-sub-total-price" th:text="${product.totalPrice} * 1000"></p>
+                        <td style="display: none;">
+                            <input type="text" name="price" th:value="${product.totalPrice} / ${product.quantity}">
                         </td>
-                        <td><span>X</span></td>
+                        <td class="cart-product-sub-total">
+                            <p class="price_coin cart-sub-total-price" th:text="${product.totalPrice} * 1000">
+                        </td>
+
+                        <td>
+                            <button style="width: 80%; background: black; color: white;font-weight: 600; border: 1px solid;" class="delete_cart delete-button" name="action" value="delete">X</button>
+                        </td>
                     </tr>
                     </div>
                 </table>
@@ -108,13 +124,16 @@
                     <a href="/auth/categoryManagement">
                         <button>TIẾP TỤC MUA SẮM</button>
                     </a>
-                    <a href="/auth/payment">
+                    <a th:if="${listCartItems.size() > 0}" th:href="@{/auth/payment}">
+                        <button name="action" value="payment">THANH TOÁN</button>
+                    </a>
+                    <a th:if="${listCartItems.size() < 1}" onclick="addToCart(event)">
                         <button>THANH TOÁN</button>
                     </a>
                 </div>
             </div>
         </div>
-
+        </form>
     </div>
 </section>
 
@@ -125,6 +144,8 @@
 </html>
 <script th:src="@{/client/js/scroll.js}"></script>
 <script th:src="@{/client/js/responsiveMenu.js}"></script>
+<script th:src="@{/client/js/paginationCartItem.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         var priceElements = document.getElementsByClassName("cart-product-sub-total price_coin");
@@ -199,4 +220,34 @@
         updateSubTotal(index);
     });
 
+    function addToCart(event) {
+        event.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Thông báo',
+                text: 'Không thể đơn hàng để thanh toán',
+                showCloseButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'OK'
+            });
+        return;
+    }
+
+    $(document).ready(function(){
+        // Xử lý sự kiện click trên nút delete
+
+        $(".delete-button").on("click", function(){
+            // Lấy giá trị của productCode từ cột 5 (index 4) trong hàng tương ứng
+            var productCode = $(this).closest('tr').find('td:eq(4)').text();
+            var inputElement = document.querySelector('.product_code_check');
+
+            inputElement.value = productCode;
+            inputElement.setAttribute('value', productCode);
+            console.log(inputElement.value + "2");
+            // In giá trị productCode ra console để kiểm tra
+            console.log("Product Code: " + productCode);
+
+        });
+    });
 </script>

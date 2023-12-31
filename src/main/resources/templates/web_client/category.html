@@ -15,6 +15,7 @@
     <link rel="stylesheet" th:href="@{/client/css/home.css}">
     <link rel="stylesheet" th:href="@{/client/css/responsive.css}">
     <link rel="stylesheet" th:href="@{/client/css/category.css}">
+    <link rel="stylesheet" href="../../static/client/css/home.css">
 </head>
 
 <body>
@@ -159,22 +160,6 @@
                             <p class="price" th:text="${product1.price * 1000}"><sup>đ</sup></p>
                         </a>
                     </div>
-                </div>
-
-                <div class="category-right-bottom row">
-                    <div class="category-center-bottom-items">
-                        <ul class="pagination">
-                            <li><a href="#">&laquo;</a></li>
-                            <li><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#">&raquo;</a></li>
-                            <li><a href="#">Trang cuối</a></li>
-                        </ul>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -189,6 +174,8 @@
 <script th:src="@{/client/js/scroll.js}"></script>
 <script th:src="@{/client/js/responsiveMenu.js}"></script>
 <script th:src="@{/client/js/category.js}"></script>
+<script th:src="@{/client/js/pagination.js}"></script>
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         var priceElements = document.getElementsByClassName("price");

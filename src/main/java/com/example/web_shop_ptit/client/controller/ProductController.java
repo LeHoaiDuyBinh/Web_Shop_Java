@@ -128,32 +128,33 @@ public class ProductController {
     @PostMapping("/add-to-cart")
     public String updateCartItem(@RequestParam String productCode,
                                                  @RequestParam int quantity,
-                                 @RequestParam(name = "size", defaultValue = "DEFAULT_SIZE") Size size,
+                                 @RequestParam(name = "size", required = false) Size size,
                                                  @RequestParam Long price,
                                                  HttpServletRequest request,
                                                  Model model) {
         HttpSession session = request.getSession();
         RegistrationInfo customerInfo = (RegistrationInfo) session.getAttribute("customerInfor");
-        if (customerInfo != null){
+        String action = request.getParameter("action");
+        if(customerInfo == null){
+            return "redirect:/auth/login";
+        }
+
+        if (customerInfo != null && size != null){
             System.out.println(productCode);
             ShoppingCart cart = shoppingCartService.findByEmail(customerInfo.getEmail());
             String cartCode = cart.getCartCode();
+            System.out.println("success");
             cartItemService.addToCart(cartCode,productCode,quantity,size,price*quantity);
             System.out.println(productCode + quantity + size + price*quantity + cartCode);
-            System.out.println("success");
-            model.addAttribute("checkSession", "1");
+
         }else{
             System.out.println("error");
             model.addAttribute("checkSession", "");
-            return "redirect:/auth/login";
         }
 
         return "redirect:" + request.getHeader("Referer");
     }
 
-    @RequestMapping("/add-to-cart")
-    public String addtoCart(){
-        return "web_client/login";
-    }
+
 
 }

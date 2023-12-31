@@ -1,6 +1,8 @@
 package com.example.web_shop_ptit.client.controller;
 
+import com.example.web_shop_ptit.client.entity.Category;
 import com.example.web_shop_ptit.client.entity.RegistrationInfo;
+import com.example.web_shop_ptit.client.service.CategoryService;
 import com.example.web_shop_ptit.client.service.RegistrationService;
 import com.example.web_shop_ptit.client.service.ShoppingCartService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,21 +18,24 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 @Controller
 @RequestMapping("/auth/")
 public class ConfirmUserController {
     @Autowired
     private RegistrationService registrationService;
+
     @Autowired
     private ShoppingCartService shoppingCartService;
+    @Autowired
+    private CategoryService categoryService;
 
     @PostMapping("confirmUser")
     public String confirmUser(@RequestParam String code, RedirectAttributes redirectAttributes, HttpServletRequest request) {
         HttpSession session = request.getSession();
         String verifyCode = (String) session.getAttribute("verifyCode");
         RegistrationInfo registrationInfo = (RegistrationInfo) session.getAttribute("registrationInfo");
-
 //        System.out.println(verifyCode);
 //        System.out.println(registrationInfo.getFullname() + registrationInfo.getEmail());
 //        System.out.println(registrationInfo.getPassword());
@@ -57,12 +62,18 @@ public class ConfirmUserController {
         } else {
             // Xác minh không thành công
             redirectAttributes.addFlashAttribute("error", "2");
-            return "redirect:/auth/confirmUser";
+            if (registrationInfo != null){
+                return "redirect:/auth/confirmUser";
+            }else {
+                return "redirect:/auth/register";
+            }
         }
     }
 
     @RequestMapping("confirmUser")
-    public String ShowConfirmUser() {
+    public String ShowConfirmUser(Model model) {
+        List<Category> listCategory = categoryService.listAll();
+        model.addAttribute("listCategorys", listCategory);
         return "web_client/confirmUser";
     }
 

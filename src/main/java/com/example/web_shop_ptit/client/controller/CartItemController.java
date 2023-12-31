@@ -45,9 +45,50 @@ public class CartItemController {
         }else{
             System.out.println("error");
             model.addAttribute("checkSession", "");
-
+            return "web_client/login";
         }
         return "web_client/cart";
+    }
+
+    @PostMapping("cart")
+    public String saveAndDeleteCart(@RequestParam(name = "selectQuantity", required = false) String[] selectedQuantity,
+                           @RequestParam(name = "selectId", required = false) String[] selectedId,
+                           @RequestParam(name = "price", required = false) String[] price,
+                           @RequestParam String product_code_check,
+                               HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        String action = request.getParameter("action");
+        RegistrationInfo customerInfo = (RegistrationInfo) session.getAttribute("customerInfor");
+        ShoppingCart cart = shoppingCartService.findByEmail(customerInfo.getEmail());
+        if (customerInfo != null){
+            if (action.equals("payment")) {
+                System.out.println("success");
+                model.addAttribute("checkSession", "1");
+                List<CartItem> cartItems = cartItemService.findByCartItem(cart.getCartCode());
+
+                for (int i = 0; i < selectedQuantity.length; i++) {
+                    int quantity = Integer.parseInt(selectedQuantity[i]);
+                    for (int j = i; j < price.length; ) {
+                        int priceT = Integer.parseInt(price[j]);
+                        price[j] = String.valueOf(quantity * priceT);
+                        break;
+                    }
+                }
+                cartItemService.updateQuantityAndPrice(cartItems, selectedQuantity, price);
+                model.addAttribute("listCartItems", cartItems);
+                return "web_client/delivery";
+            }else{
+                System.out.println("hellooooo");
+                String cleanStringProduceCode = product_code_check.replace(",", "").trim();
+                cartItemService.deleteCartProduct(cleanStringProduceCode);
+                return "redirect:/auth/cart";
+            }
+        }else{
+            System.out.println("error");
+            model.addAttribute("checkSession", "");
+
+        }
+        return "redirect:" + request.getHeader("Referer");
     }
 
 }

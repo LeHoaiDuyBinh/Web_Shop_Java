@@ -258,7 +258,7 @@
     padding: 6px 0;
 }
 
-.delivery-content-right table tr:nth-child(4) {
+.delivery-content-right table tr:last-child {
     border-top: 2px solid #dddddd;
 }
 

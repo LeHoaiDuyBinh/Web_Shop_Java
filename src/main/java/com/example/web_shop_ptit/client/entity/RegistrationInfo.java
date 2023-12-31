@@ -21,7 +21,7 @@ public class RegistrationInfo {
     @Size(min = 12)
     private String confirmPassword;
     @NotBlank
-    @Size(min = 11, max=11)
+    @Size(min = 10, max=10)
     private String phone;
 
     // constructor, getters, and setters
@@ -88,4 +88,5 @@ public class RegistrationInfo {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
 }

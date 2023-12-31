@@ -14,6 +14,7 @@
     <link rel="stylesheet" th:href="@{/client/css/informationUser.css}">
     <link rel="stylesheet" th:href="@{/client/css/home.css}">
     <link rel="stylesheet" th:href="@{/client/css/responsive.css}">
+    <link rel="stylesheet" th:href="@{/client/css/category.css}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -111,8 +112,8 @@
 
                             <div th:if="${listOrderHistories != null}">
                             <tr ng-repeat="item in list_order track by $index" class="ng-scope" th:each="orderHistory : ${listOrderHistories}">
-                                <td>
-                                    <a th:href="@{'/auth/orderManagement/' + ${orderHistory.orderCode}}" class="ng-binding" style="color: #6c6d70; text-decoration: underline;" th:text="${orderHistory.orderCode}"></a>
+                                <td th:if="${orderHistory}">
+                                     <a th:href="@{'/auth/orderManagement/' + ${orderHistory.orderCode}}" class="ng-binding" style="color: #6c6d70; text-decoration: underline;" th:text="${orderHistory.orderCode}"></a>
                                 </td>
                                 <td class="ng-binding" th:text="${orderHistory.orderDate}"></td>
                                 <td>
@@ -137,6 +138,8 @@
 
 </html>
 
+<script th:src="@{/client/js/product.js}"></script>
+<script th:src="@{/client/js/paginationOrderManagement.js}"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         var priceElements = document.getElementsByClassName("price");
