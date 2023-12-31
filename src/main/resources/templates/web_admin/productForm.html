@@ -14,21 +14,28 @@
 <body>
 <div id="myModal" class="modal">
     <div class="modal-content" style="border-radius: 8px;">
-        <form id="ProductForm" enctype="multipart/form-data" th:action="'/admin/product/' + ${operation}" method="POST">
+        <form id="ProductForm" enctype="multipart/form-data" th:action="'/admin/product/' + ${operation}" th:object="${product}" method="POST">
             <div th:text="${err}"></div>
-            <label th:if="${operation eq 'add'}" th:style="${operation eq 'add'} ? 'display: none;' : 'block'">Mã sản phẩm:</label>
-            <input th:if="${operation eq 'add'}" type="hidden" name="MaSanPham" value="">
-            <input th:if="${operation eq 'edit'}" type="text" name="MaSanPham" readonly th:value="${MaSanPham}">
+
+            <th:block th:if="${operation eq 'edit'}">
+                <label>Mã sản phẩm:</label>
+                <input type="text" name="MaSanPham" style="background: #aca9a9" readonly th:field="*{productCode}">
+            </th:block>
 
             <label>Tên sản phẩm:</label>
-            <input th:value="${TenSanPham != null ? TenSanPham : ''}" style="color: black;" type="text" id="TenSanPham" name="TenSanPham" required>
+            <th:block th:if="${#fields.hasErrors('name')}">
+                <div class="custom-alert custom-alert-error" role="alert" th:text="${#fields.errors('name').get(0)}" style="display: block !important"></div>
+            </th:block>
+            <input style="color: black;" type="text" th:field="*{name}">
             <label>Giá sản phẩm:</label>
-            <input th:value="${GiaSanPham != null ? GiaSanPham : ''}" style="color: black;" type="text" id="GiaSanPham" name="GiaSanPham" required>
+            <th:block th:if="${#fields.hasErrors('price')}">
+                <div class="custom-alert custom-alert-error" role="alert" th:text="${#fields.errors('price').get(0)}" style="display: block !important"></div>
+            </th:block>
+            <input style="color: black;" type="text" name="priceField" th:value="${priceField != null ? priceField : ''}">
             <label style="margin-top: 20px">Danh mục sản phẩm:</label>
             <select name="DanhMucSanPham" id="DMSP"
-                    style="width: 100%; height: 45px; margin-bottom: 20px; padding-left: 20px;" required>
+                    style="width: 100%; height: 45px; margin-bottom: 20px; padding-left: 20px;">
                 <!-- Mẫu test -->
-                <option value=""></option>
                 <th:block th:each="categoryManagement : ${categories}">
                     <th:block th:if="${categoryManagement.parentCategoryManagement != null}">
                         <option th:value="${categoryManagement.categoryId}" th:text="${categoryManagement.name}" th:selected="${operation eq 'edit' and categoryManagement.categoryId eq DanhMucSanPham}"></option>
@@ -36,64 +43,67 @@
                 </th:block>
             </select>
             <label>Chọn màu sản phẩm:</label>
+            <th:block th:if="${#fields.hasErrors('color')}">
+                <div class="custom-alert custom-alert-error" role="alert" th:text="${#fields.errors('color').get(0)}" style="display: block !important"></div>
+            </th:block>
             <div class="product-detail__color">
                 <div class="product-detail__color__input">
                     <label>
-                        <input type="radio" name="color" value="red" th:checked="${color == 'red'}">
+                        <input type="radio" th:field="*{color}" value="red">
                         <span>
                               <img src="/admin/img/red.jpg" style="border-radius: 50%; height:25px"/>
                         </span>
                     </label>
                     <label>
-                        <input type="radio" name="color" value="pink" th:checked="${color == 'pink'}">
+                        <input type="radio" th:field="*{color}" value="pink">
                         <span>
                               <img src="/admin/img/pink.jpg" style="border-radius: 50%; height:25px"/>
                         </span>
                     </label>
                     <label>
-                        <input type="radio" name="color" value="yellow" th:checked="${color == 'yellow'}">
+                        <input type="radio" th:field="*{color}" value="yellow">
                         <span>
                               <img src="/admin/img/yellow.png" style="border-radius: 50%; height:25px"/>
                         </span>
                     </label>
                     <label>
-                        <input type="radio" name="color" value="green" th:checked="${color == 'green'}">
+                        <input type="radio" th:field="*{color}" value="green">
                         <span>
                               <img src="/admin/img/green.jpg" style="border-radius: 50%; height:25px"/>
                         </span>
                     </label>
                     <label>
-                        <input type="radio" name="color" value="blue" th:checked="${color == 'blue'}">
+                        <input type="radio" th:field="*{color}" value="blue">
                         <span>
                               <img src="/admin/img/blue.jpg" style="border-radius: 50%; height:25px"/>
                         </span>
                     </label>
                     <label>
-                        <input type="radio" name="color" value="beige" th:checked="${color == 'beige'}">
+                        <input type="radio" th:field="*{color}" value="beige">
                         <span>
                               <img src="/admin/img/beige.jpg" style="border-radius: 50%; height:25px"/>
                         </span>
                     </label>
                     <label>
-                        <input type="radio" name="color" value="white" th:checked="${color == 'white'}">
+                        <input type="radio" th:field="*{color}" value="white">
                         <span>
                               <img src="/admin/img/white.jpg" style="border-radius: 50%; height:25px"/>
                         </span>
                     </label>
                     <label>
-                        <input type="radio" name="color" value="black" th:checked="${color == 'black'}">
+                        <input type="radio" th:field="*{color}" value="black">
                         <span>
                               <img src="/admin/img/black.jpg" style="border-radius: 50%; height:25px"/>
                         </span>
                     </label>
                     <label>
-                        <input type="radio" name="color" value="brown" th:checked="${color == 'brown'}">
+                        <input type="radio" th:field="*{color}" value="brown">
                         <span>
                               <img src="/admin/img/brown.jpg" style="border-radius: 50%; height:25px"/>
                         </span>
                     </label>
                     <label>
-                        <input type="radio" name="color" value="gray" th:checked="${color == 'gray'}">
+                        <input type="radio" th:field="*{color}" value="gray">
                         <span>
                             <img src="/admin/img/gray.jpg" style="border-radius: 50%; height:25px"/>
                         </span>
@@ -102,6 +112,9 @@
             </div>
 
                 <label style="margin-top: 20px;">Chọn hình ảnh:</label>
+            <th:block th:if="${#fields.hasErrors('productImages')}">
+                <div class="custom-alert custom-alert-error" role="alert" th:text="${#fields.errors('productImages').get(0)}" style="display: block !important"></div>
+            </th:block>
             <input multiple type="file" name="fileToUpload" id="Img">
             <th:block  th:if="images != null">
                 <th:block th:each="image, iterStat : ${images}">
@@ -122,52 +135,58 @@
             </th:block>
                 <br>
                 <label style="margin-top: 20px">Chọn size sản phẩm:</label>
+                <th:block th:if="${#fields.hasErrors('productSizes')}">
+                    <div class="custom-alert custom-alert-error" role="alert" th:text="${#fields.errors('productSizes').get(0)}" style="display: block !important"></div>
+                </th:block>
                 <div class="product-detail__size" style="margin-top: 10px;">
                     <div class="product-detail__size__input">
                         <label style="display: inline-block;">
-                            <!-- <input type="radio" name="size" value="s"/> -->
                             <span class="text-uppercase" style="display: inline-block;">s</span>
                             <input th:value="${SoLuongSP_S != null ? SoLuongSP_S : ''}" style="color: black; border-radius: 3px; display: inline-block; padding-bottom: 12px; margin-left: -4px;"
-                                   type="number" id="SoLuongSP_S" name="SoLuongSP_S" placeholder="Số lượng" min="0"
-                                   required>
+                                   id="SoLuongSP_S" name="SoLuongSP_S" placeholder="Số lượng"
+                                   >
                         </label>
                         <br>
                         <label>
                             <!-- <input type="radio" name="size" value="m"/> -->
                             <span class="text-uppercase" style="display: inline-block;">m</span>
                             <input th:value="${SoLuongSP_M != null ? SoLuongSP_M : ''}" style="color: black; border-radius: 3px; display: inline-block; padding-bottom: 12px;"
-                                   type="number" id="SoLuongSP_M" name="SoLuongSP_M" placeholder="Số lượng" min="0"
-                                   required>
+                                   name="SoLuongSP_M" placeholder="Số lượng"
+                                   >
                         </label>
                         <br>
                         <label>
                             <!-- <input type="radio" name="size" value="l"/> -->
                             <span class="text-uppercase" style="display: inline-block;">l</span>
                             <input th:value="${SoLuongSP_L != null ? SoLuongSP_L : ''}" style="color: black; border-radius: 3px; display: inline-block; padding-bottom: 12px;"
-                                   type="number" id="SoLuongSP_L" name="SoLuongSP_L" placeholder="Số lượng" min="0"
-                                   required>
+                                   id="SoLuongSP_L" name="SoLuongSP_L" placeholder="Số lượng"
+                                   >
                         </label>
                         <br>
                         <label>
                             <!-- <input type="radio" name="size" value="xl"/> -->
                             <span class="text-uppercase" style="display: inline-block;">xl</span>
                             <input th:value="${SoLuongSP_XL != null ? SoLuongSP_XL : ''}" style="color: black; border-radius: 3px; display: inline-block; padding-bottom: 12px;"
-                                   type="number" id="SoLuongSP_XL" name="SoLuongSP_XL" placeholder="Số lượng" min="0"
-                                   required>
+                                   name="SoLuongSP_XL" placeholder="Số lượng"
+                                   >
                         </label>
                         <br>
                         <label>
                             <!-- <input type="radio" name="size" value="xxl"/> -->
                             <span class="text-uppercase" style="display: inline-block;">xxl</span>
                             <input th:value="${SoLuongSP_XXL != null ? SoLuongSP_XXL : ''}" style="color: black; border-radius: 3px; display: inline-block; padding-bottom: 12px;"
-                                   type="number" id="SoLuongSP_XXL" name="SoLuongSP_XXL" placeholder="Số lượng" min="0"
-                                   required>
+                                   name="SoLuongSP_XXL" placeholder="Số lượng"
+                                   >
                         </label>
                     </div>
                 </div>
+
                 <label style="margin-top: 20px">Mô tả sản phẩm:</label>
-                <textarea th:text="${MoTa != null ? MoTa : ''}" name="MoTa" id="MoTa" cols="30" rows="5" style="width: 100%; margin-bottom: 20px;"
-                          placeholder="Mô tả sản phẩm" required></textarea>
+                <th:block th:if="${#fields.hasErrors('description')}">
+                    <div class="custom-alert custom-alert-error" role="alert" th:text="${#fields.errors('description').get(0)}" style="display: block !important"></div>
+                </th:block>
+                <textarea th:field="*{description}" cols="30" rows="5" style="width: 100%; margin-bottom: 20px;"
+                          placeholder="Mô tả sản phẩm"></textarea>
                 <button style="color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-right: 10px;"
                         type="submit" id="submitBtn">Thêm
                 </button>

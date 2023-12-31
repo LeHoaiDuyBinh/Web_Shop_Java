@@ -74,13 +74,31 @@ public class OrderAdminController {
             state = "delivered";
             text = "thanh toán";
         }
+        OrderManagement tmp = orderManagementService.findOrderManagementByOrderCode(MaDonHang);
+        if(Objects.equals(tmp.getState(), "delivered") || Objects.equals(tmp.getState(), "cancelled")){
+            redirectAttributes.addFlashAttribute("err", "Không thể đổi trạng thái đơn đã hủy hoặc đã thanht toán");
+            return "redirect:/admin/order";
+        }
+
+        if(Objects.equals(tmp.getState(), "pending") && Objects.equals(state, "delivered")){
+            redirectAttributes.addFlashAttribute("err", "Chỉ có thể hủy hoặc vận chuyển đơn đang xử lý");
+            return "redirect:/admin/order";
+        }
+
+        if(Objects.equals(tmp.getState(), "delivering") && !Objects.equals(state, "delivered")){
+            redirectAttributes.addFlashAttribute("err", "Chỉ có thể thanh toán đơn đang vận chuyển");
+            return "redirect:/admin/order";
+        }
+
         if(!state.equals("delivered")){
             orderManagementService.updateOrderState(MaDonHang, state);
         }
         else{
             OrderManagement order = orderManagementService.findOrderManagementByOrderCode(MaDonHang);
-            paymentManagementService.savePayment(order, generatePaymentCode());
+            //paymentManagementService.savePayment(order, generatePaymentCode());
             orderManagementService.updateOrderState(MaDonHang, state);
+
+
         }
         redirectAttributes.addFlashAttribute("success", "Bạn đã " + text + " thành công!");
         return "redirect:/admin/order";

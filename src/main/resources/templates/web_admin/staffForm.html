@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PTIT SHOP</title>
+    <link rel="stylesheet" th:href="@{/admin/css/dashboard.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/dashboard_information.css}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>PTITShop</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+</head>
+<body>
+<div id="myModal" class="modal">
+    <div class="modal-content" style="border-radius: 8px;">
+        <form id="StaffForm" th:action="'/admin/staff/' + ${operation}" th:object="${staff}" method="POST">
+
+            <label id = "labelUsernameID">Username</label>
+            <th:block th:if="${#fields.hasErrors('username')}">
+                <div class="custom-alert custom-alert-error" role="alert" th:text="${#fields.errors('username').get(0)}" style="display: block !important"></div>
+            </th:block>
+
+            <th:block th:if="${operation eq 'edit'}">
+                <input style="color: black; background: #aca9a9" readonly type="text" th:field="*{username}">
+            </th:block>
+            <th:block th:if="${operation eq 'add'}">
+                <input style="color: black" type="text" th:field="*{username}">
+            </th:block>
+
+            <th:block th:if="${operation != 'edit'}">
+                <label id= "labelPasswordID">Password</label>
+
+                <th:block th:if="${#fields.hasErrors('password')}">
+                    <div class="custom-alert custom-alert-error" role="alert" th:text="${#fields.errors('password').get(0)}" style="display: block !important"></div>
+                </th:block>
+
+                <input style="color: black ; width: 100%;
+                            padding: 12px 20px;margin: 8px 0;box-sizing: border-box;border: 2px solid #ccc; border-radius: 4px;background-color: #f8f8f8; font-size: 16px;" type="password" th:field="*{password}">
+            </th:block>
+
+            <label for="Role" id= "LabelRole" style="margin-top: 20px">Role:</label>
+
+            <th:block th:if="${#fields.hasErrors('role')}">
+                <div class="custom-alert custom-alert-error" role="alert" th:text="${#fields.errors('role').get(0)}" style="display: block !important"></div>
+            </th:block>
+
+            <select th:field="*{role}" id= "role" style="width: 100%; height: 45px; margin-bottom: 20px; padding-left: 20px;">
+                <option value="staff" th:selected="${operation eq 'edit' and role eq 'staff'}">staff</option>
+                <option value="manager" th:selected="${operation eq 'edit' and role eq 'manager'}">manager</option>
+            </select>
+
+            <button style="color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-right: 10px;" type="submit" id="submitBtn">Thêm</button>
+            <a href="/admin/staff">
+                <button style="color: #000000; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;" class="btnCancel" type="button" id="cancelBtn">Hủy</button>
+            </a>
+        </form>
+    </div>
+</div>
+</body>
+</html>

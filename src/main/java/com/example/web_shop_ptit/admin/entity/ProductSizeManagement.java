@@ -1,6 +1,7 @@
 package com.example.web_shop_ptit.admin.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 
 import java.io.Serializable;
 

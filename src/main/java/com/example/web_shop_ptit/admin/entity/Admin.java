@@ -4,11 +4,18 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "adminaccounts")
 public class Admin {
     @Id
+    @NotBlank(message = "Vui lòng nhập username")
+    @Pattern(regexp = "^[a-zA-Z].*", message = "Username không chứa kí tự đặc biệt và bắt đầu bằng chữ")
+    @Size(min = 3, message = "Độ dài của username phải từ 3 kí tự trở lên")
     @Column(name = "username")
     private String username;
     @Column(name = "password")
@@ -31,6 +38,8 @@ public class Admin {
     }
 
     @Column(name = "role")
+    @NotEmpty(message = "Không được để trống role")
+    @Pattern(regexp = "^(?!admin$).+", message = "Role không thể là amin")
     private String role;
 
     @Column(name = "status_expire")
