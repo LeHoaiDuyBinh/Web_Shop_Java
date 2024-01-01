@@ -50,8 +50,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function highlightActiveLink() {
         const links = document.querySelectorAll('.pagination a');
-        links.forEach(link => link.classList.remove('active'));
-        links[currentPage - 1].classList.add('active');
+        links.forEach(link => link.classList.remove('active1'));
+        links[currentPage - 1].classList.add('active1');
+
+        // Hiển thị số trang hiện tại
+        const currentPageSpan = document.getElementById('currentPage');
+        if (currentPageSpan) {
+            currentPageSpan.textContent = currentPage;
+        }
     }
 
     // Hiển thị trang đầu tiên khi trang được tải
