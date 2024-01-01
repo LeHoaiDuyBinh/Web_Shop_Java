@@ -114,7 +114,7 @@
                             <p data-label="MaSPCT" th:text="${items.productCode}"></p>
                             <p data-label="SoLuong" th:text="${items.quantity}"></p>
                             <p data-label="Size" th:text="${items.size}"></p>
-                            <p data-label="TongTien" th:text="${items.totalPrice*1000}"></p>
+                            <p class="price ng-binding" data-label="TongTien" th:text="${items.totalPrice*1000}"></p>
                         </th:block>
                     </td>
                 </tr>
