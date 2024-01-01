@@ -66,23 +66,23 @@
                 <div class="col-lg-8 col-xl col-account-content">
                     <div class="order-block__title">
                         <h2 style="font-family: initial; font-size: 28px; font-weight:bold;">QUẢN LÝ ĐƠN HÀNG</h2>
-                        <div class="form-group">
-                            <label> Trạng thái đơn hàng:</label>
-                            <select class="form-control rounded ng-pristine ng-untouched ng-valid ng-empty" ng-model="status" ng-change="list()">
-                                <option value="" selected="selected">
-                                    Tất cả
-                                </option>
-                                <option value="tao_don_hang">Đặt hàng thành công</option>
-                                <option value="dang_xu_ly">Đang xử lý</option>
-                                <option value="cho_giao_van">Chờ giao vận</option>
-                                <option value="dang_van_chuyen">Đã gửi</option>
-                                <option value="da_nhan_hang">Đã nhận hàng</option>
-                                <option value="da_huy">Đã hủy</option>
-                                <option value="da_tra_hang">Trả hàng</option>
-                            </select>
-                        </div>
+<!--                        <div class="form-group">-->
+<!--                            <label> Trạng thái đơn hàng:</label>-->
+<!--                            <select class="form-control rounded ng-pristine ng-untouched ng-valid ng-empty" ng-model="status" ng-change="list()">-->
+<!--                                <option value="" selected="selected">-->
+<!--                                    Tất cả-->
+<!--                                </option>-->
+<!--                                <option value="tao_don_hang">Đặt hàng thành công</option>-->
+<!--                                <option value="dang_xu_ly">Đang xử lý</option>-->
+<!--                                <option value="cho_giao_van">Chờ giao vận</option>-->
+<!--                                <option value="dang_van_chuyen">Đã gửi</option>-->
+<!--                                <option value="da_nhan_hang">Đã nhận hàng</option>-->
+<!--                                <option value="da_huy">Đã hủy</option>-->
+<!--                                <option value="da_tra_hang">Trả hàng</option>-->
+<!--                            </select>-->
+<!--                        </div>-->
                     </div>
-                    <div class="order-block">
+                    <div class="order-block" style="margin-top: 40px !important;">
                         <p class="alert alert-primary" style="margin-top: -41px;">"Nếu bạn muốn hủy đơn hàng vui lòng liên hệ hotline 0707427559"</p>
                         <table class="order-block__table">
                             <thead>
@@ -103,7 +103,8 @@
                                 <td>
                                     <div class="order__status">
                                         <span class="icon-ic_reload"></span>
-                                        <span class="ng-binding" th:text="${order.state}"></span>
+                                        <span  th:if="${order.state eq 'pending'}"  class="ng-binding">Đang xử lý</span>
+                                        <span  th:if="${order.state eq 'delivering'}"  class="ng-binding">Đang vận chuyển</span>
                                     </div>
                                 </td>
                                 <td><span class="price ng-binding" th:text="${order.totalPrice * 1000}"></span></td>
@@ -119,7 +120,8 @@
                                 <td>
                                     <div class="order__status">
                                         <span class="icon-ic_reload"></span>
-                                        <span class="ng-binding" th:text="${orderHistory.state}"></span>
+                                        <span  th:if="${orderHistory.state eq 'delivered'}"  class="ng-binding">Đã giao hàng</span>
+                                        <span  th:if="${orderHistory.state eq 'cancelled'}"  class="ng-binding">Đơn hàng đã bị hủy</span>
                                     </div>
                                 </td>
                                 <td><span class="price ng-binding" th:text="${orderHistory.totalPrice * 1000}"></span></td>

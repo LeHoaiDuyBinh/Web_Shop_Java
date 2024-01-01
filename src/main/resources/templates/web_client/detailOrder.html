@@ -73,8 +73,14 @@
                             <div style="margin-right: 15px">
                             </div>
                             <span style="margin-right: 5px" class="icon-ic_reload"></span>
-                            <span th:if="${Order != null}" th:text="${Order.state}"></span>
-                            <span th:if="${OrderHistory != null}" th:text="${OrderHistory.state}"></span>
+                            <b th:if="${Order != null}">
+                                <span th:if="${Order.state eq 'pending'}">Đang xử lý</span>
+                                <span th:if="${Order.state eq 'delivering'}">Đang vận chuyển</span>
+                            </b>
+                            <b th:if="${OrderHistory != null}">
+                                <span th:if="${OrderHistory.state eq 'delivered'}">Đã giao hàng</span>
+                                <span th:if="${OrderHistory.state eq 'cancelled'}">Đơn hàng đã bị hủy</span>
+                            </b>
                         </div>
                     </div>
                     <div class="order-block row">
@@ -106,9 +112,11 @@
                                                         <p>Mã sản phẩm: <span th:text="${product.productCode}"></span></p>
                                                     </div>
                                                     <div class="cart__product-item__btn--save">
-                                                        <button class="btn btn--outline btn--large repurchase-product" data-product-sub-id="188978">
-                                                            Mua lại
-                                                        </button>
+                                                        <a th:href="@{'/auth/product/' + ${product.productCode}}">
+                                                            <button class="btn btn--outline btn--large repurchase-product" data-product-sub-id="188978">
+                                                                Mua lại
+                                                            </button>
+                                                        </a>
                                                     </div>
                                                 </div>
                                                 <div class="cart__product-item__price price_coin" th:text="${product.totalPrice * 1000}"></div>
@@ -143,9 +151,11 @@
                                                             <p>Mã sản phẩm: <span th:text="${productHistory.productCode}"></span></p>
                                                         </div>
                                                         <div class="cart__product-item__btn--save">
-                                                            <button class="btn btn--outline btn--large repurchase-product" data-product-sub-id="188978">
+                                                            <a th:href="@{'/auth/product/' + ${product.productCode}}">
+                                                                <button class="btn btn--outline btn--large repurchase-product" data-product-sub-id="188978">
                                                                 Mua lại
-                                                            </button>
+                                                                </button>
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 </div>

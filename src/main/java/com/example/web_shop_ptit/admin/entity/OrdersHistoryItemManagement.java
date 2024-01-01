@@ -1,6 +1,6 @@
 package com.example.web_shop_ptit.admin.entity;
 
-import com.example.web_shop_ptit.client.entity.OrderHistory;
+import com.example.web_shop_ptit.admin.entity.OrdersHistoryManagement;
 import jakarta.persistence.*;
 
 
@@ -19,8 +19,6 @@ public class OrdersHistoryItemManagement {
     public void setHistoryDetailId(Long historyDetailId) {
         this.historyDetailId = historyDetailId;
     }
-    @Column(name = "order_code", length = 100)
-    private String orderCode;
 
     @Column(name = "product_code", length = 50)
     private String productCode;
@@ -36,7 +34,7 @@ public class OrdersHistoryItemManagement {
     private Double totalPrice;
 
     @ManyToOne
-    @JoinColumn(name = "order_code", referencedColumnName = "order_code", insertable = false, updatable = false)
+    @JoinColumn(name = "order_code")
     private OrdersHistoryManagement orderHistoryManagement;
 
     public OrdersHistoryManagement getOrderHistoryManagement() {
@@ -45,15 +43,6 @@ public class OrdersHistoryItemManagement {
 
     public void setOrderHistoryManagement(OrdersHistoryManagement orderHistoryManagement) {
         this.orderHistoryManagement = orderHistoryManagement;
-    }
-
-
-    public String getOrderCode() {
-        return orderCode;
-    }
-
-    public void setOrderCode(String orderCode) {
-        this.orderCode = orderCode;
     }
 
     public String getProductCode() {

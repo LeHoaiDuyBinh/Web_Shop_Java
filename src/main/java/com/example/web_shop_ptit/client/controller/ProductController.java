@@ -103,8 +103,19 @@ public class ProductController {
         return "web_client/product";
     }
 
-    @GetMapping("/category")
-    public String search(@RequestParam("keyword") String keyword, Model model) {
+    @PostMapping("/category")
+    public String search(@RequestParam("keyword") String keyword, Model model,
+                         HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        RegistrationInfo customerInfo = (RegistrationInfo) session.getAttribute("customerInfor");
+        if (customerInfo != null){
+            System.out.println("success");
+            model.addAttribute("checkSession", "1");
+        }else{
+            System.out.println("error");
+            model.addAttribute("checkSession", "");
+        }
+
         List<Product> productList = service.findByNameContaining(keyword);
         List<ProductImage> listProductImg = productImgService.listAll();
         List<ProductImage> listImg = new ArrayList<>();

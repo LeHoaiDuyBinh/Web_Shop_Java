@@ -80,14 +80,14 @@
                     </div>
                 </div>
                 <div class="category-right-top-item">
-                    <button id="filterButton"><span>Bộ lọc</span> <i class="fa fa-sort-down"></i></button>
+<!--                    <button id="filterButton"><span>Bộ lọc</span> <i class="fa fa-sort-down"></i></button>-->
                 </div>
                 <div class="category-right-top-item">
-                    <select name="" id="">
-                        <option value="">Sắp xếp</option>
-                        <option value="">Giá cao đến thấp</option>
-                        <option value="">Giá thấp đến cao</option>
-                    </select>
+<!--                    <select name="" id="">-->
+<!--                        <option value="">Sắp xếp</option>-->
+<!--                        <option value="">Giá cao đến thấp</option>-->
+<!--                        <option value="">Giá thấp đến cao</option>-->
+<!--                    </select>-->
                 </div>
 
                 <div class="category-right-content row">
@@ -140,26 +140,26 @@
 
                     <div class="category-right-content row" th:each="productCaterogy : ${productCategorys}">
                         <div class="category-right-content-item" th:each="product : ${productCaterogy.products}">
-                            <a th:href="@{'/auth/product/' + ${product.productCode}}">
+                            <a style="color: #070707" th:href="@{'/auth/product/' + ${product.productCode}}">
                                 <th th:each="productImg : ${listProductImgs}" th:if="${product.productCode == productImg.id.productCode}">
                                     <img th:src="@{${productImg.image.substring(1)}}" alt="">
                                 </th>
-                                <p style="font-size:14px;" th:text="${product.name}"></p>
+                                <p  style="font-size:14px; margin-bottom: 1rem" th:text="${product.name}"></p>
                                 <p class="price" th:text="${product.price * 1000}"><sup>đ</sup></p>
                             </a>
                         </div>
                     </div>
 
-
                     <div class="category-right-content-item" th:if="${#lists.isEmpty(productCategorys)}" th:each="product1 : ${productSearch}" th:field="product1">
-                        <a th:href="@{'/auth/product/' + ${product1.productCode}}">
+                        <a  style="color: #070707" th:href="@{'/auth/product/' + ${product1.productCode}}">
                             <th th:each="productImg : ${listProductImgs}" th:if="${product1.productCode == productImg.id.productCode}">
                                 <img th:src="@{${productImg.image.substring(1)}}" alt="">
                             </th>
-                            <p style="font-size:14px;" th:text="${product1.name}"></p>
+                            <p style="font-size:14px; margin-bottom: 1rem" th:text="${product1.name}"></p>
                             <p class="price" th:text="${product1.price * 1000}"><sup>đ</sup></p>
                         </a>
                     </div>
+                </div>
             </div>
         </div>
     </div>
