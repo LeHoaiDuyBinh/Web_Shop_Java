@@ -45,7 +45,7 @@ public class CategoryAdminController {
         CategoryManagement danhMucCha1 = categoryManagementService.getParentCategoryById(danhMucCha);
         category.setParentCategoryManagement(danhMucCha1);
         categoryManagementService.saveCategory(category.getName(), category.getParentCategoryManagement());
-        redirectAttributes.addFlashAttribute("success", "Sửa danh mục thành công");
+        redirectAttributes.addFlashAttribute("success", "Thêm danh mục thành công");
         return "redirect:/admin/category";
     }
 
