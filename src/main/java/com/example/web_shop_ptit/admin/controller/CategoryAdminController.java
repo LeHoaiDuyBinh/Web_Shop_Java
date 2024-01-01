@@ -49,7 +49,7 @@ public class CategoryAdminController {
             redirectAttributes.addFlashAttribute("success", "Thêm danh mục thành công");
             return "redirect:/admin/category";
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("err", "Lỗi");
+            model.addAttribute("err", e.getMessage());
             return "redirect:/admin/category";
         }
     }
@@ -69,7 +69,7 @@ public class CategoryAdminController {
             redirectAttributes.addFlashAttribute("success", "Sửa danh mục thành công");
             return "redirect:/admin/category";
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("err", "Lỗi");
+            model.addAttribute("err", e.getMessage());
             return "redirect:/admin/category";
         }
     }
