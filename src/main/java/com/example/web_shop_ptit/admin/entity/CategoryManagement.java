@@ -2,6 +2,10 @@ package com.example.web_shop_ptit.admin.entity;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "Categories")
@@ -11,7 +15,8 @@ public class CategoryManagement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
     private int categoryId;
-
+    @NotBlank(message = "Vui lòng nhập tên danh mục!")
+    @Size(max = 50, message = "Tên danh mục không vượt quá 50 ký tự")
     @Column(name = "name", nullable = false)
     private String name;
 
@@ -43,4 +48,3 @@ public class CategoryManagement {
         this.parentCategoryManagement = parentCategoryManagement;
     }
 }
-

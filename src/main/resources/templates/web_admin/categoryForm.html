@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -14,33 +14,34 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
 <body>
-    <div id="myModal" class="modal" style="display: block;">
-        <div class="modal-content" style="border-radius: 8px;">
-            <form id="CategoryForm" th:action="'/admin/' + ${operation}" method="POST">
+<div id="myModal" class="modal" style="display: block;">
+    <div class="modal-content" style="border-radius: 8px;">
+        <form id="CategoryForm" th:action="'/admin/' + ${operation}" th:object="${category}" method="POST">
 
-                <label th:if="${operation eq 'add'}" th:style="${operation eq 'add'} ? 'display: none;' : 'block'">ID danh mục:</label>
-                <input th:if="${operation eq 'add'}" type="hidden" name="maDanhMuc" value="">
-                <input th:if="${operation eq 'edit'}" type="text" name="maDanhMuc" readonly th:value="${maDanhMuc}">
+            <label th:if="${operation eq 'add'}" th:style="${operation eq 'add'} ? 'display: none;' : 'block'">ID danh mục:</label>
+<!--            <input th:if="${operation eq 'add'}" type="hidden" th:field="*{categoryId}">-->
+            <input th:if="${operation eq 'edit'}" type="text" th:field="*{categoryId}" readonly>
 
-                <label id="CategoryName">Tên danh mục:</label>
-                <input th:if="${operation eq 'add'}" style="color: black" type="text" name="tenDanhMuc" required>
-                <input th:if="${operation eq 'edit'}" style="color: black" type="text" name="tenDanhMuc" th:value="${tenDanhMuc}" required>
+            <label id="CategoryName">Tên danh mục:</label>
+            <th:block th:if="${#fields.hasErrors('name')}">
+                <div class="custom-alert custom-alert-error" th:text="${#fields.errors('name').get(0)}" style="display: block !important"></div>
+            </th:block>
+            <input style="color: black" type="text" th:field="*{name}" >
 
-                <label id="OrderName">Tên danh mục cha:</label>
-                <select name="danhMucCha" id="danhMucCha" style="width: 100%; border: 2px solid #ccc; height: 45px; margin-bottom: 20px; padding-left: 20px;" required>
-                    <option value="" disabled selected></option>
-                    <th:block th:each="categoryManagement : ${categories}">
-                        <th:block th:if="${categoryManagement.parentCategoryManagement == null}">
-                            <option th:value="${categoryManagement.categoryId}" th:text="${categoryManagement.name}" th:selected="${operation eq 'edit' and categoryManagement.categoryId eq danhMucCha}"></option>
-                        </th:block>
+            <label id="OrderName">Tên danh mục cha:</label>
+            <select name="danhMucCha" id="danhMucCha" style="width: 100%; border: 2px solid #ccc; height: 45px; margin-bottom: 20px; padding-left: 20px;">
+                <th:block th:each="categoryManagement : ${categories}">
+                    <th:block th:if="${categoryManagement.parentCategoryManagement == null}">
+                        <option th:value="${categoryManagement.categoryId}" th:text="${categoryManagement.name}" th:selected="${categoryManagement.categoryId eq danhMucCha}"></option>
                     </th:block>
-                </select>
-                <button style="color: #000000; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-right: 10px;" type="submit" id="submitBtn">Lưu</button>
-                <a href="/admin/category">
-                    <button style="color: #000000; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;" class="btnCancel" type="button" id="cancelBtn">Hủy</button>
-                </a>
-            </form>
-        </div>
+                </th:block>
+            </select>
+            <button style="color: #000000; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-right: 10px;" type="submit" id="submitBtn">Lưu</button>
+            <a href="/admin/category">
+                <button style="color: #000000; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;" class="btnCancel" type="button" id="cancelBtn">Hủy</button>
+            </a>
+        </form>
     </div>
+</div>
 </body>
 </html>

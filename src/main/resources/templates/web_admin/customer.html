@@ -9,6 +9,9 @@
     <link rel="stylesheet" th:href="@{/admin/css/dashboard_information.css}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>PTITShop</title>
+    <link rel="stylesheet" href="https://unpkg.com/sweetalert2@11.0.0/dist/sweetalert2.min.css">
+    <script src="https://unpkg.com/sweetalert2@11.0.0/dist/sweetalert2.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 
 <body>
@@ -103,7 +106,8 @@
         </div>
     </main>
 </div>
-
+<div id="errorMessage" style="display: none" th:text="${err != null ? err : 'None'}"></div>
+<div id="successMessage" style="display: none" th:text="${success != null ? success : 'None'}"></div>
 </body>
 </html>
 <script th:src="@{/admin/js/dashboard.js}"></script>
@@ -115,6 +119,8 @@
     const cancelBtn = document.getElementById("cancelBtn");
     const tbody = document.getElementById("tbody");
     let isEditing;
+    var err = document.getElementById('errorMessage');
+    var success = document.getElementById('successMessage');
     // ********************************** SỬA DỮ LIỆU ************************************
     document.addEventListener("DOMContentLoaded", function() {
         const link = document.querySelector(".slide-menu-categoryManagement");
@@ -159,5 +165,44 @@
                 link.classList.remove('active');
             }
         });
+        function showLoadingSwal() {
+            return Swal.fire({
+                title: 'Loading...',
+                text: 'Vui lòng chờ trong giây lát!',
+                showConfirmButton: false,
+                imageUrl: '/admin/img/gif/loading.gif',
+                timer: 2000,
+                allowOutsideClick: false
+            });
+        }
+
+        function showErrSwal(err) {
+            return Swal.fire({
+                title: 'Error',
+                text: err,
+                icon: "error"
+            });
+        }
+
+        function showSuccessSwal(success) {
+            Swal.fire({
+                icon: "success",
+                title: success,
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
+
+        if(err.textContent !== "None"){
+            showErrSwal(err.textContent);
+        }
+        else{
+            if(success.textContent !== "None"){
+                showSuccessSwal(success.textContent);
+            }
+            else{
+                showLoadingSwal();
+            }
+        }
     });
 </script>

@@ -16,19 +16,25 @@
 <body>
     <div id="myModal" class="modal" style="display: block ;">
         <div class="modal-content" style="border-radius: 8px;">
-            <form id="CustomerForm" th:action="'/admin/' + ${operation}" method="POST">
+
+            <form id="CustomerForm" th:action="'/admin/' + ${operation}" th:object="${customer}" method="POST">
 
                 <label id="Email">Email:</label>
-                <input style="color: black" type="text" id="Mail" name="Mail" readonly th:value="${Mail}">
+                <input style="color: black; background: #aca9a9" type="text" id="Mail" th:field="*{email}" readonly>
 
                 <label th:if="${operation eq 'editCustomer'}" id="NameCustomer">Tên khách hàng:</label>
-                <input style="color: black" type="text" id="TenKhachHang" name="TenKhachHang" th:value="${TenKhachHang}" required>
+                <th:block th:if="${#fields.hasErrors('fullName')}">
+                    <div class="custom-alert custom-alert-error" th:text="${#fields.errors('fullName').get(0)}" style="display: block !important"></div>
+                </th:block>
+                <input style="color: black" type="text" id="TenKhachHang" th:field="*{fullName}">
 
                 <label id="NumberPhoneCustomer">SĐT:</label>
-                <input style="color: black" type="text" id="SDT" name="SDT" th:value="${SDT}" required>
+                <th:block th:if="${#fields.hasErrors('phone')}">
+                    <div class="custom-alert custom-alert-error" th:text="${#fields.errors('phone').get(0)}" style="display: block !important"></div>
+                </th:block>
+                <input style="color: black" type="text" id="SDT" th:field="*{phone}">
 
                 <br>
-
                 <button style="color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-right: 10px;" type="submit" id="submitBtn">Lưu</button>
                 <a href="/admin/customer">
                     <button style="color: white; padding: 14px 20px; margin: 8px 0; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;" class="btnCancel" type="button" id="cancelBtn">Hủy</button>
