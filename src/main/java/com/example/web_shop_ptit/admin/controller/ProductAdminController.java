@@ -9,6 +9,8 @@ import com.example.web_shop_ptit.admin.service.FilesStorageService;
 import com.example.web_shop_ptit.admin.service.OrderManagementService;
 import com.example.web_shop_ptit.admin.service.ProductManagementService;
 import com.example.web_shop_ptit.client.entity.ProductSizes;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/admin/")
@@ -41,14 +44,23 @@ public class ProductAdminController {
     @Autowired
     private OrderManagementService orderManagementService;
     @GetMapping("/product")
-    public String productPage(Model model) {
+    public String productPage(Model model, HttpServletRequest request) {
         List<ProductManagement> products = productManagementService.listAll();
         model.addAttribute("products", products);
+        HttpSession session = request.getSession();
+        Admin admin = (Admin) session.getAttribute("adminInfo");
+        model.addAttribute("role", admin.getRole());
         return "web_admin/product";
     }
 
     @RequestMapping("addProductForm")
-    public String addProductForm(Model model) {
+    public String addProductForm(Model model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+        HttpSession session = request.getSession();
+        Admin admin = (Admin) session.getAttribute("adminInfo");
+        if(!Objects.equals(admin.getRole(), "admin") && !Objects.equals(admin.getRole(), "manager")){
+            redirectAttributes.addFlashAttribute("err", "Bạn không có quyền thực hiện thao tác này!");
+            return "redirect:/admin/product";
+        }
         List<CategoryManagement> categories = categoryManagementService.listAll();
 
         ProductManagement product = new ProductManagement();
@@ -194,7 +206,7 @@ public class ProductAdminController {
     }
 
     @PostMapping("updateProductForm")
-    public String updateProductForm(@RequestParam("MaSanPham") String MaSanPham,
+    public String updateProductForm(HttpServletRequest request, RedirectAttributes redirectAttributes, @RequestParam("MaSanPham") String MaSanPham,
                               @RequestParam("TenSanPham") String TenSanPham,
                               @RequestParam("GiaSanPham") Long GiaSanPham,
                               @RequestParam("DanhMucSanPham") int DanhMucSanPham,
@@ -211,6 +223,12 @@ public class ProductAdminController {
                               @RequestParam("imageInput4") String imageInput4,
                               Model model) {
         try {
+            HttpSession session = request.getSession();
+            Admin admin = (Admin) session.getAttribute("adminInfo");
+            if(!Objects.equals(admin.getRole(), "admin") && !Objects.equals(admin.getRole(), "manager")){
+                redirectAttributes.addFlashAttribute("err", "Bạn không có quyền thực hiện thao tác này!");
+                return "redirect:/admin/product";
+            }
             List<CategoryManagement> categories = categoryManagementService.listAll();
             // Xử lý dữ liệu tại đây
             model.addAttribute("categories", categories);
@@ -385,8 +403,14 @@ public class ProductAdminController {
     }
 
     @PostMapping("/product/delete")
-    public String deleteCategoryPage(@RequestParam String MaSanPham, RedirectAttributes redirectAttributes) {
+    public String deleteCategoryPage(HttpServletRequest request, @RequestParam String MaSanPham, RedirectAttributes redirectAttributes) {
         try {
+            HttpSession session = request.getSession();
+            Admin admin = (Admin) session.getAttribute("adminInfo");
+            if(!Objects.equals(admin.getRole(), "admin") && !Objects.equals(admin.getRole(), "manager")){
+                redirectAttributes.addFlashAttribute("err", "Bạn không có quyền thực hiện thao tác này!");
+                return "redirect:/admin/product";
+            }
             List<OrderManagement> orders = orderManagementService.listOrderNotDelivered(MaSanPham);
 
             if(!orders.isEmpty()){

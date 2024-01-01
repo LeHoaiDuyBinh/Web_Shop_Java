@@ -108,19 +108,21 @@
                         <td data-label="SDT" th:text="${order.customer.phone}"></td>
                         <td>
                             <i id="showDetailIcon" style="background: #16bb5e; border: 2px solid #16bb5e !important; margin-left: 5px; margin-top: 5px" class="fa fa-file xemChiTietOrder" title="Xem chi tiết"></i>
-                            <th:block th:if="${order.state eq 'pending'}">
-                                <i style="background: #db7419; border: 2px solid #db7419 !important; margin-top: 5px" class="fa fa-truck deliveryOrder active" title="Vận chuyển"></i>
-                                <i style="background: #c11515; border: 2px solid #c11515 !important; margin-left: 5px; margin-top: 5px" class="fa fa-times cancelOrder active" title="Hủy đơn hàng"></i>
-                                <i style="margin-top: 5px; pointer-events: none;" class="fa fa-paypal disabled" title="Thanh toán"></i>
-                            </th:block>
-                            <th:block th:unless="${order.state eq 'pending'}">
-                                <i style="background: #c11515; border: 2px solid #c11515 !important; pointer-events: none; margin-top: 5px" class="fa fa-truck disabled" title="Vận chuyển"></i>
-                                <i style="background: #c11515; border: 2px solid #c11515 !important; margin-left: 5px; margin-top: 5px" class="fa fa-times disabled" title="Hủy đơn hàng"></i>
-                                <th:block th:if="${order.state eq 'delivering'}">
-                                    <i style="margin-top: 5px" class="fa fa-paypal payOrder active" title="Thanh toán"></i>
-                                </th:block>
-                                <th:block th:unless="${order.state eq 'delivering'}">
+                            <th:block th:if="${role == 'admin' or role == 'manager'}">
+                                <th:block th:if="${order.state eq 'pending'}">
+                                    <i style="background: #db7419; border: 2px solid #db7419 !important; margin-top: 5px" class="fa fa-truck deliveryOrder active" title="Vận chuyển"></i>
+                                    <i style="background: #c11515; border: 2px solid #c11515 !important; margin-left: 5px; margin-top: 5px" class="fa fa-times cancelOrder active" title="Hủy đơn hàng"></i>
                                     <i style="margin-top: 5px; pointer-events: none;" class="fa fa-paypal disabled" title="Thanh toán"></i>
+                                </th:block>
+                                <th:block th:unless="${order.state eq 'pending'}">
+                                    <i style="background: #c11515; border: 2px solid #c11515 !important; pointer-events: none; margin-top: 5px" class="fa fa-truck disabled" title="Vận chuyển"></i>
+                                    <i style="background: #c11515; border: 2px solid #c11515 !important; margin-left: 5px; margin-top: 5px" class="fa fa-times disabled" title="Hủy đơn hàng"></i>
+                                    <th:block th:if="${order.state eq 'delivering'}">
+                                        <i style="margin-top: 5px" class="fa fa-paypal payOrder active" title="Thanh toán"></i>
+                                    </th:block>
+                                    <th:block th:unless="${order.state eq 'delivering'}">
+                                        <i style="margin-top: 5px; pointer-events: none;" class="fa fa-paypal disabled" title="Thanh toán"></i>
+                                    </th:block>
                                 </th:block>
                             </th:block>
                         </td>

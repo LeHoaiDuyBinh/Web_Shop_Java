@@ -1,10 +1,13 @@
 package com.example.web_shop_ptit.admin.controller;
 
+import com.example.web_shop_ptit.admin.entity.Admin;
 import com.example.web_shop_ptit.admin.entity.CategoryManagement;
 import com.example.web_shop_ptit.admin.entity.OrderManagement;
 import com.example.web_shop_ptit.admin.exception.MoveOrderException;
 import com.example.web_shop_ptit.admin.service.OrderManagementService;
 import com.example.web_shop_ptit.admin.service.PaymentManagementService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,10 +29,14 @@ public class OrderAdminController {
     private OrderManagementService orderManagementService;
 
     @GetMapping("/order")
-    public String orderPage(Model model) {
+    public String orderPage(Model model, HttpServletRequest request) {
+
         List<OrderManagement> orders = orderManagementService.listAll();
 
         model.addAttribute("orders", orders);
+        HttpSession session = request.getSession();
+        Admin admin = (Admin) session.getAttribute("adminInfo");
+        model.addAttribute("role", admin.getRole());
         return "web_admin/order";
     }
 

@@ -71,11 +71,13 @@
                     </a></li>
                     /
                     <li><a href="#" class="active">Shop</a></li>
-                    <a href="/admin/addStaffForm" style="margin-bottom: 45px;">
-                        <button id="addBtn" style="font-size: 14px; border: none; right: 0; position: absolute; margin-right: 26px;margin-bottom: 48px; background-color:var(--primary); color: white;; width: 180px; height: 40px;border-radius: 8px;">
-                            Thêm nhân viên
-                        </button>
-                    </a>
+                    <th:block th:if="${role == 'admin'}">
+                        <a href="/admin/addStaffForm" style="margin-bottom: 45px;">
+                            <button id="addBtn" style="font-size: 14px; border: none; right: 0; position: absolute; margin-right: 26px;margin-bottom: 48px; background-color:var(--primary); color: white;; width: 180px; height: 40px;border-radius: 8px;">
+                                Thêm nhân viên
+                            </button>
+                        </a>
+                    </th:block>
                 </ul>
             </div>
         </div>
@@ -95,8 +97,12 @@
                         <td th:text="${admin.username}" data-label="Username"></td>
                         <td th:text="${admin.role}" data-label="Role"></td>
                         <td>
-                            <i class="fa fa-trash"></i>
-                            <i class="fa fa-pencil editBtn"></i>
+                            <th:block th:if="${role == 'admin'}">
+                                <th:block th:if="${admin.role != 'admin'}">
+                                    <i class="fa fa-trash"></i>
+                                    <i class="fa fa-pencil editBtn"></i>
+                                </th:block>
+                            </th:block>
                         </td>
                     </tr>
                 </tbody>

@@ -71,11 +71,13 @@
                     </a></li>
                     /
                     <li><a href="#" class="active">Shop</a></li>
-                    <a href="/admin/addProductForm" style="margin-bottom: 45px;">
-                        <button id="addBtn" style="font-size: 14px; border: none; right: 0; position: absolute; margin-right: 26px;margin-bottom: 48px; background-color:var(--primary); color: white;; width: 180px; height: 40px;border-radius: 8px;">
-                            Thêm sản phẩm
-                        </button>
-                    </a>
+                    <th:block th:if="${role == 'admin' or role == 'manager'}">
+                        <a href="/admin/addProductForm" style="margin-bottom: 45px;">
+                            <button id="addBtn" style="font-size: 14px; border: none; right: 0; position: absolute; margin-right: 26px;margin-bottom: 48px; background-color:var(--primary); color: white;; width: 180px; height: 40px;border-radius: 8px;">
+                                Thêm sản phẩm
+                            </button>
+                        </a>
+                    </th:block>
                 </ul>
             </div>
         </div>
@@ -136,11 +138,12 @@
                             </td>
                         </th:block>
                     </th:block>
-
-                    <td>
-                        <i class="fa fa-trash"></i>
-                        <i class="fa fa-pencil editBtn"></i>
-                    </td>
+                    <th:block th:if="${role == 'admin' or role == 'manager'}">
+                        <td>
+                            <i class="fa fa-trash"></i>
+                            <i class="fa fa-pencil editBtn"></i>
+                        </td>
+                    </th:block>
                     <td><button type="button" class="xemChiTietBtn" style="font-size: 14px; border: none;background-color:var(--primary); color: white; width: 120px; height: 30px;border-radius: 8px;">Xem chi tiết</button></td>
                 </tr>
                 </tbody>

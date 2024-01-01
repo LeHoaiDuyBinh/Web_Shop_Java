@@ -23,11 +23,15 @@ import java.util.Objects;
 public class StaffController {
     @Autowired
     private AdminService adminService;
+
     @GetMapping("/staff")
-    public String staffPage(Model model) {
+    public String staffPage(Model model, HttpServletRequest request) {
         List<Admin> admins = adminService.listAll();
 
         model.addAttribute("admins", admins);
+        HttpSession session = request.getSession();
+        Admin admin = (Admin) session.getAttribute("adminInfo");
+        model.addAttribute("role", admin.getRole());
         return "web_admin/staff";
     }
 
@@ -44,24 +48,6 @@ public class StaffController {
 
         return "web_admin/staffForm";
     }
-
-//    @PostMapping("/staff/add")
-//    public String saveStaff(@RequestParam String username, @RequestParam String password, @RequestParam String role,
-//                            RedirectAttributes redirectAttributes, BindingResult errors) {
-//        try {
-//            if(username.isEmpty()){
-//                errors.rejectValue("username", "error.email", "Không được để trống");
-//                return "web_admin/staffForm";
-//            }
-//            adminService.saveStaff(username, password, role);
-//            redirectAttributes.addFlashAttribute("success", "Thêm nhân viên thành công!");
-//            return "redirect:/admin/staff";
-//        } catch (Exception e) {
-//            redirectAttributes.addFlashAttribute("err", "Lỗi");
-//            System.out.println(e.getMessage());
-//        }
-//        return "redirect:/admin/staff";
-//    }
 
     @PostMapping("/staff/add")
     public String saveStaff(HttpServletRequest request, Model model, RedirectAttributes redirectAttributes,
