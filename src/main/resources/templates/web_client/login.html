@@ -19,7 +19,7 @@
 </head>
 
 <body>
-<section class="container forms">
+<section class="container forms" style="height: 118vh !important;">
   <div class="form login">
     <div class="form-content">
       <header>Đăng nhập</header>
@@ -41,9 +41,9 @@
         </div>
         <div class="captcha-container">
           <input type="hidden" th:field="*{hiddenCaptcha}" />
-          <label for="captchatext">Enter Captcha</label>
-          <input type="text" id="captchatext" th:field="*{captcha}" class="short-input"/>
-          <input type="image" id="image" th:src="'data:realCaptcha/jpg;base64,' + ${customer.realCaptcha}">
+          <input style="width: 100%; border-radius: 5px; border: 1px solid lightgrey; height: 48px; font-size: 15px; padding-left: 14px;" type="text" id="captchatext" th:field="*{captcha}" class="short-input" placeholder="Enter capcha"/>
+          <br>
+          <input style="height: 68px; margin-right: 2px;" type="image" id="image" th:src="'data:realCaptcha/jpg;base64,' + ${customer.realCaptcha}">
         </div>
         <div class="form-link">
           <a href="/auth/forgotpassword" class="forgot-pass" id="forgotPasswordLink">Quên mật khẩu?</a>
