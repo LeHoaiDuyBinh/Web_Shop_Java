@@ -1,6 +1,7 @@
 package com.example.web_shop_ptit.client.config;
 
 
+
 import com.example.web_shop_ptit.client.interceptor.UserInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
