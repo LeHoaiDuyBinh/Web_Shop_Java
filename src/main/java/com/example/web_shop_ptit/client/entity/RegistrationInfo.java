@@ -6,22 +6,24 @@ import org.hibernate.validator.constraints.Length;
 
 
 public class RegistrationInfo {
-    @NotBlank
-    @Length(min = 5, max = 20)
+    @NotBlank(message = "*Không được để trống")
+    @Length(min = 5, max = 30, message = "*Tên phải tên 5 kí tự")
+    @Pattern(regexp = "^[a-zA-Z]*$", message = "*Tên không được có chữ số và ký tự đặc biệt")
     private String fullname;
 
     @NotBlank(message = "*Không được để trống email!")
     @Email(message = "*Không đúng định dạng email!")
     private String email;
 
-    @NotBlank
-    @Size(min = 12)
+    @NotBlank(message = "*Không được để trống")
+    @Size(min = 12, message = "*Password ít nhất 12 kí tự")
     private String password;
-    @NotBlank
-    @Size(min = 12)
+    @NotBlank(message = "*Không được để trống")
+    @Size(min = 12,message = "*Password ít nhất 12 kí tự")
     private String confirmPassword;
-    @NotBlank
-    @Size(min = 10, max=10)
+    @NotBlank(message = "*Không được để trống")
+    @Size(min = 10, max=10, message = "*Số điện thoại phải 10 số")
+    @Pattern(regexp = "^[0-9]*$", message = "*Không được có chữ và ký tự đặc biệt trong số điện thoại")
     private String phone;
 
     // constructor, getters, and setters
