@@ -103,7 +103,8 @@
                                 <td>
                                     <div class="order__status">
                                         <span class="icon-ic_reload"></span>
-                                        <span class="ng-binding" th:text="${order.state}"></span>
+                                        <span  th:if="${order.state eq 'pending'}"  class="ng-binding">Đang xử lý</span>
+                                        <span  th:if="${order.state eq 'delivering'}"  class="ng-binding">Đang vận chuyển</span>
                                     </div>
                                 </td>
                                 <td><span class="price ng-binding" th:text="${order.totalPrice * 1000}"></span></td>
@@ -119,7 +120,8 @@
                                 <td>
                                     <div class="order__status">
                                         <span class="icon-ic_reload"></span>
-                                        <span class="ng-binding" th:text="${orderHistory.state}"></span>
+                                        <span  th:if="${orderHistory.state eq 'delivered'}"  class="ng-binding">Đã giao hàng</span>
+                                        <span  th:if="${orderHistory.state eq 'cancelled'}"  class="ng-binding">Đơn hàng đã bị hủy</span>
                                     </div>
                                 </td>
                                 <td><span class="price ng-binding" th:text="${orderHistory.totalPrice * 1000}"></span></td>
