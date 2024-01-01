@@ -41,7 +41,7 @@
 
     <div class="orthers">
         <li>
-            <form th:action="@{/auth/category}" method="GET">
+            <form th:action="@{/auth/category}" method="POST">
                 <input placeholder="Search..." name="keyword"  th:value="${keyword}" type="text">
                 <button type="submit" id="submitBtn" style="display: none;"></button>
                 <i class="fa fa-search" id="searchIcon" style="cursor: pointer;"></i>
