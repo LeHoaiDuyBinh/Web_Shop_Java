@@ -50,14 +50,24 @@ public class OrderManagementController {
             System.out.println("success");
             model.addAttribute("checkSession", "1");
 
-            List<Order> listOrder = Collections.singletonList(orderService.findByEmail(customerInfo.getEmail()));
+            List<Order> orders = orderService.listAll();
+            List<Order> listOrder = new ArrayList<>();
+            for (Order order : orders) {
+                if (order.getEmail().equals(customerInfo.getEmail())){
+                    listOrder.add(order);
+                }
+            }
+            List<OrderHistory> orderHistories = orderHistoryService.listAll();
             List<OrderHistory> listOrderHistory = new ArrayList<>();
-            if (orderHistoryService.findByEmail(customerInfo.getEmail()) != null){
-                listOrderHistory = Collections.singletonList(orderHistoryService.findByEmail(customerInfo.getEmail()));
-            } else{
-               listOrderHistory = null;
+            for (OrderHistory orderHistory : orderHistories) {
+                if (orderHistory.getEmail().equals(customerInfo.getEmail())){
+                    listOrderHistory.add(orderHistory);
+                }
             }
 
+            if (listOrderHistory.size() < 1) {
+                listOrderHistory = null;
+            }
 
             model.addAttribute("CustomerInfor", customerInfo);
             model.addAttribute("listOrders", listOrder);
