@@ -3,6 +3,8 @@ package com.example.web_shop_ptit.admin.controller;
 import com.example.web_shop_ptit.admin.entity.*;
 import com.example.web_shop_ptit.admin.exception.DeleteProductException;
 import com.example.web_shop_ptit.admin.service.AdminService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,7 +32,13 @@ public class StaffController {
     }
 
     @RequestMapping("addStaffForm")
-    public String addStaffForm(Model model) {
+    public String addStaffForm(Model model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+        HttpSession session = request.getSession();
+        Admin admin = (Admin) session.getAttribute("adminInfo");
+        if(!Objects.equals(admin.getRole(), "admin") && !Objects.equals(admin.getRole(), "manager")){
+            redirectAttributes.addFlashAttribute("err", "Bạn không có quyền thực hiện thao tác này!");
+            return "redirect:/admin/staff";
+        }
         model.addAttribute("staff", new Admin());
         model.addAttribute("operation", "add");
 
@@ -56,10 +64,16 @@ public class StaffController {
 //    }
 
     @PostMapping("/staff/add")
-    public String saveStaff(Model model, RedirectAttributes redirectAttributes,
+    public String saveStaff(HttpServletRequest request, Model model, RedirectAttributes redirectAttributes,
                             @Valid @ModelAttribute("staff") Admin staff,
                             BindingResult bindingResult) {
         try {
+            HttpSession session = request.getSession();
+            Admin admin = (Admin) session.getAttribute("adminInfo");
+            if(!Objects.equals(admin.getRole(), "admin") && !Objects.equals(admin.getRole(), "manager")){
+                redirectAttributes.addFlashAttribute("err", "Bạn không có quyền thực hiện thao tác này!");
+                return "redirect:/admin/staff";
+            }
             if (bindingResult.hasErrors()) {
                 model.addAttribute("operation", "add");
                 return "web_admin/staffForm";
@@ -88,8 +102,15 @@ public class StaffController {
 
 
     @PostMapping("/updateStaffForm")
-    public String updateStaffForm(@RequestParam String username, @RequestParam String role, Model model) {
+    public String updateStaffForm(HttpServletRequest request, RedirectAttributes redirectAttributes,
+                                  @RequestParam String username, @RequestParam String role, Model model) {
         try {
+            HttpSession session = request.getSession();
+            Admin admin = (Admin) session.getAttribute("adminInfo");
+            if(!Objects.equals(admin.getRole(), "admin") && !Objects.equals(admin.getRole(), "manager")){
+                redirectAttributes.addFlashAttribute("err", "Bạn không có quyền thực hiện thao tác này!");
+                return "redirect:/admin/staff";
+            }
             Admin staff = new Admin();
             staff.setUsername(username);
             staff.setRole(role);
@@ -104,10 +125,16 @@ public class StaffController {
     }
 
     @PostMapping("/staff/edit")
-    public String editStaff(Model model, RedirectAttributes redirectAttributes,
+    public String editStaff(HttpServletRequest request, Model model, RedirectAttributes redirectAttributes,
                             @Valid @ModelAttribute("staff") Admin staff,
                             BindingResult bindingResult) {
         try {
+            HttpSession session = request.getSession();
+            Admin admin = (Admin) session.getAttribute("adminInfo");
+            if(!Objects.equals(admin.getRole(), "admin") && !Objects.equals(admin.getRole(), "manager")){
+                redirectAttributes.addFlashAttribute("err", "Bạn không có quyền thực hiện thao tác này!");
+                return "redirect:/admin/staff";
+            }
             if (bindingResult.hasErrors()) {
                 model.addAttribute("operation", "edit");
                 return "web_admin/staffForm";
@@ -131,8 +158,14 @@ public class StaffController {
     }
 
     @PostMapping("/staff/delete")
-    public String deleteStaff(@RequestParam String username, RedirectAttributes redirectAttributes) {
+    public String deleteStaff(HttpServletRequest request, @RequestParam String username, RedirectAttributes redirectAttributes) {
         try {
+            HttpSession session = request.getSession();
+            Admin admin = (Admin) session.getAttribute("adminInfo");
+            if(!Objects.equals(admin.getRole(), "admin") && !Objects.equals(admin.getRole(), "manager")){
+                redirectAttributes.addFlashAttribute("err", "Bạn không có quyền thực hiện thao tác này!");
+                return "redirect:/admin/staff";
+            }
             Admin tmp = adminService.findAdminByUsername(username);
             if(tmp != null && !Objects.equals(tmp.getRole(), "admin")){
                 adminService.deleteStaff(username);

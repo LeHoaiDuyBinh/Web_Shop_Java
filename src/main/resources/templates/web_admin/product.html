@@ -82,7 +82,7 @@
 
         <!--********************* Product ***********************-->
         <div style="background: var(--light);color: var(--dark);">
-            <table width="100%">
+            <table width="100%" id="myTable">
                 <thead>
                 <tr>
                     <th style="width: 150px;"><span class="las la-sort"></span> MÃ SP</th>
@@ -176,6 +176,7 @@
 
 </html>
 <script th:src="@{/admin/js/dashboard.js}"></script>
+<script th:src="@{/admin/js/pagination.js}"></script>
 <script>
     const link = document.querySelector(".slide-menu-product");
     link.classList.add('active');
