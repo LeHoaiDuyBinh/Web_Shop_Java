@@ -26,7 +26,7 @@ public class OrderManagement {
     @Column(name="address")
     private String address;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
     private List<OrderItemsManagement> orderItemList;
 
     public PaymentManagement getPayment() {
@@ -37,7 +37,7 @@ public class OrderManagement {
         this.payment = payment;
     }
 
-    @OneToOne(mappedBy = "order")
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
     private PaymentManagement payment;
 
     public String getOrderCode() {

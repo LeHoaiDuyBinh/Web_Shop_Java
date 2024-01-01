@@ -55,7 +55,7 @@
         <input type="checkbox" id="theme-toggle" hidden>
         <label for="theme-toggle" class="theme-toggle"></label>
         <a href="#" class="profile">
-            <img src="/public/img/user.jpg">
+            <img th:src="@{/client/img/boss.jpg}">
         </a>
     </nav>
 
@@ -71,7 +71,7 @@
                     </a></li>
                     /
                     <li><a href="#" class="active">Shop</a></li>
-                    <a href="/admin/addProductForm">
+                    <a href="/admin/addProductForm" style="margin-bottom: 45px;">
                         <button id="addBtn" style="font-size: 14px; border: none; right: 0; position: absolute; margin-right: 26px;margin-bottom: 48px; background-color:var(--primary); color: white;; width: 180px; height: 40px;border-radius: 8px;">
                             Thêm sản phẩm
                         </button>

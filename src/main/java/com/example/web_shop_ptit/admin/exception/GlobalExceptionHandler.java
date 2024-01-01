@@ -2,6 +2,7 @@ package com.example.web_shop_ptit.admin.exception;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
@@ -19,6 +20,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NoResourceFoundException.class)
     public String handleNoResourceFoundException(NoResourceFoundException ex){
+        return "404";
+    }
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public String handleMissingServletRequestParameterException(MissingServletRequestParameterException ex){
         return "404";
     }
 }

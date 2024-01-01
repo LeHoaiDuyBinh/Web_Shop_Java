@@ -12,12 +12,12 @@
 </head>
 
 <body>
-<div class="container">
+<div class="container" style="height: 470px !important;">
     <div class="borderLine"></div>
     <div class="borderLine"></div>
     <div class="borderLine"></div>
     <div class="borderLine"></div>
-    <form action="/admin/login" method="post">
+    <form action="/admin/login" th:object="${admin}" method="post">
         <h2>Sign in</h2>
         <div class="custom" style="width: 100%; text-align: center;">
             <div th:if="${error}" class="custom-alert custom-alert-error" role="alert" style="display: block !important; color: red"><i class="fa fa-times-circle"></i>
@@ -25,16 +25,26 @@
             </div>
         </div>
         <div class="inputBox">
-            <input type="text" name="username" required>
+            <input type="text" th:field="*{username}" required>
             <span>Username</span>
             <i></i>
         </div>
         <div class="inputBox">
-            <input type="password" name="password" required>
+            <input type="password" th:field="*{password}" required>
             <span>Password</span>
             <i></i>
         </div>
-        <input style="margin-top: 35px;" type="submit" value="Login">
+        <div class="row">
+            <div class="col-4">
+                <img th:src="*{'data:realCaptcha/jpg;base64,'+ realCaptcha}" style="margin-top: 12px;"/>
+            </div>
+        </div>
+        <input type="hidden" th:field="*{hiddenCaptcha}">
+        <div class="inputBox" style="margin-top: 15px !important;">
+            <input type="text" th:field="*{captcha}" placeholder="Enter capcha">
+            <i></i>
+        </div>
+        <input style="margin-top: 23px; margin-left: 32% !important;" type="submit" value="Login">
     </form>
 </div>
 </body>

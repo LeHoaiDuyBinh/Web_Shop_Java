@@ -1,6 +1,8 @@
 package com.example.web_shop_ptit.client.controller;
 
+import com.example.web_shop_ptit.client.entity.Customer;
 import com.example.web_shop_ptit.client.entity.RegistrationInfo;
+import com.example.web_shop_ptit.client.service.CustomerService;
 import com.example.web_shop_ptit.client.service.EmailService;
 import com.example.web_shop_ptit.client.service.RegistrationService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,18 +26,27 @@ public class ForgotPasswordController {
     @Autowired
     private RegistrationService registrationService;
 
+    @Autowired
+    private CustomerService customerService;
+
     @PostMapping("forgotPassword")
     public String forgotPassword(@RequestParam String email_forget, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         String action = request.getParameter("action");
         String verifyCode = EmailService.randomVerificationCode();
+        Customer customer = customerService.findByEmail(email_forget);
         if (action.equals("forgotPassword")) {
             try {
-                EmailService.sendVerificationCode(email_forget, verifyCode);
-                System.out.println("Send mail thành công");
-                session.setAttribute("verifyCode", verifyCode);
-                session.setAttribute("registrationInfo", new RegistrationInfo(email_forget));
-                model.addAttribute("message", "Send code successfully");
+                if(customer != null) {
+                    EmailService.sendVerificationCode(email_forget, verifyCode);
+                    System.out.println("Send mail thành công");
+                    session.setAttribute("verifyCode", verifyCode);
+                    session.setAttribute("registrationInfo", new RegistrationInfo(email_forget));
+                    model.addAttribute("message", "Send code successfully");
+                }else{
+                    model.addAttribute("message", "Email không hợp lệ hoặc không tồn tại");
+                    return "web_client/forgotPassword";
+                }
             }catch (Exception ex) {
                 model.addAttribute("message", "Error seding code");
             }
@@ -70,7 +81,6 @@ public class ForgotPasswordController {
                 return "redirect:/auth/confirmChangePassword";
             }
         } else {
-            // Session attributes are missing, redirect to the forgot password page
             return "redirect:/auth/forgotpassword";
         }
     }

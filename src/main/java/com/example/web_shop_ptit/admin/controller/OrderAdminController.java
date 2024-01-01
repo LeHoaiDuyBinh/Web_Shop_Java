@@ -2,6 +2,7 @@ package com.example.web_shop_ptit.admin.controller;
 
 import com.example.web_shop_ptit.admin.entity.CategoryManagement;
 import com.example.web_shop_ptit.admin.entity.OrderManagement;
+import com.example.web_shop_ptit.admin.exception.MoveOrderException;
 import com.example.web_shop_ptit.admin.service.OrderManagementService;
 import com.example.web_shop_ptit.admin.service.PaymentManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,38 +25,12 @@ public class OrderAdminController {
     @Autowired
     private OrderManagementService orderManagementService;
 
-    @Autowired
-    private PaymentManagementService paymentManagementService;
     @GetMapping("/order")
     public String orderPage(Model model) {
         List<OrderManagement> orders = orderManagementService.listAll();
 
         model.addAttribute("orders", orders);
         return "web_admin/order";
-    }
-
-    public static String generatePaymentCode() {
-        // Sinh 5 ký tự ngẫu nhiên
-        String randomChars = generateRandomChars();
-
-        long currentTimeInSeconds = Instant.now().getEpochSecond();
-
-        // Kết hợp chuỗi thời gian và chuỗi ký tự ngẫu nhiên để tạo mã thanh toán
-        return randomChars + "_" + currentTimeInSeconds;
-    }
-
-    // Phương thức để sinh ký tự ngẫu nhiên
-    private static String generateRandomChars() {
-        // Các ký tự có thể được chọn
-        String candidateChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-
-        StringBuilder sb = new StringBuilder();
-        Random random = new Random();
-        for (int i = 0; i < 5; i++) {
-            int index = random.nextInt(candidateChars.length());
-            sb.append(candidateChars.charAt(index));
-        }
-        return sb.toString();
     }
 
     @PostMapping("/order/changeState")
@@ -90,17 +65,28 @@ public class OrderAdminController {
             return "redirect:/admin/order";
         }
 
-        if(!state.equals("delivered")){
-            orderManagementService.updateOrderState(MaDonHang, state);
+        try {
+            if(!state.equals("delivered")){
+                if(state.equals("cancelled")){
+                    orderManagementService.moveOrderToOrderHistory(MaDonHang, state);
+                }
+                else{
+                    orderManagementService.updateOrderState(MaDonHang, state);
+                }
+            }
+            else{
+                orderManagementService.moveOrderToOrderHistory(MaDonHang, state);
+            }
+            redirectAttributes.addFlashAttribute("success", "Bạn đã " + text + " thành công!");
+            return "redirect:/admin/order";
         }
-        else{
-            OrderManagement order = orderManagementService.findOrderManagementByOrderCode(MaDonHang);
-            //paymentManagementService.savePayment(order, generatePaymentCode());
-            orderManagementService.updateOrderState(MaDonHang, state);
-
-
+        catch (MoveOrderException e){
+            redirectAttributes.addFlashAttribute("err", e.getMessage());
+            return "redirect:/admin/order";
         }
-        redirectAttributes.addFlashAttribute("success", "Bạn đã " + text + " thành công!");
-        return "redirect:/admin/order";
+        catch (Exception e){
+            redirectAttributes.addFlashAttribute("err", "Lỗi");
+            return "redirect:/admin/order";
+        }
     }
 }
