@@ -93,7 +93,7 @@ public class PaymentController {
             model.addAttribute("checkSession", "");
             return "web_client/login";
         }
-        return "web_client/delivery";
+        return "redirect:/auth/orderManagement";
     }
 
 }
