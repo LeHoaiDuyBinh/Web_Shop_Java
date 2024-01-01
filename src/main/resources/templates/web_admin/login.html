@@ -12,7 +12,7 @@
 </head>
 
 <body>
-<div class="container">
+<div class="container" style="height: 470px !important;">
     <div class="borderLine"></div>
     <div class="borderLine"></div>
     <div class="borderLine"></div>
@@ -36,16 +36,15 @@
         </div>
         <div class="row">
             <div class="col-4">
-                <img th:src="*{'data:realCaptcha/jpg;base64,'+ realCaptcha}"/>
+                <img th:src="*{'data:realCaptcha/jpg;base64,'+ realCaptcha}" style="margin-top: 12px;"/>
             </div>
         </div>
         <input type="hidden" th:field="*{hiddenCaptcha}">
-        <div class="inputBox">
-            <input type="text" th:field="*{captcha}">
-            <span>ENTER CAPTCHA</span>
+        <div class="inputBox" style="margin-top: 15px !important;">
+            <input type="text" th:field="*{captcha}" placeholder="Enter capcha">
             <i></i>
         </div>
-        <input style="margin-top: 35px;" type="submit" value="Login">
+        <input style="margin-top: 23px; margin-left: 32% !important;" type="submit" value="Login">
     </form>
 </div>
 </body>

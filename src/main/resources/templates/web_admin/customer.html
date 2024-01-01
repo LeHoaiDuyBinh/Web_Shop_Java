@@ -24,7 +24,7 @@
         <li class="slide-menu-category"><a href="/admin/category"><i class='bx bx-store-alt'></i>Danh mục sản phẩm</a></li>
         <li class="slide-menu-order"><a href="/admin/order"><i class='bx bx-analyse'></i>Đơn hàng</a></li>
         <li class="slide-menu-orderHistory"><a href="/admin/ordersHistory"><i class='bx bx-store-alt'></i>Lịch sử đơn hàng</a></li>
-        <li class="slide-menu-customer"><a href="#"><i class='bx bx-group'></i>Khách hàng</a></li>
+        <li class="slide-menu-customer active"><a href="#"><i class='bx bx-group'></i>Khách hàng</a></li>
         <li class="slide-menu-staff"><a href="/admin/staff"><i class='bx bx-group'></i>Nhân viên</a></li>
         <li><a href="#"><i class='bx bx-cog'></i>Settings</a></li>
     </ul>
@@ -52,7 +52,7 @@
         <input type="checkbox" id="theme-toggle" hidden>
         <label for="theme-toggle" class="theme-toggle"></label>
         <a href="#" class="profile">
-            <img src="/public/img/user.jpg">
+            <img th:src="@{/client/img/boss.jpg}">
         </a>
     </nav>
 
