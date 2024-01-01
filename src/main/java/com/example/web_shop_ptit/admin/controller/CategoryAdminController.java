@@ -32,36 +32,46 @@ public class CategoryAdminController {
         return "web_admin/category";
     }
     @PostMapping("/add")
-    public String saveCategory( Model model,RedirectAttributes redirectAttributes,
-                                @RequestParam int danhMucCha,
-                                @Valid @ModelAttribute("category") CategoryManagement category,
+    public String saveCategory(Model model, RedirectAttributes redirectAttributes,
+                               @RequestParam int danhMucCha,
+                               @Valid @ModelAttribute("category") CategoryManagement category,
                                BindingResult result) {
-        if (result.hasErrors()) {
-            model.addAttribute("categories", categoryManagementService.listAll());
-            model.addAttribute("operation", "add");
-            model.addAttribute("danhMucCha",danhMucCha);
-            return "web_admin/categoryForm";
+        try {
+            if (result.hasErrors()) {
+                model.addAttribute("categories", categoryManagementService.listAll());
+                model.addAttribute("operation", "add");
+                model.addAttribute("danhMucCha", danhMucCha);
+                return "web_admin/categoryForm";
+            }
+            CategoryManagement danhMucCha1 = categoryManagementService.getParentCategoryById(danhMucCha);
+            category.setParentCategoryManagement(danhMucCha1);
+            categoryManagementService.saveCategory(category.getName(), category.getParentCategoryManagement());
+            redirectAttributes.addFlashAttribute("success", "Thêm danh mục thành công");
+            return "redirect:/admin/category";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("err", "Lỗi");
+            return "redirect:/admin/category";
         }
-        CategoryManagement danhMucCha1 = categoryManagementService.getParentCategoryById(danhMucCha);
-        category.setParentCategoryManagement(danhMucCha1);
-        categoryManagementService.saveCategory(category.getName(), category.getParentCategoryManagement());
-        redirectAttributes.addFlashAttribute("success", "Thêm danh mục thành công");
-        return "redirect:/admin/category";
     }
 
     @PostMapping("/edit")
     public String editCategory(Model model, RedirectAttributes redirectAttributes,
                                @Valid @ModelAttribute("category") CategoryManagement category,
                                BindingResult result) {
-        if (result.hasErrors()) {
-            model.addAttribute("categories", categoryManagementService.listAll());
-            model.addAttribute("operation", "edit");
-            model.addAttribute("category",category);
-            return "web_admin/categoryForm";
+        try {
+            if (result.hasErrors()) {
+                model.addAttribute("categories", categoryManagementService.listAll());
+                model.addAttribute("operation", "edit");
+                model.addAttribute("category",category);
+                return "web_admin/categoryForm";
+            }
+            categoryManagementService.updateCategory(category.getCategoryId(), category.getName(), category.getParentCategoryManagement());
+            redirectAttributes.addFlashAttribute("success", "Sửa danh mục thành công");
+            return "redirect:/admin/category";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("err", "Lỗi");
+            return "redirect:/admin/category";
         }
-        categoryManagementService.updateCategory(category.getCategoryId(), category.getName(), category.getParentCategoryManagement());
-        redirectAttributes.addFlashAttribute("success", "Sửa danh mục thành công");
-        return "redirect:/admin/category";
     }
     @RequestMapping("addCategory")
     public String addCategoryPage(Model model) {
