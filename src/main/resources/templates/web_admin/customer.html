@@ -92,7 +92,9 @@
                     <td th:text="${customerManagement.fullName}"></td>
                     <td th:text="${customerManagement.phone}"></td>
                     <td>
-                        <i class="fa fa-pencil editBtn"></i>
+                        <th:block th:if="${role == 'admin' or role == 'manager'}">
+                            <i class="fa fa-pencil editBtn"></i>
+                        </th:block>
                     </td>
                 </tr>
                 </tbody>
