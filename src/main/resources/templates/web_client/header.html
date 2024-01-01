@@ -51,21 +51,21 @@
         <a th:href="${checkSession == '1' ? '/auth/informationUser' : '/auth/login'}">
             <div class="item" style="padding-left: 12px; cursor: pointer;" title="Đăng nhập">
                 <li><i class="fa fa-user" id="userIcon" style="margin-left: 2px; margin-right: 4px; border-right: 1px solid; padding-right: 12px; color: #3e3e3f"></i></li>
-                <div class="sub-action" style="margin-top: 15px; margin-right: 78px">
-                    <div class="top-action" style="cursor: context-menu;">
-                        <a class="icon" style="text-decoration: none; cursor: context-menu;"><h3>Tài khoản của tôi</h3></a>
-                    </div>
-                    <ul>
-                        <li><a href="/Customer/Info"><i class="fa fa-user"></i>Thông tin tài khoản</a></li>
-                        <li><a href="/Customer/Order"><i class="fa fa-file"></i>Quản lý đơn hàng</a></li>
-                        <li><a href="/Customer/ResetPassword"><i class="fa fa-key"></i>Đổi mật khẩu</a></li>
-                        <li><a href="/Auth/Logout"><i class="fa fa-sign-out"></i>Đăng xuất</a></li>
-                    </ul>
-                </div>
+<!--                <div class="sub-action" style="margin-top: 15px; margin-right: 78px">-->
+<!--                    <div class="top-action" style="cursor: context-menu;">-->
+<!--                        <a class="icon" style="text-decoration: none; cursor: context-menu;"><h3>Tài khoản của tôi</h3></a>-->
+<!--                    </div>-->
+<!--                    <ul>-->
+<!--                        <li><a href="/Customer/Info"><i class="fa fa-user"></i>Thông tin tài khoản</a></li>-->
+<!--                        <li><a href="/Customer/Order"><i class="fa fa-file"></i>Quản lý đơn hàng</a></li>-->
+<!--                        <li><a href="/Customer/ResetPassword"><i class="fa fa-key"></i>Đổi mật khẩu</a></li>-->
+<!--                        <li><a href="/Auth/Logout"><i class="fa fa-sign-out"></i>Đăng xuất</a></li>-->
+<!--                    </ul>-->
+<!--                </div>-->
             </div>
         </a>
         <a th:href="${checkSession == '1' ? '/auth/cart' : '/auth/login'}">
-            <li><i class="fa fa-shopping-bag"></i></li>
+            <li><i class="fa fa-shopping-bag" style="color: black"></i></li>
         </a>
     </div>
 </header>
