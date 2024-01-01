@@ -14,10 +14,12 @@ public class CustomerManagementService {
     public List<CustomerManagement> listAll() {
         return (List<CustomerManagement>) repo.findAll();
     }
+
     public CustomerManagement getCustomerByEmail(String email) {
 
         return repo.findByEmail(email);
     }
+
     public void saveCustomer(String email, String fullname, String phone) {
         CustomerManagement customers = new CustomerManagement();
         customers.setEmail(email);
@@ -27,12 +29,11 @@ public class CustomerManagementService {
     }
 
     public void updateCustomer(String email, String fullname, String phone) {
-        CustomerManagement customers = repo.findByEmail(email);
-        if (customers != null) {
-            customers.setFullName(fullname);
-            customers.setPhone(phone);
-            repo.save(customers);
+        CustomerManagement customer = repo.findByEmail(email);
+        if (customer != null) {
+            customer.setFullName(fullname);
+            customer.setPhone(phone);
+            repo.save(customer);
         }
     }
-
 }

@@ -115,9 +115,9 @@
                 </div>
     </main>
 </div>
-
+<div id="errorMessage" style="display: none" th:text="${err != null ? err : 'None'}"></div>
+<div id="successMessage" style="display: none" th:text="${success != null ? success : 'None'}"></div>
 </body>
-
 </html>
 
 <script th:src="@{/admin/js/dashboard.js}"></script>
@@ -130,7 +130,8 @@
     const BtnEdit = document.getElementById("submitBtn");
     const tbody = document.getElementById("tbody");
     let isEditing = false;
-
+    var err = document.getElementById('errorMessage');
+    var success = document.getElementById('successMessage');
     // ************************************ THÊM DỮ LIỆU ************************************ //
     // Xử lý button add
     document.addEventListener('DOMContentLoaded', function() {
@@ -255,6 +256,46 @@
                 link.classList.remove('active');
             }
         });
+        function showLoadingSwal() {
+            return Swal.fire({
+                title: 'Loading...',
+                text: 'Vui lòng chờ trong giây lát!',
+                showConfirmButton: false,
+                imageUrl: '/admin/img/gif/loading.gif',
+                timer: 2000,
+                allowOutsideClick: false // Không cho phép đóng khi click ra ngoài
+            });
+        }
+
+        function showErrSwal(err) {
+            return Swal.fire({
+                title: 'Error',
+                text: err,
+                icon: "error"
+            });
+        }
+
+        function showSuccessSwal(success) {
+            Swal.fire({
+                icon: "success",
+                title: success,
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
+
+        if(err.textContent !== "None"){
+            showErrSwal(err.textContent);
+        }
+        else{
+            if(success.textContent !== "None"){
+                showSuccessSwal(success.textContent);
+            }
+            else{
+                showLoadingSwal();
+            }
+        }
+
     });
 
 </script>
