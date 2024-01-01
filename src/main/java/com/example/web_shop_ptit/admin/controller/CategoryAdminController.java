@@ -97,8 +97,9 @@ public class CategoryAdminController {
     }
 
     @RequestMapping("deleteCategory")
-    public String deleteCategoryPage(@RequestParam int categoryId) {
+    public String deleteCategoryPage(@RequestParam int categoryId,RedirectAttributes redirectAttributes) {
         categoryManagementService.deleteCategory(categoryId);
+        redirectAttributes.addFlashAttribute("success", "Xóa danh mục thành công");
         return "redirect:/admin/category";
     }
 }

@@ -20,7 +20,7 @@
 
             <label th:if="${operation eq 'add'}" th:style="${operation eq 'add'} ? 'display: none;' : 'block'">ID danh mục:</label>
 <!--            <input th:if="${operation eq 'add'}" type="hidden" th:field="*{categoryId}">-->
-            <input style="color: black; background: #aca9a9" th:if="${operation eq 'edit'}" type="text" th:field="*{categoryId}" readonly>
+            <input style="color: black; background: #aca9a9"th:if="${operation eq 'edit'}" type="text" th:field="*{categoryId}" readonly>
 
             <label id="CategoryName">Tên danh mục:</label>
             <th:block th:if="${#fields.hasErrors('name')}">
