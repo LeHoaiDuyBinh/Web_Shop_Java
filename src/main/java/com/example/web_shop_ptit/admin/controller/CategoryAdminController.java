@@ -56,6 +56,7 @@ public class CategoryAdminController {
 
     @PostMapping("/edit")
     public String editCategory(Model model, RedirectAttributes redirectAttributes,
+                               @RequestParam int danhMucCha,
                                @Valid @ModelAttribute("category") CategoryManagement category,
                                BindingResult result) {
         try {
@@ -63,8 +64,11 @@ public class CategoryAdminController {
                 model.addAttribute("categories", categoryManagementService.listAll());
                 model.addAttribute("operation", "edit");
                 model.addAttribute("category",category);
+                model.addAttribute("danhMucCha", danhMucCha);
                 return "web_admin/categoryForm";
             }
+            CategoryManagement danhMucCha1 = categoryManagementService.getParentCategoryById(danhMucCha);
+            category.setParentCategoryManagement(danhMucCha1);
             categoryManagementService.updateCategory(category.getCategoryId(), category.getName(), category.getParentCategoryManagement());
             redirectAttributes.addFlashAttribute("success", "Sửa danh mục thành công");
             return "redirect:/admin/category";
