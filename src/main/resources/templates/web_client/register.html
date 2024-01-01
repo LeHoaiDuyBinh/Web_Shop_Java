@@ -30,36 +30,32 @@
         <div class="form-content">
             <header>Đăng ký tài khoản</header>
             <form id="RegisterForm" th:action="@{/auth/register}" th:object="${registrationInfo}" method="POST">
-                <div class="field input-field">
+                <div style="margin-bottom: 55px" class="field input-field">
                     <label for="fullname">Nhập họ Tên</label>
                     <input type="text" id="fullname" name="fullname" placeholder="Enter Full Name" class="input" th:field=="*{fullname}">
-                    <p class="alert alert-danger" th:if="${#fields.errors('fullname').size() le 1} and ${#fields.errors('fullname').size() gt 0}">*Tên phải từ 5 đến 20 kí tự!</p>
-                    <p class="alert alert-danger" th:if="${#fields.errors('fullname').size() gt 1}">*Không được để trống họ và tên!</p>
+                    <p class="alert alert-danger" th:if="${#fields.errors('fullname')}" th:errors="*{fullname}"></p>
                 </div>
-                <div class="field input-field">
+                <div class="field input-field" style="margin-bottom: 55px">
                     <label id="username">Nhập email</label>
                     <input type="text" id="email" name="email" placeholder="Enter Email" class="input" th:field=="*{email}">
                     <p class="alert alert-danger" th:if="${#fields.errors('email')}" th:errors="*{email}"></p>
                 </div>
 
-                <div class="field input-field">
+                <div class="field input-field" style="margin-bottom: 55px">
                     <label for="password">Nhập password</label>
                     <input type="password" id="password" name="password" placeholder="Enter Password" class="password" th:field=="*{password}">
-                    <p class="alert alert-danger" th:if="${#fields.errors('password').size() le 1} and ${#fields.errors('password').size() gt 0}">*Password phải từ 12 kí tự trở lên</p>
-                    <p class="alert alert-danger" th:if="${#fields.errors('password').size() gt 1}">*Không được để trống password</p>
+                    <p class="alert alert-danger" th:if="${#fields.errors('password')}" th:errors="*{password}"></p>
                 </div>
-                <div class="field input-field">
+                <div class="field input-field" style="margin-bottom: 55px">
                     <label for="confirmpassword">Xác thực password</label>
                     <input type="password" id="confirmpassword" name="confirmPassword" placeholder="Confirm Password" class="password" th:field=="*{confirmPassword}">
                     <i style="margin-top: 24px;" class='bx bx-hide eye-icon'></i>
-                    <p class="alert alert-danger" th:if="${#fields.errors('confirmPassword').size() le 1} and ${#fields.errors('confirmPassword').size() gt 0}">*Password phải từ 12 kí tự trở lên</p>
-                    <p class="alert alert-danger" th:if="${#fields.errors('confirmPassword').size() gt 1}">*Không được để trống comfirm password</p>
+                    <p class="alert alert-danger" th:if="${#fields.errors('confirmPassword')}" th:errors="*{confirmPassword}"></p>
                 </div>
-                <div class="field input-field">
+                <div style=" margin-bottom: 55px;" class="field input-field">
                     <label for="phone-number">Nhập số điện thoại</label>
                     <input type="text" id="phone-number" name="phone" placeholder="Enter Mobile Number" class="input" th:field=="*{phone}">
-                    <p class="alert alert-danger" th:if="${#fields.errors('phone').size() le 1} and ${#fields.errors('phone').size() gt 0}">*Số điện thoại phải 10 số</p>
-                    <p class="alert alert-danger" th:if="${#fields.errors('phone').size() gt 1}">*Không được để trống số điện thoại</p>
+                    <p class="alert alert-danger" th:if="${#fields.errors('phone')}" th:errors="*{phone}"></p>
                 </div>
                 <div class="field button-field">
                     <button type="submit" name="action" value="register">Đăng ký</button>
