@@ -131,7 +131,7 @@
                         </td>
                         <td data-label="ChiTietOrder" style="color: var(--dark); display: none;">
                             <th:block th:each="orderItem : ${order.orderItemList}">
-                                <p class="order-data" data-label="MaDonCT" th:text="${orderItem.orderItemsId}"></p>
+                                <p class="order-data" data-label="MaDonCT" th:text="${orderItem.order.orderCode}"></p>
                                 <p class="order-data" data-label="MaSPCT" th:text="${orderItem.product.productCode}"></p>
                                 <p class="order-data" data-label="TenSPCT" th:text="${orderItem.product.name}"></p>
                                 <p class="order-data" data-label="SoLuong" th:text="${orderItem.quantity}"></p>
