@@ -106,9 +106,11 @@
                                                         <p>Mã sản phẩm: <span th:text="${product.productCode}"></span></p>
                                                     </div>
                                                     <div class="cart__product-item__btn--save">
-                                                        <button class="btn btn--outline btn--large repurchase-product" data-product-sub-id="188978">
-                                                            Mua lại
-                                                        </button>
+                                                        <a th:href="@{'/auth/product/' + ${product.productCode}}">
+                                                            <button class="btn btn--outline btn--large repurchase-product" data-product-sub-id="188978">
+                                                                Mua lại
+                                                            </button>
+                                                        </a>
                                                     </div>
                                                 </div>
                                                 <div class="cart__product-item__price price_coin" th:text="${product.totalPrice * 1000}"></div>
@@ -143,9 +145,11 @@
                                                             <p>Mã sản phẩm: <span th:text="${productHistory.productCode}"></span></p>
                                                         </div>
                                                         <div class="cart__product-item__btn--save">
-                                                            <button class="btn btn--outline btn--large repurchase-product" data-product-sub-id="188978">
+                                                            <a th:href="@{'/auth/product/' + ${product.productCode}}">
+                                                                <button class="btn btn--outline btn--large repurchase-product" data-product-sub-id="188978">
                                                                 Mua lại
-                                                            </button>
+                                                                </button>
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 </div>
