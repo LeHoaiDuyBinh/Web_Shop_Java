@@ -34,6 +34,7 @@ public class CategoryAdminController {
         HttpSession session = request.getSession();
         Admin admin = (Admin) session.getAttribute("adminInfo");
         model.addAttribute("role", admin.getRole());
+        model.addAttribute("name", admin.getUsername());
         // Trả về tên của view hoặc đường dẫn
         return "web_admin/category";
     }

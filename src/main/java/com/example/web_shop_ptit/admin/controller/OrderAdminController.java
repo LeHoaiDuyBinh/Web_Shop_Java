@@ -37,6 +37,7 @@ public class OrderAdminController {
         HttpSession session = request.getSession();
         Admin admin = (Admin) session.getAttribute("adminInfo");
         model.addAttribute("role", admin.getRole());
+        model.addAttribute("name", admin.getUsername());
         return "web_admin/order";
     }
 

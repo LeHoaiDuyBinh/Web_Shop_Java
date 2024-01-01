@@ -46,6 +46,9 @@
     <!-- Navbar -->
     <nav>
         <i class='bx bx-menu'></i>
+        <th:block th:if="${name != null}">
+            <h1 th:text="'Xin chào, ' + ${name}"></h1>
+        </th:block>
         <form action="#">
             <div class="form-input">
                 <input type="search" placeholder="Search..." hidden>
